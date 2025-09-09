@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* VERICROP Theme Variables */
+:root {
+  /* Palette */
+  --bg: #F8F8F8; /* Whiff White */
+  --fg: #171717;
+  --primary-dark: #1A4D2E; /* Dark Green */
+  --primary-field: #64A833; /* Field Green */
+  --accent-yellow: #F5F55D; /* Warm Yellow */
+  --dark-brown: #4E3629;
+  --medium-brown: #A67C52;
+  --light-green: #B6E388;
+  --stone-grey: #B0B0B0;
+
+  /* UI tokens */
+  --bg-surface: var(--bg);
+  --text-primary: var(--fg);
+  --muted: #6b6b6b;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --bg: #07140b;
+  --fg: #f3f6f3;
+  --bg-surface: #07140b;
+  --text-primary: #f3f6f3;
+  --muted: #aeb3a8;
+}
+
+/* Respect system preference on first load */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* keep defaults — the ThemeToggle will control explicit choice */
+  }
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Small helpers to use palette in components */
+.primary-btn {
+  background-color: var(--primary-field);
+  color: white;
+}
+
+.nav-link:hover {
+  color: var(--primary-dark);
+}
+
