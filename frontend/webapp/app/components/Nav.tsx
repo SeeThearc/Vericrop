@@ -1,18 +1,209 @@
 "use client";
 import Link from "next/link";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import ThemeToggle from "./ThemeToggle";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Bell, User, Settings, LogOut, Home, Package, Scan, Users, BarChart3 } from "lucide-react";
 
 export default function Nav() {
+  const pathname = usePathname();
+  const isDashboard = pathname.startsWith('/dashboard');
+  const [userEmail, setUserEmail] = useState('');
+
+  useEffect(() => {
+    const email = localStorage.getItem('vericrop_user_email') || 'user@vericrop.com';
+    setUserEmail(email);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('vericrop_logged_in');
+    localStorage.removeItem('vericrop_user_email');
+    window.location.href = '/';
+  };
+
+  if (!isDashboard) {
+    return null; // Don't show nav on non-dashboard pages
+  }
+
+  const navItems = [
+    { href: '/dashboard', label: 'Dashboard', icon: Home },
+    { href: '/dashboard/products', label: 'Products', icon: Package },
+    { href: '/dashboard/scan', label: 'Scan', icon: Scan },
+    { href: '/dashboard/alerts', label: 'Alerts', icon: Bell },
+    { href: '/dashboard/pricing', label: 'Pricing', icon: BarChart3 },
+    { href: '/dashboard/settings', label: 'Settings', icon: Settings },
+  ];
+
   return (
-    <nav className="w-full border-b py-4 px-6 flex gap-4 items-center">
-      <Link href="/" className="font-semibold mr-4">AgriTrace Pro</Link>
-      <Link href="/dashboard" className="text-sm nav-link">Dashboard</Link>
-      <Link href="/dashboard/products" className="text-sm nav-link">Products</Link>
-      <Link href="/dashboard/scan" className="text-sm nav-link">Scan</Link>
-      <Link href="/consumer" className="text-sm nav-link">Consumer Portal</Link>
-      <div className="ml-auto flex items-center gap-3">
+    <nav className="w-full bg-white/90 backdrop-blur-xl border-b border-emerald-100 py-4 px-8 flex items-center justify-between shadow-lg dark:bg-slate-900/90 dark:border-slate-800">
+      {/* Logo */}
+      <Link href="/" className="flex items-center gap-3">
+        <div className="w-10 h-10 bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+          <span className="text-white font-bold text-lg dark:text-white">V</span>
+        </div>
+        <span 
+          className="font-bold text-2xl bg-gradient-to-r from-emerald-700 to-green-700 bg-clip-text text-transparent dark:from-emerald-400 dark:to-green-400"
+          style={{ fontFamily: 'var(--font-libre-baskerville)' }}
+        >
+          VeriCrop
+        </span>
+      </Link>
+      
+      {/* Navigation Links */}
+      <div className="hidden md:flex items-center gap-2">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = pathname === item.href;
+          return (
+            <Link 
+              key={item.href}
+              href={item.href} 
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium ${
+                isActive 
+                  ? 'bg-emerald-600 text-white' 
+                  : 'text-slate-600 dark:text-slate-300'
+              }`}
+            >
+              <Icon size={18} />
+              {item.label}
+            </Link>
+          );
+        })}
+      </div>
+      
+      {/* Right side */}
+      <div className="flex items-center gap-4">
+        {/* Notifications */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className="relative p-3 rounded-xl">
+              <Bell size={20} className="text-slate-600 dark:text-slate-300" />
+              <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 bg-red-500 text-white text-xs flex items-center justify-center">
+                3
+              </Badge>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-80 p-0 border-0 shadow-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 dark:from-slate-800/20 dark:to-slate-900/5"></div>
+            <DropdownMenuLabel className="relative p-4 bg-gradient-to-r from-emerald-50/80 to-green-50/80 dark:from-emerald-950/80 dark:to-green-950/80 border-b border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-green-500 rounded-lg flex items-center justify-center">
+                  <Bell size={16} className="text-white" />
+                </div>
+                <span className="font-semibold text-slate-900 dark:text-slate-100">Notifications</span>
+              </div>
+            </DropdownMenuLabel>
+            <div className="relative p-2 space-y-1">
+              <DropdownMenuItem className="p-3 rounded-xl cursor-pointer">
+                <div className="flex flex-col gap-2 w-full">
+                  <div className="flex items-start justify-between">
+                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100">New product batch ready</p>
+                    <span className="text-xs text-slate-500 dark:text-slate-400">2m ago</span>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">Batch #VC-2024-001 is now available for distribution</p>
+                  <div className="w-full bg-emerald-100 dark:bg-emerald-900/30 rounded-full h-1">
+                    <div className="bg-emerald-500 h-1 rounded-full w-3/4"></div>
+                  </div>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="p-3 rounded-xl cursor-pointer">
+                <div className="flex flex-col gap-2 w-full">
+                  <div className="flex items-start justify-between">
+                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100">Quality check completed</p>
+                    <span className="text-xs text-slate-500 dark:text-slate-400">1h ago</span>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">All tests passed for organic certification</p>
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  </div>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="p-3 rounded-xl cursor-pointer">
+                <div className="flex flex-col gap-2 w-full">
+                  <div className="flex items-start justify-between">
+                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100">Price update available</p>
+                    <span className="text-xs text-slate-500 dark:text-slate-400">3h ago</span>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">Market prices updated for this week</p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium text-green-600 dark:text-green-400">+2.3%</span>
+                    <div className="w-8 h-1 bg-green-200 dark:bg-green-800 rounded-full">
+                      <div className="bg-green-500 h-1 rounded-full w-6"></div>
+                    </div>
+                  </div>
+                </div>
+              </DropdownMenuItem>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <ThemeToggle />
-        <Link href="/login" className="text-sm">Login</Link>
+        
+        {/* User Menu */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+              <Avatar className="h-10 w-10 border-2 border-emerald-200 dark:border-emerald-800">
+                <AvatarImage src="/avatars/user.jpg" alt="User" />
+                <AvatarFallback className="bg-emerald-600 text-white font-semibold">JD</AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-72 p-0 border-0 shadow-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl overflow-hidden" align="end" forceMount>
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 dark:from-slate-800/20 dark:to-slate-900/5"></div>
+            <DropdownMenuLabel className="relative font-normal p-4 bg-gradient-to-r from-emerald-50/80 to-green-50/80 dark:from-emerald-950/80 dark:to-green-950/80 border-b border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm">
+              <div className="flex flex-col space-y-3">
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-12 w-12 border-2 border-emerald-200 dark:border-emerald-800">
+                    <AvatarImage src="/avatars/user.jpg" alt="User" />
+                    <AvatarFallback className="bg-gradient-to-r from-emerald-600 to-green-600 text-white font-semibold text-lg">JD</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="text-sm font-semibold leading-none text-slate-900 dark:text-slate-100">John Doe</p>
+                    <p className="text-xs leading-none text-slate-500 dark:text-slate-400">
+                      {userEmail}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-slate-600 dark:text-slate-400">Online</span>
+                </div>
+              </div>
+            </DropdownMenuLabel>
+            <div className="relative p-2 space-y-1">
+              <DropdownMenuItem className="p-3 rounded-xl cursor-pointer">
+                <User className="mr-3 h-4 w-4 text-slate-500" />
+                <span className="text-slate-900 dark:text-slate-100">Profile</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="p-3 rounded-xl cursor-pointer">
+                <Settings className="mr-3 h-4 w-4 text-slate-500" />
+                <span className="text-slate-900 dark:text-slate-100">Settings</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="my-2 border-slate-200/50 dark:border-slate-700/50" />
+              <DropdownMenuItem onClick={handleLogout} className="p-3 rounded-xl cursor-pointer">
+                <LogOut className="mr-3 h-4 w-4 text-red-500" />
+                <span className="text-red-600 dark:text-red-400">Log out</span>
+              </DropdownMenuItem>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </nav>
   );
