@@ -1,57 +1,193 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 /* VERICROP Theme Variables */
 :root {
-  /* Palette */
-  --bg: #F8F8F8; /* Whiff White */
-  --fg: #171717;
-  --primary-dark: #1A4D2E; /* Dark Green */
-  --primary-field: #64A833; /* Field Green */
-  --accent-yellow: #F5F55D; /* Warm Yellow */
-  --dark-brown: #4E3629;
-  --medium-brown: #A67C52;
-  --light-green: #B6E388;
-  --stone-grey: #B0B0B0;
+  /* VeriCrop Brand Colors */
+  --vericrop-dark-green: #1A4D2E;
+  --vericrop-field-green: #64A833;
+  --vericrop-warm-yellow: #F5F55D;
+  --vericrop-dark-brown: #4E3629;
+  --vericrop-medium-brown: #A67C52;
+  --vericrop-light-green: #B6E388;
+  --vericrop-stone-grey: #B0B0B0;
+  --vericrop-whiff-white: #F8F8F8;
 
-  /* UI tokens */
-  --bg-surface: var(--bg);
-  --text-primary: var(--fg);
-  --muted: #6b6b6b;
+  /* Shadcn/UI Theme Variables with VeriCrop Colors */
+  --background: 248 248 248; /* Whiff White */
+  --foreground: 26 77 46; /* Dark Green */
+  --card: 255 255 255;
+  --card-foreground: 26 77 46;
+  --popover: 255 255 255;
+  --popover-foreground: 26 77 46;
+  --primary: 100 168 51; /* Field Green */
+  --primary-foreground: 255 255 255;
+  --secondary: 182 227 136; /* Light Green */
+  --secondary-foreground: 26 77 46;
+  --muted: 176 176 176; /* Stone Grey */
+  --muted-foreground: 78 54 41; /* Dark Brown */
+  --accent: 245 245 93; /* Warm Yellow */
+  --accent-foreground: 26 77 46;
+  --destructive: 239 68 68;
+  --destructive-foreground: 248 250 252;
+  --border: 176 176 176;
+  --input: 248 248 248;
+  --ring: 100 168 51;
+  --radius: 0.625rem;
+  --chart-1: 100 168 51;
+  --chart-2: 182 227 136;
+  --chart-3: 245 245 93;
+  --chart-4: 166 124 82;
+  --chart-5: 78 54 41;
 }
 
-/* Dark theme overrides */
-[data-theme="dark"] {
-  --bg: #07140b;
-  --fg: #f3f6f3;
-  --bg-surface: #07140b;
-  --text-primary: #f3f6f3;
-  --muted: #aeb3a8;
+.dark {
+  --background: 7 20 11; /* Very dark green (#07140b) */
+  --foreground: 248 248 248; /* Whiff White */
+  --card: 26 77 46; /* Dark Green */
+  --card-foreground: 248 248 248;
+  --popover: 26 77 46;
+  --popover-foreground: 248 248 248;
+  --primary: 182 227 136; /* Light Green */
+  --primary-foreground: 26 77 46;
+  --secondary: 78 54 41; /* Dark Brown */
+  --secondary-foreground: 248 248 248;
+  --muted: 78 54 41;
+  --muted-foreground: 176 176 176;
+  --accent: 245 245 93; /* Warm Yellow */
+  --accent-foreground: 26 77 46;
+  --destructive: 239 68 68;
+  --destructive-foreground: 248 250 252;
+  --border: 100 168 51; /* Field Green for borders */
+  --input: 26 77 46;
+  --ring: 182 227 136;
 }
 
-/* Respect system preference on first load */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* keep defaults — the ThemeToggle will control explicit choice */
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-inter), Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-libre-baskerville), "Libre Baskerville", serif;
   }
 }
 
-html, body {
-  height: 100%;
+/* Custom Animations for Modern UI */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-body {
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+@keyframes tilt {
+  0%, 50%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1deg);
+  }
+  75% {
+    transform: rotate(-1deg);
+  }
 }
 
-/* Small helpers to use palette in components */
-.primary-btn {
-  background-color: var(--primary-field);
-  color: white;
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-.nav-link:hover {
-  color: var(--primary-dark);
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+.animate-tilt {
+  animation: tilt 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Delay utilities */
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-300 {
+  animation-delay: 0.3s;
+}
+
+.delay-500 {
+  animation-delay: 0.5s;
+}
+
+.delay-700 {
+  animation-delay: 0.7s;
+}
+
+.delay-1000 {
+  animation-delay: 1s;
+}
+
+/* Frost glass effect utilities */
+.frost-glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.frost-glass-dark {
+  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(17, 25, 40, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+/* Enhanced scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #10b981, #059669);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #059669, #047857);
 }
 
