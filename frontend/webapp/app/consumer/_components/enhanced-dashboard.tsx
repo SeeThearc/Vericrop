@@ -3,15 +3,15 @@ import React from "react";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { motion } from "motion/react";
-import { 
-  Search, 
-  ShoppingCart, 
-  BarChart3, 
-  Scan, 
-  Shield, 
+import {
+  Search,
+  ShoppingCart,
+  BarChart3,
+  Scan,
+  Shield,
   TrendingUp,
   Package,
-  Clock
+  Clock,
 } from "lucide-react";
 
 export function EnhancedDashboard() {
@@ -100,7 +100,8 @@ const Skeleton = () => (
 const items = [
   {
     title: "Product Search",
-    description: "Search and verify products by scanning QR codes or entering product IDs.",
+    description:
+      "Search and verify products by scanning QR codes or entering product IDs.",
     header: <Skeleton />,
     icon: <Search className="h-4 w-4 text-neutral-500" />,
   },
@@ -112,7 +113,8 @@ const items = [
   },
   {
     title: "Quality History",
-    description: "Track the quality history of all your purchased products over time.",
+    description:
+      "Track the quality history of all your purchased products over time.",
     header: <Skeleton />,
     icon: <BarChart3 className="h-4 w-4 text-neutral-500" />,
   },
@@ -125,7 +127,8 @@ const items = [
   },
   {
     title: "Quick Scan",
-    description: "Instantly scan product QR codes to get real-time quality and authenticity information.",
+    description:
+      "Instantly scan product QR codes to get real-time quality and authenticity information.",
     header: <Skeleton />,
     icon: <Scan className="h-4 w-4 text-neutral-500" />,
   },

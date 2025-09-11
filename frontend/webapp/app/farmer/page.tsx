@@ -11,7 +11,7 @@ const FarmerPage = () => {
   return (
     <>
       <FarmerWelcomeBanner />
-      
+
       <div className="flex flex-col space-y-6 mt-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

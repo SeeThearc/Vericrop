@@ -3,15 +3,15 @@ import React from "react";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { motion } from "motion/react";
-import { 
-  Package, 
-  Search, 
-  BarChart3, 
-  Sprout, 
-  MapPin, 
+import {
+  Package,
+  Search,
+  BarChart3,
+  Sprout,
+  MapPin,
   TrendingUp,
   Calendar,
-  Award
+  Award,
 } from "lucide-react";
 
 export function EnhancedFarmerDashboard() {
@@ -100,19 +100,22 @@ const Skeleton = () => (
 const farmerItems = [
   {
     title: "Register New Product",
-    description: "Add new crops and products to the blockchain for tracking and verification.",
+    description:
+      "Add new crops and products to the blockchain for tracking and verification.",
     header: <Skeleton />,
     icon: <Package className="h-4 w-4 text-neutral-500" />,
   },
   {
     title: "Track My Products",
-    description: "Monitor the journey of your products through the supply chain.",
+    description:
+      "Monitor the journey of your products through the supply chain.",
     header: <Skeleton />,
     icon: <Search className="h-4 w-4 text-neutral-500" />,
   },
   {
     title: "ML Insights",
-    description: "Get AI-powered insights about crop quality and market predictions.",
+    description:
+      "Get AI-powered insights about crop quality and market predictions.",
     header: <Skeleton />,
     icon: <BarChart3 className="h-4 w-4 text-neutral-500" />,
   },
@@ -125,13 +128,15 @@ const farmerItems = [
   },
   {
     title: "Location Tracking",
-    description: "Monitor and manage multiple farm locations and their specific crop data.",
+    description:
+      "Monitor and manage multiple farm locations and their specific crop data.",
     header: <Skeleton />,
     icon: <MapPin className="h-4 w-4 text-neutral-500" />,
   },
   {
     title: "Harvest Calendar",
-    description: "Plan and track harvest schedules for optimal crop quality and timing.",
+    description:
+      "Plan and track harvest schedules for optimal crop quality and timing.",
     header: <Skeleton />,
     icon: <Calendar className="h-4 w-4 text-neutral-500" />,
   },

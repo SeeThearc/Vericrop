@@ -46,54 +46,61 @@ export function AceternityAppSidebar({
           <>
             <Logo />
           </>
-                      <div className="mt-8 flex flex-col gap-2">
-              {convertedRoutes.map((link, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.1, duration: 0.3 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <SidebarLink link={link} />
-                </motion.div>
-              ))}
-            </div>
-        </div>
-                  <div className="flex flex-col gap-2">
-            {convertedBottomRoutes.map((link, idx) => (
+          <div className="mt-8 flex flex-col gap-2">
+            {convertedRoutes.map((link, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: (convertedRoutes.length + idx) * 0.1, duration: 0.3 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.1, duration: 0.3 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <SidebarLink link={link} />
               </motion.div>
             ))}
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          {convertedBottomRoutes.map((link, idx) => (
             <motion.div
+              key={idx}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: (convertedRoutes.length + convertedBottomRoutes.length) * 0.1, duration: 0.3 }}
+              transition={{
+                delay: (convertedRoutes.length + idx) * 0.1,
+                duration: 0.3,
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <SidebarLink
-                link={{
-                  label: "User Profile",
-                  href: "#",
-                  icon: (
-                    <div className="h-7 w-7 shrink-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-semibold">
-                      U
-                    </div>
-                  ),
-                }}
-              />
+              <SidebarLink link={link} />
             </motion.div>
-          </div>
+          ))}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              delay:
+                (convertedRoutes.length + convertedBottomRoutes.length) * 0.1,
+              duration: 0.3,
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <SidebarLink
+              link={{
+                label: "User Profile",
+                href: "#",
+                icon: (
+                  <div className="h-7 w-7 shrink-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-semibold">
+                    U
+                  </div>
+                ),
+              }}
+            />
+          </motion.div>
+        </div>
       </SidebarBody>
     </Sidebar>
   );

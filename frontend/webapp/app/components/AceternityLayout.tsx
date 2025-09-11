@@ -16,18 +16,15 @@ interface AceternityLayoutProps {
   children: React.ReactNode;
 }
 
-export function AceternityLayout({ 
-  routes, 
-  bottomRoutes = [], 
-  children 
+export function AceternityLayout({
+  routes,
+  bottomRoutes = [],
+  children,
 }: AceternityLayoutProps) {
   return (
     <div className="flex bg-white dark:bg-gray-900 min-h-screen">
-      <AceternityAppSidebar 
-        routes={routes} 
-        bottomRoutes={bottomRoutes}
-      />
-      <motion.main 
+      <AceternityAppSidebar routes={routes} bottomRoutes={bottomRoutes} />
+      <motion.main
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
