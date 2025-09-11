@@ -4,7 +4,7 @@ import TrackProductsPage from "./track-products/page";
 import { SalesChart } from "./_components/sales-chart";
 import { Card, CardContent } from "@/components/ui/card";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { FarmerWelcomeBanner } from "./_components/farmer-welcome-banner";
 
 const FarmerPage = () => {
