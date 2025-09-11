@@ -87,7 +87,7 @@ const RegisterProducePage = () => {
             <Textarea placeholder="(Assessment results will appear here after upload)" readOnly className="bg-gray-100 border-gray-300 text-gray-500" />
         </div>
         <div className="flex justify-end">
-            <Button className="bg-green-600 hover:bg-green-700 text-white">Generate & Print QR Code</Button>
+            <Button className="bg-green-600 hover:bg-green-700 text-white">Register Produce</Button>
         </div>
       </div>
     </div>

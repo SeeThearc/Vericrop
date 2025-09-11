@@ -1,45 +1,71 @@
 "use client";
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { ChartContainer, ChartConfig } from "@/components/ui/chart";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { ChartContainer, ChartConfig, ChartTooltipContent } from "@/components/ui/chart";
 
 const chartData = [
-  { month: "Jan", wheat: 4000, rice: 2400, maize: 2400 },
-  { month: "Feb", wheat: 3000, rice: 1398, maize: 2210 },
-  { month: "Mar", wheat: 2000, rice: 9800, maize: 2290 },
-  { month: "Apr", wheat: 2780, rice: 3908, maize: 2000 },
-  { month: "May", wheat: 1890, rice: 4800, maize: 2181 },
-  { month: "Jun", wheat: 2390, rice: 3800, maize: 2500 },
-  { month: "Jul", wheat: 3490, rice: 4300, maize: 2100 },
+  { month: "Jan", wheat: 1200, rice: 1000 },
+  { month: "Feb", wheat: 1100, rice: 1150 },
+  { month: "Mar", wheat: 1300, rice: 1250 },
+  { month: "Apr", wheat: 1400, rice: 1300 },
+  { month: "May", wheat: 1650, rice: 1400 },
 ];
 
 const chartConfig = {
   wheat: {
     label: "Wheat",
-    color: "#2563eb",
+    color: "hsl(var(--chart-1))",
   },
   rice: {
     label: "Rice",
-    color: "#60a5fa",
-  },
-  maize: {
-    label: "Maize",
-    color: "#34d399",
+    color: "#3b82f6",
   },
 } satisfies ChartConfig;
 
 export const SalesChart = () => {
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Monthly Sales by Crop</h2>
-      <ChartContainer config={chartConfig} className="h-[400px]">
-        <BarChart data={chartData}>
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Bar dataKey="wheat" fill="var(--color-wheat)" />
-          <Bar dataKey="rice" fill="var(--color-rice)" />
-          <Bar dataKey="maize" fill="var(--color-maize)" />
-        </BarChart>
+      <h2 className="text-2xl font-bold mb-4">Monthly Sales</h2>
+      <ChartContainer config={chartConfig} className="h-[400px] transition-all duration-300">
+        <AreaChart data={chartData}>
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="month"
+            tickLine={false}
+            axisLine={false}
+            tickMargin={8}
+          />
+          <YAxis
+            tickLine={false}
+            axisLine={false}
+            tickMargin={8}
+          />
+          <Tooltip content={<ChartTooltipContent />} />
+          <Area
+            dataKey="rice"
+            type="natural"
+            fill="var(--color-rice)"
+            fillOpacity={0.4}
+            stroke="var(--color-rice)"
+            stackId="a"
+          />
+          <Area
+            dataKey="wheat"
+            type="natural"
+            fill="var(--color-wheat)"
+            fillOpacity={0.4}
+            stroke="var(--color-wheat)"
+            stackId="a"
+          />
+        </AreaChart>
       </ChartContainer>
     </div>
   );
