@@ -9,6 +9,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import dynamic from "next/dynamic";
+
+const DynamicMap = dynamic(() => import("../_components/dynamic-map"), {
+  ssr: false,
+  loading: () => <p>Loading map...</p>,
+});
 
 const transactions = [
   {
@@ -111,6 +118,16 @@ const TransactionsPage = () => {
           ))}
         </TableBody>
       </Table>
+      <div className="mt-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Product Journey Map</CardTitle>
+          </CardHeader>
+          <CardContent className="relative h-96">
+            <DynamicMap />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
