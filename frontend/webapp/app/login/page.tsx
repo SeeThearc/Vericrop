@@ -22,6 +22,7 @@ import {
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/authSlice";
 import { Eye, EyeOff, Leaf, Sprout } from "lucide-react";
+import { BackgroundCircles } from "@/components/ui/shadcn-io/background-circles";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -95,72 +96,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-green-50 to-lime-50 dark:from-slate-900 dark:via-emerald-950 dark:to-green-950">
-        {/* Animated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-100/60 via-green-100/40 to-lime-100/60 dark:from-emerald-900/30 dark:via-green-900/20 dark:to-lime-900/30 animate-gradient-shift"></div>
-
-        {/* Floating organic shapes */}
-        <div className="absolute inset-0">
-          {/* Large floating circles */}
-          <div className="absolute top-10 left-10 w-96 h-96 bg-emerald-200/20 dark:bg-emerald-800/20 rounded-full blur-3xl animate-float-slow"></div>
-          <div className="absolute top-1/4 right-20 w-80 h-80 bg-green-300/15 dark:bg-green-700/15 rounded-full blur-3xl animate-float-medium"></div>
-          <div className="absolute bottom-20 left-1/4 w-72 h-72 bg-lime-200/25 dark:bg-lime-800/25 rounded-full blur-3xl animate-float-fast"></div>
-          <div className="absolute bottom-1/3 right-10 w-64 h-64 bg-emerald-300/20 dark:bg-emerald-700/20 rounded-full blur-3xl animate-float-slow-reverse"></div>
-
-          {/* Medium floating elements */}
-          <div className="absolute top-1/3 left-1/2 w-48 h-48 bg-green-200/30 dark:bg-green-800/30 rounded-full blur-2xl animate-float-medium-reverse"></div>
-          <div className="absolute top-3/4 right-1/3 w-40 h-40 bg-lime-300/25 dark:bg-lime-700/25 rounded-full blur-2xl animate-float-fast-reverse"></div>
-
-          {/* Small accent elements */}
-          <div className="absolute top-20 right-1/4 w-24 h-24 bg-emerald-400/20 dark:bg-emerald-600/20 rounded-full blur-xl animate-pulse-slow"></div>
-          <div className="absolute bottom-1/4 left-20 w-32 h-32 bg-green-400/15 dark:bg-green-600/15 rounded-full blur-xl animate-pulse-medium"></div>
-        </div>
-
-        {/* Subtle wave pattern overlay */}
-        <div className="absolute inset-0 opacity-10 dark:opacity-5">
-          <svg
-            className="w-full h-full"
-            viewBox="0 0 1000 1000"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <pattern
-                id="wave-pattern"
-                x="0"
-                y="0"
-                width="100"
-                height="100"
-                patternUnits="userSpaceOnUse"
-              >
-                <path
-                  d="M0,50 Q25,30 50,50 T100,50 V100 H0 Z"
-                  fill="currentColor"
-                  className="text-emerald-600 dark:text-emerald-400 animate-wave-flow"
-                ></path>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#wave-pattern)"></rect>
-          </svg>
-        </div>
-
-        {/* Floating particles */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-emerald-500/40 rounded-full animate-particle-1"></div>
-          <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-green-500/50 rounded-full animate-particle-2"></div>
-          <div className="absolute bottom-1/3 left-1/3 w-1 h-1 bg-lime-500/60 rounded-full animate-particle-3"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-2.5 h-2.5 bg-emerald-400/30 rounded-full animate-particle-4"></div>
-          <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-green-400/40 rounded-full animate-particle-5"></div>
-        </div>
-      </div>
-
+    <BackgroundCircles variant="primary" className="relative overflow-hidden">
       {/* Theme Toggle */}
       <div className="absolute top-6 right-6 z-50">
         <ThemeToggle />
       </div>
 
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10 p-4">
         {/* Left Side - Branding */}
         <div className="space-y-8 text-center lg:text-left relative">
           {/* Semi-transparent overlay for text readability */}
@@ -374,6 +316,6 @@ export default function LoginPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </BackgroundCircles>
   );
 }
