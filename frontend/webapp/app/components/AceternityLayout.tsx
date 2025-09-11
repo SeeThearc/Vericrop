@@ -15,17 +15,14 @@ interface AceternityLayoutProps {
   children: React.ReactNode;
 }
 
-export function AceternityLayout({ 
-  routes, 
-  bottomRoutes = [], 
-  children 
+export function AceternityLayout({
+  routes,
+  bottomRoutes = [],
+  children,
 }: AceternityLayoutProps) {
   return (
     <div className="flex bg-white dark:bg-gray-900 min-h-screen">
-      <AceternityAppSidebar 
-        routes={routes} 
-        bottomRoutes={bottomRoutes}
-      />
+      <AceternityAppSidebar routes={routes} bottomRoutes={bottomRoutes} />
       <main className="flex-1 flex flex-col overflow-hidden">
         <div className="flex-grow p-6 space-y-6 overflow-y-auto">
           {children}

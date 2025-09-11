@@ -52,10 +52,7 @@ export default function ConsumerLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AceternityLayout
-      routes={routes}
-      bottomRoutes={bottomRoutes}
-    >
+    <AceternityLayout routes={routes} bottomRoutes={bottomRoutes}>
       {children}
     </AceternityLayout>
   );
