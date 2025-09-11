@@ -4,34 +4,31 @@ import {
   Home,
   Search,
   ShoppingCart,
-  BarChart,
+  BarChart3,
   Settings,
   HelpCircle,
 } from "lucide-react";
-import { Sidebar } from "@/app/components/Sidebar";
-import { Topbar } from "@/app/components/Topbar";
-import { Footer } from "@/app/components/Footer";
-import { useState } from "react";
+import { AceternityLayout } from "@/app/components/AceternityLayout";
 
 const routes = [
   {
     label: "Dashboard",
-    icon: Home,
+    icon: <Home className="h-5 w-5" />,
     href: "/consumer",
   },
   {
     label: "Product Search",
-    icon: Search,
+    icon: <Search className="h-5 w-5" />,
     href: "/consumer/product-search",
   },
   {
     label: "My Purchases",
-    icon: ShoppingCart,
+    icon: <ShoppingCart className="h-5 w-5" />,
     href: "/consumer/my-purchases",
   },
   {
     label: "Quality History",
-    icon: BarChart,
+    icon: <BarChart3 className="h-5 w-5" />,
     href: "/consumer/quality-history",
   },
 ];
@@ -39,20 +36,14 @@ const routes = [
 const bottomRoutes = [
   {
     label: "Settings",
-    icon: Settings,
+    icon: <Settings className="h-5 w-5" />,
     href: "/consumer/settings",
   },
   {
     label: "Help & Support",
-    icon: HelpCircle,
+    icon: <HelpCircle className="h-5 w-5" />,
     href: "/consumer/help-support",
   },
-];
-
-const navLinks = [
-  { label: "Product Search", href: "/consumer/product-search" },
-  { label: "My Purchases", href: "/consumer/my-purchases" },
-  { label: "Quality History", href: "/consumer/quality-history" },
 ];
 
 export default function ConsumerLayout({
@@ -60,31 +51,12 @@ export default function ConsumerLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarExpanded, setSidebarExpanded] = useState(false);
-
   return (
-    <div className="flex bg-white dark:bg-gray-900 min-h-screen">
-      <Sidebar
-        routes={routes}
-        bottomRoutes={bottomRoutes}
-        baseHref="/consumer"
-        isExpanded={sidebarExpanded}
-        onExpandedChange={setSidebarExpanded}
-      />
-      <main
-        className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
-          sidebarExpanded ? "ml-64" : "ml-16"
-        }`}
-      >
-        <Topbar
-          navLinks={navLinks}
-          searchPlaceholder="Search for products..."
-          baseHref="/consumer"
-          sidebarExpanded={sidebarExpanded}
-        />
-        <div className="flex-grow pt-20 p-6 space-y-6">{children}</div>
-        <Footer />
-      </main>
-    </div>
+    <AceternityLayout
+      routes={routes}
+      bottomRoutes={bottomRoutes}
+    >
+      {children}
+    </AceternityLayout>
   );
 }
