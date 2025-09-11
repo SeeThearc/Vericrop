@@ -28,11 +28,7 @@ export const Topbar = ({
   const pathname = usePathname();
 
   return (
-    <header
-      className={`fixed top-0 right-0 flex items-center justify-between p-4 bg-white/80 dark:bg-gray-900/80 shadow-sm border-b z-40 backdrop-blur-sm transition-all duration-300 ease-in-out ${
-        sidebarExpanded ? "left-64" : "left-16"
-      }`}
-    >
+    <header className="fixed top-0 left-64 right-0 flex items-center justify-between p-4 bg-white/80 shadow-sm border-b z-[1001] backdrop-blur-sm">
       <div></div>
       <div className="flex items-center space-x-6">
         <Link
