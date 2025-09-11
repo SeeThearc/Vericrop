@@ -68,7 +68,7 @@ export default function Home() {
                 <span className="block text-emerald-600 dark:text-emerald-400">Made Simple</span>
               </h1>
               <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
-                Trust from seed to shelf. We ensure top-quality and rigor in every step of our process, delivering nature&apos;s best with cutting-edge technology.
+                Trust from seed to shelf. We ensure top-quality in every step of our process, delivering nature&apos;s best with cutting-edge technology.
               </p>
             </div>
 
