@@ -1,43 +1,81 @@
 "use client";
-import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ThemeToggle from "../components/ThemeToggle";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAppDispatch } from "@/lib/hooks";
+import { setUser } from "@/lib/authSlice";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [stakeholder, setStakeholder] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [referrerUrl, setReferrerUrl] = useState<string>("");
+
+  useEffect(() => {
+    // Get referrer from URL parameters or localStorage
+    const referrer = searchParams.get('referrer') || localStorage.getItem('login_referrer') || '/dashboard';
+    setReferrerUrl(referrer);
+    
+    // Store referrer for later use
+    localStorage.setItem('login_referrer', referrer);
+  }, [searchParams]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     // Simple authentication (replace with your actual auth logic)
-    if (email && password) {
+    if (email && password && stakeholder) {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Create user data object
+      const userData = {
+        email,
+        stakeholder,
+        name: email.split('@')[0], // Simple name derivation
+        loginTime: new Date().toISOString()
+      };
       
       // Set login state
       localStorage.setItem('vericrop_logged_in', 'true');
       localStorage.setItem('vericrop_user_email', email);
+      localStorage.setItem('vericrop_stakeholder', stakeholder);
       
-      router.push('/dashboard');
+      dispatch(setUser(userData));
+      
+      // Redirect to referrer URL or dashboard
+      router.push(referrerUrl);
     }
     
     setIsLoading(false);
   };
 
   const handleDevLogin = () => {
+    const userData = {
+      email: 'dev@vericrop.com',
+      stakeholder: 'farmer',
+      name: 'Dev User',
+      loginTime: new Date().toISOString()
+    };
+    
     localStorage.setItem('vericrop_logged_in', 'true');
     localStorage.setItem('vericrop_user_email', 'dev@vericrop.com');
-    router.push('/dashboard');
+    localStorage.setItem('vericrop_stakeholder', 'farmer');
+    
+    dispatch(setUser(userData));
+    
+    router.push(referrerUrl);
   };
 
   return (
@@ -58,7 +96,7 @@ export default function LoginPage() {
               Sustainable Farming Solutions
             </p>
             <p className="text-lg text-slate-600 dark:text-slate-300 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-              Trust from seed to shelf. We ensure top-quality and rigor in every step in our process, delivering nature's best.
+              Trust from seed to shelf. We ensure top-quality and rigor in every step in our process, delivering nature&apos;s best.
             </p>
           </div>
           
@@ -94,6 +132,21 @@ export default function LoginPage() {
               <CardDescription className="text-slate-600 dark:text-slate-400 text-base">
                 Sign in to your VeriCrop account
               </CardDescription>
+              
+              {/* Referrer URL Display */}
+              {referrerUrl && (
+                <div className="mt-4 p-3 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span className="text-emerald-700 dark:text-emerald-300 font-medium">
+                      Redirecting to: 
+                      <code className="ml-1 px-2 py-1 bg-emerald-100 dark:bg-emerald-900/50 rounded text-xs">
+                        {referrerUrl}
+                      </code>
+                    </span>
+                  </div>
+                </div>
+              )}
             </CardHeader>
           
           <CardContent className="space-y-6 p-8">
@@ -121,6 +174,32 @@ export default function LoginPage() {
                   className="h-12 border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl transition-all duration-200"
                   required
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="stakeholder" className="text-slate-700 dark:text-slate-300 font-medium">Stakeholder Type</Label>
+                <Select
+                  value={stakeholder}
+                  onValueChange={setStakeholder}
+                >
+                  <SelectTrigger className="h-12 border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl transition-all duration-200 relative">
+                    <SelectValue placeholder="Select Stakeholder" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-slate-200 dark:border-slate-700 shadow-2xl rounded-xl overflow-hidden">
+                    <SelectItem value="farmer" className="hover:bg-emerald-50 dark:hover:bg-emerald-950/50 focus:bg-emerald-50 dark:focus:bg-emerald-950/50 cursor-pointer transition-colors">
+                      Farmer
+                    </SelectItem>
+                    <SelectItem value="reseller" className="hover:bg-emerald-50 dark:hover:bg-emerald-950/50 focus:bg-emerald-50 dark:focus:bg-emerald-950/50 cursor-pointer transition-colors">
+                      Reseller
+                    </SelectItem>
+                    <SelectItem value="distributor" className="hover:bg-emerald-50 dark:hover:bg-emerald-950/50 focus:bg-emerald-50 dark:focus:bg-emerald-950/50 cursor-pointer transition-colors">
+                      Distributor
+                    </SelectItem>
+                    <SelectItem value="consumer" className="hover:bg-emerald-50 dark:hover:bg-emerald-950/50 focus:bg-emerald-50 dark:focus:bg-emerald-950/50 cursor-pointer transition-colors">
+                      Consumer
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               
               <Button 
@@ -167,7 +246,7 @@ export default function LoginPage() {
             </Button>
             
             <div className="text-center text-sm text-slate-600 dark:text-slate-400 pt-4">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <span className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 cursor-pointer font-semibold transition-colors">
                 Sign up
               </span>

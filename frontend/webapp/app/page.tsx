@@ -1,31 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "./components/ThemeToggle";
+import { useAppSelector } from "@/lib/hooks";
 
 export default function Home() {
-  const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn } = useAppSelector(state => state.auth);
 
   useEffect(() => {
-    // Check if user is logged in (you can replace this with your auth logic)
-    const loggedIn = localStorage.getItem('vericrop_logged_in') === 'true';
-    setIsLoggedIn(loggedIn);
+    // Check login status from Redux state
+    // The Redux state will be initialized from localStorage or other persistent storage
   }, []);
-
-  const handleLogin = () => {
-    localStorage.setItem('vericrop_logged_in', 'true');
-    setIsLoggedIn(true);
-    router.push('/dashboard');
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('vericrop_logged_in');
-    setIsLoggedIn(false);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-green-50 dark:from-slate-900 dark:via-emerald-950 dark:to-green-950">
@@ -81,7 +68,7 @@ export default function Home() {
                 <span className="block text-emerald-600 dark:text-emerald-400">Made Simple</span>
               </h1>
               <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
-                Trust from seed to shelf. We ensure top-quality and rigor in every step of our process, delivering nature's best with cutting-edge technology.
+                Trust from seed to shelf. We ensure top-quality and rigor in every step of our process, delivering nature&apos;s best with cutting-edge technology.
               </p>
             </div>
 

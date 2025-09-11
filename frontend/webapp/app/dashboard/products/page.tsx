@@ -114,7 +114,7 @@ export default function ProductsPage() {
                   <div className="w-2 h-2 bg-[#64A833] dark:bg-[#B6E388] rounded-full"></div>
                   <div className="flex-1">
                     <p className="text-sm text-[#4E3629] dark:text-[#F8F8F8]">
-                      <span className="font-semibold">Batch #001</span> status updated to "Ready for Harvest"
+                      <span className="font-semibold">Batch #001</span> status updated to &quot;Ready for Harvest&quot;
                     </p>
                     <p className="text-xs text-[#B0B0B0]">2 hours ago</p>
                   </div>

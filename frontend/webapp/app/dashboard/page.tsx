@@ -1,10 +1,152 @@
 "use client";
-import Link from "next/link";
 import Nav from "../components/Nav";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setUser, setStatus, setWebSocket, addMessage, logout } from "@/lib/authSlice";
+
+const BACKEND = "http://localhost:3000";
+const WS_URL = "ws://localhost:3000/ws";
 
 export default function DashboardPage() {
+  const dispatch = useAppDispatch();
+  const { user, isLoggedIn, status, wsConnected, messages } = useAppSelector(state => state.auth);
+  const [mounted, setMounted] = useState(false);
+  const [outgoing, setOutgoing] = useState("hello");
+  const [ws, setWs] = useState<WebSocket | null>(null);
+
+  function formatError(err: unknown): string {
+    if (err instanceof Error) return err.message;
+    try {
+      return typeof err === 'string' ? err : JSON.stringify(err);
+    } catch {
+      return String(err);
+    }
+  }
+
+  const getUser = useCallback(async () => {
+    dispatch(setStatus("Fetching user..."));
+    try {
+      const res = await axios.get(`${BACKEND}/user`, { withCredentials: true });
+      const data = res.data as unknown;
+      if (data && typeof data === 'object') {
+        const userData = data as Record<string, unknown>;
+        dispatch(setUser(userData));
+        
+        // Update localStorage as fallback
+        localStorage.setItem('vericrop_logged_in', 'true');
+      } else {
+        dispatch(setUser(null));
+      }
+      dispatch(setStatus("User fetched successfully"));
+    } catch (err: unknown) {
+      dispatch(setStatus(`Get user error: ${formatError(err)}`));
+      dispatch(setUser(null));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    setMounted(true);
+    
+    // Check local login status (fallback)
+    const loggedIn = localStorage.getItem('vericrop_logged_in') === 'true';
+    if (loggedIn && !isLoggedIn) {
+      // Try to refresh user data from backend if we think we're logged in
+      getUser();
+    }
+  }, [getUser, isLoggedIn]);
+
+  // Setup WebSocket connection when user is logged in
+  useEffect(() => {
+    if (!mounted || !user || !isLoggedIn) return;
+    
+    let socket: WebSocket | null = null;
+    try {
+      socket = new WebSocket(WS_URL);
+      socket.onopen = () => {
+        dispatch(addMessage('connected'));
+      };
+      socket.onmessage = (ev) => {
+        dispatch(addMessage(`recv: ${ev.data}`));
+      };
+      socket.onclose = () => {
+        dispatch(addMessage('closed'));
+      };
+      socket.onerror = () => {
+        dispatch(addMessage('error'));
+      };
+      setWs(socket);
+      dispatch(setWebSocket(true));
+    } catch (err) {
+      dispatch(addMessage(`ws error: ${err}`));
+    }
+
+    return () => {
+      if (socket) socket.close();
+      setWs(null);
+      dispatch(setWebSocket(false));
+    };
+  }, [mounted, user, isLoggedIn, dispatch]);
+
+  const signIn = () => {
+    // Store current URL as referrer before redirecting
+    const currentUrl = window.location.pathname + window.location.search;
+    localStorage.setItem('login_referrer', currentUrl);
+    
+    // Pass referrer as query parameter to backend
+    const params = new URLSearchParams({ referrer: currentUrl });
+    window.location.href = `${BACKEND}/signin/google?${params.toString()}`;
+  };
+
+  const signOut = async () => {
+    dispatch(setStatus("Signing out..."));
+    try {
+      const res = await axios.post(`${BACKEND}/signout`, {}, { withCredentials: true });
+      const data = res.data as unknown;
+      const text = typeof data === "string" ? data : JSON.stringify(data);
+      dispatch(setStatus(`Sign out response: ${res.status} ${text}`));
+      dispatch(logout());
+      
+      // Clear localStorage
+      localStorage.removeItem('vericrop_logged_in');
+      localStorage.removeItem('vericrop_user_email');
+    } catch (err: unknown) {
+      dispatch(setStatus(`Sign out error: ${formatError(err)}`));
+    }
+  };
+
+  const verify = async () => {
+    dispatch(setStatus("Verifying session..."));
+    try {
+      const res = await axios.get(`${BACKEND}/verify`, { withCredentials: true });
+      const data = res.data as unknown;
+      const text = typeof data === "string" ? data : JSON.stringify(data);
+      dispatch(setStatus(`Verify response: ${res.status} ${text}`));
+    } catch (err: unknown) {
+      dispatch(setStatus(`Verify error: ${formatError(err)}`));
+    }
+  };
+
+  const sendMessage = () => {
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+      dispatch(addMessage('not connected'));
+      return;
+    }
+    ws.send(outgoing);
+    dispatch(addMessage(`sent: ${outgoing}`));
+  };
+
+  const handleBackendLogin = () => {
+    signIn();
+  };
+
+  const handleBackendLogout = () => {
+    signOut();
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-green-50 dark:from-slate-950 dark:via-emerald-950 dark:to-green-950">
       <Nav />
@@ -23,6 +165,117 @@ export default function DashboardPage() {
             </p>
           </div>
 
+          {/* Backend Authentication Section */}
+          <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm dark:bg-slate-900/80">
+            <CardHeader>
+              <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-sm">🔐</span>
+                </div>
+                Backend Authentication
+              </CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400">
+                Connect to the Python backend for real-time features
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex gap-4 flex-wrap">
+                {!isLoggedIn ? (
+                  <Button 
+                    onClick={handleBackendLogin}
+                    className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white"
+                  >
+                    Login to Backend
+                  </Button>
+                ) : (
+                  <>
+                    <Button 
+                      onClick={handleBackendLogout}
+                      variant="outline"
+                      className="border-red-200 text-red-700 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
+                    >
+                      Logout from Backend
+                    </Button>
+                    <Button 
+                      onClick={verify}
+                      variant="outline"
+                      className="border-green-200 text-green-700 hover:bg-green-50 dark:border-green-800 dark:text-green-400 dark:hover:bg-green-950"
+                    >
+                      Verify Session
+                    </Button>
+                    <Button 
+                      onClick={getUser}
+                      variant="outline"
+                      className="border-purple-200 text-purple-700 hover:bg-purple-50 dark:border-purple-800 dark:text-purple-400 dark:hover:bg-purple-950"
+                    >
+                      Refresh User
+                    </Button>
+                  </>
+                )}
+              </div>
+              
+              {status && (
+                <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                  <strong className="text-slate-900 dark:text-slate-100">Status:</strong>
+                  <div className="text-slate-700 dark:text-slate-300 mt-1 whitespace-pre-wrap">{status}</div>
+                </div>
+              )}
+
+              {user && (
+                <div className="p-4 bg-emerald-50 dark:bg-emerald-950 rounded-lg">
+                  <strong className="text-emerald-900 dark:text-emerald-100">Backend User:</strong>
+                  <pre className="text-emerald-800 dark:text-emerald-200 mt-1 text-sm overflow-x-auto">
+                    {JSON.stringify(user, null, 2)}
+                  </pre>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* WebSocket Section - Only show when logged in */}
+          {isLoggedIn && (
+            <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm dark:bg-slate-900/80">
+              <CardHeader>
+                <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                    <span className="text-white text-sm">🌐</span>
+                  </div>
+                  WebSocket Connection
+                </CardTitle>
+                <CardDescription className="text-slate-600 dark:text-slate-400">
+                  Real-time communication with the backend
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex gap-4 items-center">
+                  <Input 
+                    value={outgoing} 
+                    onChange={(e) => setOutgoing(e.target.value)}
+                    className="flex-1"
+                    placeholder="Enter message..."
+                  />
+                  <Button 
+                    onClick={sendMessage}
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
+                  >
+                    Send
+                  </Button>
+                </div>
+                
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 max-h-48 overflow-y-auto">
+                  <strong className="text-slate-900 dark:text-slate-100">Messages:</strong>
+                  <div className="mt-2 space-y-1">
+                    {messages.map((msg, i) => (
+                      <div key={i} className="text-sm text-slate-700 dark:text-slate-300 font-mono">
+                        {msg}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           {/* Dashboard Stats and Backend Status */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <Card className="border-0 shadow-lg bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-950 dark:to-green-950 relative overflow-hidden">
@@ -32,12 +285,14 @@ export default function DashboardPage() {
                   <div>
                     <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Backend Status</p>
                     <div className="flex items-center gap-2 mt-1">
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">Connected</p>
+                      <div className={`w-3 h-3 rounded-full ${isLoggedIn ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                      <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                        {isLoggedIn ? 'Connected' : 'Disconnected'}
+                      </p>
                     </div>
                   </div>
                   <div className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center">
-                    <span className="text-white text-xl">🔗</span>
+                    <span className="text-white text-xl">{wsConnected ? '🔗' : '❌'}</span>
                   </div>
                 </div>
               </CardContent>

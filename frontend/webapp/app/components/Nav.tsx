@@ -1,12 +1,10 @@
 "use client";
 import Link from "next/link";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import ThemeToggle from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { 
   DropdownMenu, 
@@ -16,23 +14,67 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Bell, User, Settings, LogOut, Home, Package, Scan, Users, BarChart3 } from "lucide-react";
+import { Bell, User, Settings, LogOut, Home, Package, Scan, BarChart3, Wifi, WifiOff } from "lucide-react";
+import axios from "axios";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { logout } from "@/lib/authSlice";
+
+const BACKEND = "http://localhost:3000";
 
 export default function Nav() {
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector(state => state.auth);
   const isDashboard = pathname.startsWith('/dashboard');
   const [userEmail, setUserEmail] = useState('');
+  const [backendStatus, setBackendStatus] = useState<'connected' | 'disconnected' | 'loading'>('loading');
 
   useEffect(() => {
-    const email = localStorage.getItem('vericrop_user_email') || 'user@vericrop.com';
-    setUserEmail(email);
-  }, []);
+    // Load user email from Redux state
+    if (user?.email) {
+      setUserEmail(user.email);
+    }
+    
+    // Check backend connection and refresh data
+    checkBackendStatus();
+  }, [user]);
+
+  const checkBackendStatus = async () => {
+    try {
+      const res = await axios.get(`${BACKEND}/user`, { withCredentials: true });
+      if (res.data && typeof res.data === 'object') {
+        setBackendStatus('connected');
+      } else {
+        setBackendStatus('disconnected');
+      }
+    } catch {
+      setBackendStatus('disconnected');
+    }
+  };
 
   const handleLogout = () => {
-    localStorage.removeItem('vericrop_logged_in');
-    localStorage.removeItem('vericrop_user_email');
+    dispatch(logout());
     window.location.href = '/';
+  };
+
+  const handleBackendLogin = () => {
+    // Store current URL as referrer before redirecting
+    const currentUrl = window.location.pathname + window.location.search;
+    localStorage.setItem('login_referrer', currentUrl);
+    
+    // Pass referrer as query parameter to backend
+    const params = new URLSearchParams({ referrer: currentUrl });
+    window.location.href = `${BACKEND}/signin/google?${params.toString()}`;
+  };
+
+  const handleBackendLogout = async () => {
+    try {
+      await axios.post(`${BACKEND}/signout`, {}, { withCredentials: true });
+      setBackendStatus('disconnected');
+      
+    } catch (err) {
+      console.error('Backend logout error:', err);
+    }
   };
 
   if (!isDashboard) {
@@ -159,9 +201,10 @@ export default function Nav() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
-              <Avatar className="h-10 w-10 border-2 border-emerald-200 dark:border-emerald-800">
-                <AvatarImage src="/avatars/user.jpg" alt="User" />
-                <AvatarFallback className="bg-emerald-600 text-white font-semibold">JD</AvatarFallback>
+              <Avatar className="h-10 w-10 border-2 border-emerald-200 dark:border-emerald-800 bg-gradient-to-br from-emerald-100 to-green-100 dark:from-emerald-900 dark:to-green-900">
+                <AvatarFallback className="bg-transparent">
+                  <User className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -170,9 +213,10 @@ export default function Nav() {
             <DropdownMenuLabel className="relative font-normal p-4 bg-gradient-to-r from-emerald-50/80 to-green-50/80 dark:from-emerald-950/80 dark:to-green-950/80 border-b border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm">
               <div className="flex flex-col space-y-3">
                 <div className="flex items-center gap-3">
-                  <Avatar className="h-12 w-12 border-2 border-emerald-200 dark:border-emerald-800">
-                    <AvatarImage src="/avatars/user.jpg" alt="User" />
-                    <AvatarFallback className="bg-gradient-to-r from-emerald-600 to-green-600 text-white font-semibold text-lg">JD</AvatarFallback>
+                  <Avatar className="h-12 w-12 border-2 border-emerald-200 dark:border-emerald-800 bg-gradient-to-br from-emerald-100 to-green-100 dark:from-emerald-900 dark:to-green-900">
+                    <AvatarFallback className="bg-transparent">
+                      <User className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
+                    </AvatarFallback>
                   </Avatar>
                   <div>
                     <p className="text-sm font-semibold leading-none text-slate-900 dark:text-slate-100">John Doe</p>
@@ -182,8 +226,10 @@ export default function Nav() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-slate-600 dark:text-slate-400">Online</span>
+                  <div className={`w-2 h-2 rounded-full ${backendStatus === 'connected' ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
+                  <span className="text-xs text-slate-600 dark:text-slate-400">
+                    Backend: {backendStatus === 'connected' ? 'Connected' : 'Disconnected'}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -196,6 +242,38 @@ export default function Nav() {
                 <Settings className="mr-3 h-4 w-4 text-slate-500" />
                 <span className="text-slate-900 dark:text-slate-100">Settings</span>
               </DropdownMenuItem>
+              
+              {/* Backend Authentication Section */}
+              <DropdownMenuSeparator className="my-2 border-slate-200/50 dark:border-slate-700/50" />
+              <div className="px-3 py-2">
+                <div className="flex items-center gap-2 mb-2">
+                  {backendStatus === 'connected' ? (
+                    <Wifi className="h-4 w-4 text-green-500" />
+                  ) : (
+                    <WifiOff className="h-4 w-4 text-red-500" />
+                  )}
+                  <span className="text-xs font-medium text-slate-700 dark:text-slate-300">Backend Connection</span>
+                </div>
+                {backendStatus === 'connected' ? (
+                  <Button 
+                    onClick={handleBackendLogout}
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full text-xs border-red-200 text-red-700 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
+                  >
+                    Disconnect Backend
+                  </Button>
+                ) : (
+                  <Button 
+                    onClick={handleBackendLogin}
+                    size="sm" 
+                    className="w-full text-xs bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    Connect Backend
+                  </Button>
+                )}
+              </div>
+              
               <DropdownMenuSeparator className="my-2 border-slate-200/50 dark:border-slate-700/50" />
               <DropdownMenuItem onClick={handleLogout} className="p-3 rounded-xl cursor-pointer">
                 <LogOut className="mr-3 h-4 w-4 text-red-500" />
