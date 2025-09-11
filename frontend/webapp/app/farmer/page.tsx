@@ -1,5 +1,5 @@
 import { Sidebar } from "@/app/farmer/_components/sidebar";
-import RegisterProducePage from "./register-produce/page";
+import RegisterProductPage from "./register-product/page";
 import TrackProductsPage from "./track-products/page";
 import { Topbar } from "./_components/topbar";
 import { Footer } from "./_components/footer";
@@ -15,7 +15,7 @@ const FarmerPage = () => {
         <div className="flex-grow pt-20 p-6 space-y-6">
           <Card className="border-2 border-green-200 shadow-lg">
             <CardContent className="p-6">
-              <RegisterProducePage />
+              <RegisterProductPage />
             </CardContent>
           </Card>
 

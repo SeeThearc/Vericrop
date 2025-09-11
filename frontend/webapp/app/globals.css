@@ -8,29 +8,26 @@
   /* VeriCrop Brand Colors - Enhanced */
   --vericrop-dark-green: #1A4D2E;
   --vericrop-field-green: #64A833;
-  --vericrop-warm-yellow: #EBEB54; /* Slightly softer yellow for better readability */
-  --vericrop-dark-brown: #4E3629;
-  --vericrop-medium-brown: #A67C52;
   --vericrop-light-green: #C2E79D; /* Slightly adjusted for better contrast */
-  --vericrop-stone-grey: #B0B0B0;
   --vericrop-whiff-white: #F8F8F8;
-  --vericrop-light-brown: #D9C0A3; /* New color for better palette balance */
+  --vericrop-white: #FFFFFF;
+  --vericrop-black: #000000;
 
   /* Shadcn/UI Theme Variables with Enhanced VeriCrop Colors */
   --background: 248 248 248; /* Whiff White */
-  --foreground: 26 77 46; /* Dark Green */
+  --foreground: 0 0 0; /* Black */
   --card: 255 255 255;
-  --card-foreground: 26 77 46;
+  --card-foreground: 0 0 0;
   --popover: 255 255 255;
-  --popover-foreground: 26 77 46;
+  --popover-foreground: 0 0 0;
   --primary: 100 168 51; /* Field Green */
   --primary-foreground: 255 255 255;
   --secondary: 194 231 157; /* Enhanced Light Green */
-  --secondary-foreground: 26 77 46;
-  --muted: 180 180 180; /* Slightly enhanced Stone Grey */
-  --muted-foreground: 78 54 41; /* Dark Brown */
-  --accent: 235 235 84; /* Adjusted Warm Yellow */
-  --accent-foreground: 78 54 41; /* Using Dark Brown for better contrast */
+  --secondary-foreground: 0 0 0;
+  --muted: 248 248 248;
+  --muted-foreground: 0 0 0;
+  --accent: 194 231 157; /* Light Green */
+  --accent-foreground: 0 0 0;
   --destructive: 220 38 38; /* Slightly darker red for better accessibility */
   --destructive-foreground: 248 250 252;
   --border: 200 200 200; /* Lighter border for subtlety */
@@ -39,10 +36,10 @@
   --radius: 0.625rem;
   --chart-1: 100 168 51; /* Field Green */
   --chart-2: 194 231 157; /* Light Green */
-  --chart-3: 235 235 84; /* Warm Yellow */
-  --chart-4: 166 124 82; /* Medium Brown */
-  --chart-5: 78 54 41; /* Dark Brown */
-  --chart-6: 217 192 163; /* Light Brown - added for more variety */
+  --chart-3: 26 77 46; /* Dark Green */
+  --chart-4: 120 188 71;
+  --chart-5: 150 200 100;
+  --chart-6: 180 220 140;
 }
 
 .dark {
@@ -54,11 +51,11 @@
   --popover-foreground: 248 248 248;
   --primary: 194 231 157; /* Light Green */
   --primary-foreground: 26 77 46;
-  --secondary: 166 124 82; /* Medium Brown instead of Dark Brown for better contrast */
+  --secondary: 100 168 51; /* Field Green */
   --secondary-foreground: 248 248 248;
-  --muted: 90 65 50; /* Slightly lighter than Dark Brown */
+  --muted: 32 85 52;
   --muted-foreground: 200 200 200; /* Lighter than Stone Grey for contrast */
-  --accent: 235 235 84; /* Adjusted Warm Yellow */
+  --accent: 194 231 157; /* Light Green */
   --accent-foreground: 26 77 46;
   --destructive: 248 113 113; /* Brighter red for dark mode visibility */
   --destructive-foreground: 248 250 252;

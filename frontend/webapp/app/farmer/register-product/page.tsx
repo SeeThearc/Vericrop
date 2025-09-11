@@ -13,11 +13,11 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-const RegisterProducePage = () => {
+const RegisterProductPage = () => {
   return (
     <div className="p-8 bg-white text-black">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-green-800">Register New Produce</h1>
+        <h1 className="text-3xl font-bold text-green-800">Register New Product</h1>
         <div className="w-48">
             <Label className="text-gray-700">Select Language</Label>
             <Select>
@@ -87,11 +87,11 @@ const RegisterProducePage = () => {
             <Textarea placeholder="(Assessment results will appear here after upload)" readOnly className="bg-gray-100 border-gray-300 text-gray-500" />
         </div>
         <div className="flex justify-end">
-            <Button className="bg-green-600 hover:bg-green-700 text-white">Register Produce</Button>
+            <Button className="bg-green-600 hover:bg-green-700 text-white">Register Product and Generate QR</Button>
         </div>
       </div>
     </div>
   );
 };
 
-export default RegisterProducePage;
+export default RegisterProductPage;
