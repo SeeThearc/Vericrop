@@ -2,6 +2,7 @@
 import React from "react";
 import { AceternityAppSidebar } from "./AceternityAppSidebar";
 import { Footer } from "./Footer";
+import { motion } from "motion/react";
 
 interface SidebarLinkType {
   label: string;
@@ -15,20 +16,28 @@ interface AceternityLayoutProps {
   children: React.ReactNode;
 }
 
-export function AceternityLayout({
-  routes,
-  bottomRoutes = [],
-  children,
+export function AceternityLayout({ 
+  routes, 
+  bottomRoutes = [], 
+  children 
 }: AceternityLayoutProps) {
   return (
     <div className="flex bg-white dark:bg-gray-900 min-h-screen">
-      <AceternityAppSidebar routes={routes} bottomRoutes={bottomRoutes} />
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <AceternityAppSidebar 
+        routes={routes} 
+        bottomRoutes={bottomRoutes}
+      />
+      <motion.main 
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex-1 flex flex-col overflow-hidden ml-[60px] transition-all duration-300 ease-in-out"
+      >
         <div className="flex-grow p-6 space-y-6 overflow-y-auto">
           {children}
         </div>
         <Footer />
-      </main>
+      </motion.main>
     </div>
   );
 }

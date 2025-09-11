@@ -1,9 +1,9 @@
 "use client";
 import { motion } from "motion/react";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
-import { Sparkles } from "lucide-react";
+import { Sprout } from "lucide-react";
 
-export const WelcomeBanner = () => {
+export const FarmerWelcomeBanner = () => {
     return (
         <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -19,7 +19,7 @@ export const WelcomeBanner = () => {
                         transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
                         className="p-3 bg-green-100 dark:bg-green-900 rounded-full"
                     >
-                        <Sparkles className="h-8 w-8 text-green-600 dark:text-green-400" />
+                        <Sprout className="h-8 w-8 text-green-600 dark:text-green-400" />
                     </motion.div>
                     <div>
                         <motion.h1 
@@ -28,7 +28,7 @@ export const WelcomeBanner = () => {
                             transition={{ delay: 0.2, duration: 0.5 }}
                             className="text-4xl font-bold text-green-800 dark:text-green-400"
                         >
-                            Welcome, Valued Consumer!
+                            Welcome, Dedicated Farmer!
                         </motion.h1>
                         <motion.p 
                             initial={{ opacity: 0, x: -20 }}
@@ -36,7 +36,7 @@ export const WelcomeBanner = () => {
                             transition={{ delay: 0.4, duration: 0.5 }}
                             className="text-green-700 dark:text-green-300 mt-2 text-lg"
                         >
-                            Discover the true journey and quality of your food, from farm to fork.
+                            Manage your crops, register products, and track their journey through the supply chain.
                         </motion.p>
                     </div>
                 </div>
