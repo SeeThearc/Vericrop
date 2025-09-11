@@ -21,7 +21,7 @@ export const Topbar = ({ navLinks, searchPlaceholder, baseHref }: TopbarProps) =
   const pathname = usePathname();
 
   return (
-    <header className="fixed top-0 left-64 right-0 flex items-center justify-between p-4 bg-white/80 shadow-sm border-b z-40 backdrop-blur-sm">
+    <header className="fixed top-0 left-64 right-0 flex items-center justify-between p-4 bg-white/80 shadow-sm border-b z-[1001] backdrop-blur-sm">
       <div></div>
       <div className="flex items-center space-x-6">
         <Link href={baseHref} className={pathname === baseHref ? "text-green-600 font-semibold" : "text-gray-600 hover:text-green-600"}>
