@@ -2,6 +2,7 @@ import VerifyProductsPage from "./verify-products/page";
 import TransactionsPage from "./transactions/page";
 import AnalyticsPage from "./analytics/page";
 import PurchaseBatchPage from "./purchase-batch/page";
+import RegisterProductPage from "./register-product/page";
 import { Card, CardContent } from "@/components/ui/card";
 
 const DistributerPage = () => {
@@ -10,6 +11,12 @@ const DistributerPage = () => {
       <Card className="border-2 border-green-200 shadow-lg">
         <CardContent className="p-6">
           <VerifyProductsPage />
+        </CardContent>
+      </Card>
+
+      <Card className="border-2 border-red-200 shadow-lg">
+        <CardContent className="p-6">
+          <RegisterProductPage />
         </CardContent>
       </Card>
 

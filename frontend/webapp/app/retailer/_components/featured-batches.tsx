@@ -4,6 +4,19 @@ import { Badge } from "@/components/ui/badge";
 
 type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
 
+const getStatusBackground = (status: string) => {
+	switch (status) {
+		case "Available":
+			return "bg-green-100 text-green-800";
+		case "Limited":
+			return "bg-yellow-100 text-yellow-800";
+		case "Seasonal":
+			return "bg-blue-100 text-blue-800";
+		default:
+			return "";
+	}
+};
+
 const batches = [
 	{
 		id: "B001",
@@ -72,7 +85,7 @@ export const FeaturedBatches = () => {
 							<p>
 								<strong>Items:</strong> {batch.items}
 							</p>
-							<Badge variant={batch.statusVariant}>{batch.status}</Badge>
+							<Badge variant={batch.statusVariant} className={getStatusBackground(batch.status)}>{batch.status}</Badge>
 							<Button className="w-full mt-4">Purchase Batch</Button>
 						</CardContent>
 					</Card>
