@@ -3,48 +3,50 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
+
 const products = [
 	{
 		name: "Organic Roma Tomatoes",
 		location: "California, USA",
 		status: "Available",
 		image: "/tomatoes.jpg",
-		statusVariant: "secondary",
+		statusVariant: "secondary" as BadgeVariant,
 	},
 	{
 		name: "Hass Avocados",
 		location: "Amazon, Brazil",
 		status: "Available",
 		image: "/avocados.jpg",
-		statusVariant: "secondary",
+		statusVariant: "secondary" as BadgeVariant,
 	},
 	{
 		name: "Alphonso Mangoes",
 		location: "Punjab, India",
 		status: "Limited Stock",
 		image: "/mangoes.jpg",
-		statusVariant: "destructive",
+		statusVariant: "destructive" as BadgeVariant,
 	},
 	{
 		name: "Chardonnay Grapes",
 		location: "Loire Valley, France",
 		status: "Available",
 		image: "/grapes.jpg",
-		statusVariant: "secondary",
+		statusVariant: "secondary" as BadgeVariant,
 	},
 	{
 		name: "Heirloom Carrots",
 		location: "California, USA",
 		status: "Seasonal",
 		image: "/carrots.jpg",
-		statusVariant: "outline",
+		statusVariant: "outline" as BadgeVariant,
 	},
 	{
 		name: "Butterhead Lettuce",
 		location: "Oregon, USA",
 		status: "Available",
 		image: "/lettuce.jpg",
-		statusVariant: "secondary",
+		statusVariant: "secondary" as BadgeVariant,
 	},
 ];
 
@@ -64,7 +66,7 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
 				<h3 className="text-lg font-semibold">{product.name}</h3>
 				<p className="text-sm text-gray-500 mb-2">{product.location}</p>
 				<Badge
-					variant={product.statusVariant as any}
+					variant={product.statusVariant}
 					className={
 						product.status === "Seasonal" || product.status === "Available"
 							? "bg-green-500/20 text-green-700 border-green-500"
