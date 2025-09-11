@@ -3,41 +3,87 @@ import TransactionsPage from "./transactions/page";
 import AnalyticsPage from "./analytics/page";
 import PurchaseBatchPage from "./purchase-batch/page";
 import RegisterProductPage from "./register-product/page";
-import { Card, CardContent } from "@/components/ui/card";
 
 const RetailerPage = () => {
   return (
-    <>
-      <Card className="border-2 border-green-200 shadow-lg">
-        <CardContent className="p-6">
+    <div className="min-h-screen vericrop-gradient-forest-sage p-6">
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Welcome Header */}
+        <div className="vericrop-card-primary text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            VeriCrop Retailer Dashboard
+          </h1>
+          <p className="text-lg text-gray-600">
+            Premium Agricultural Technology Platform for Retail Operations
+          </p>
+        </div>
+
+        {/* Product Verification Section */}
+        <div className="vericrop-card-primary vericrop-hover-lift">
+          <div className="mb-4">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              Product Verification & Quality Control
+            </h2>
+            <p className="text-gray-600">
+              Advanced ML-powered authentication and quality assurance
+            </p>
+          </div>
           <VerifyProductsPage />
-        </CardContent>
-      </Card>
+        </div>
 
-      <Card className="border-2 border-red-200 shadow-lg">
-        <CardContent className="p-6">
+        {/* Product Registration Section */}
+        <div className="vericrop-card-primary vericrop-hover-lift">
+          <div className="mb-4">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              Inventory Registration
+            </h2>
+            <p className="text-gray-600">
+              Register retail inventory and manage product listings
+            </p>
+          </div>
           <RegisterProductPage />
-        </CardContent>
-      </Card>
+        </div>
 
-      <Card className="border-2 border-blue-200 shadow-lg">
-        <CardContent className="p-6">
+        {/* Purchase Management Section */}
+        <div className="vericrop-card-primary vericrop-hover-lift">
+          <div className="mb-4">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              Purchase Management & Orders
+            </h2>
+            <p className="text-gray-600">
+              Streamlined procurement and batch ordering system
+            </p>
+          </div>
           <PurchaseBatchPage />
-        </CardContent>
-      </Card>
+        </div>
 
-      <Card className="border-2 border-purple-200 shadow-lg">
-        <CardContent className="p-6">
+        {/* Sales & Transaction History Section */}
+        <div className="vericrop-card-primary vericrop-hover-lift">
+          <div className="mb-4">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              Sales History & Customer Transactions
+            </h2>
+            <p className="text-gray-600">
+              Complete retail transaction tracking and customer insights
+            </p>
+          </div>
           <TransactionsPage />
-        </CardContent>
-      </Card>
+        </div>
 
-      <Card className="border-2 border-orange-200 shadow-lg">
-        <CardContent className="p-6">
+        {/* Retail Analytics Section */}
+        <div className="vericrop-card-primary vericrop-hover-lift">
+          <div className="mb-4">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              Retail Analytics & Performance
+            </h2>
+            <p className="text-gray-600">
+              Sales insights, customer analytics, and business intelligence
+            </p>
+          </div>
           <AnalyticsPage />
-        </CardContent>
-      </Card>
-    </>
+        </div>
+      </div>
+    </div>
   );
 };
 

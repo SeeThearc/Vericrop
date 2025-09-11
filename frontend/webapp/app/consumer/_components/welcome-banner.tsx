@@ -1,7 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import { BackgroundGradient } from "@/components/ui/background-gradient";
-import { Sparkles } from "lucide-react";
+import { Leaf, Sparkles } from "lucide-react";
 
 export const WelcomeBanner = () => {
   return (
@@ -11,37 +10,69 @@ export const WelcomeBanner = () => {
       transition={{ duration: 0.6 }}
       className="mb-8"
     >
-      <BackgroundGradient className="rounded-[22px] p-8 bg-white dark:bg-zinc-900">
-        <div className="flex items-center space-x-4">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-            className="p-3 bg-green-100 dark:bg-green-900 rounded-full"
-          >
-            <Sparkles className="h-8 w-8 text-green-600 dark:text-green-400" />
-          </motion.div>
-          <div>
-            <motion.h1
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-4xl font-bold text-green-800 dark:text-green-400"
+      <div className="relative overflow-hidden rounded-2xl bg-white vericrop-card-shadow">
+        {/* Background gradient with texture */}
+        <div className="absolute inset-0 vericrop-gradient-forest-sage opacity-90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-white/10" />
+
+        <div className="relative p-8 lg:p-12">
+          <div className="flex items-center space-x-6">
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{
+                delay: 0.3,
+                type: "spring",
+                stiffness: 200,
+                duration: 0.8,
+              }}
+              className="relative"
             >
-              Welcome, Valued Consumer!
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="text-green-700 dark:text-green-300 mt-2 text-lg"
-            >
-              Discover the true journey and quality of your food, from farm to
-              fork.
-            </motion.p>
+              <div className="p-4 bg-white/20 backdrop-blur-sm rounded-2xl border border-white/30">
+                <Leaf className="h-10 w-10 text-white" />
+              </div>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.6, duration: 0.3 }}
+                className="absolute -top-1 -right-1"
+              >
+                <Sparkles className="h-5 w-5 text-yellow-300" />
+              </motion.div>
+            </motion.div>
+
+            <div className="flex-1">
+              <motion.h1
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="text-3xl lg:text-4xl font-bold text-white mb-2"
+                style={{ fontFamily: "Inter, system-ui" }}
+              >
+                Welcome to Your Food Journey
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="text-white/90 text-lg font-medium"
+              >
+                Discover the true journey and quality of your food, from farm to
+                fork.
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="text-white/70 text-base mt-1"
+              >
+                Track, verify, and trust every step of your food&apos;s journey
+                with VeriCrop&apos;s premium traceability.
+              </motion.p>
+            </div>
           </div>
         </div>
-      </BackgroundGradient>
+      </div>
     </motion.div>
   );
 };

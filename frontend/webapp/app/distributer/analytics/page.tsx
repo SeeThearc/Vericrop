@@ -7,9 +7,11 @@ import {
 	Tooltip,
 	XAxis,
 	YAxis,
+	ResponsiveContainer,
 } from "recharts";
 import { ChartContainer, ChartConfig, ChartTooltipContent } from "@/components/ui/chart";
-import { AlertTriangle, UploadCloud } from "lucide-react";
+import { AlertTriangle, TrendingUp, Activity, BarChart3, Shield } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const chartData = [
 	{ month: "Jan", sales: 12000, verifications: 150, transactions: 45 },
@@ -20,183 +22,227 @@ const chartData = [
 	{ month: "Jun", sales: 18000, verifications: 220, transactions: 62 },
 ];
 
+const fraudData = [
+	{
+		type: "Suspicious Quantity Fluctuations",
+		severity: "Medium",
+		count: 3,
+		description: "Unusual batch size variations detected in corn shipments"
+	},
+	{
+		type: "Documentation Inconsistencies", 
+		severity: "Low",
+		count: 1,
+		description: "Minor discrepancies in certification timestamps"
+	},
+	{
+		type: "Location Anomalies",
+		severity: "High", 
+		count: 1,
+		description: "Product tracked outside expected distribution routes"
+	}
+];
+
 const chartConfig = {
 	sales: {
 		label: "Sales ($)",
-		color: "hsl(var(--chart-1))",
+		color: "#22c55e",
 	},
 	verifications: {
 		label: "Verifications",
-		color: "#3b82f6",
+		color: "#52b788",
 	},
 	transactions: {
 		label: "Transactions",
-		color: "#10b981",
+		color: "#16a34a",
 	},
 } satisfies ChartConfig;
 
+const SeverityBadge = ({ severity }: { severity: string }) => {
+	const getConfig = (severity: string) => {
+		switch (severity.toLowerCase()) {
+			case "high":
+				return "vericrop-badge-error";
+			case "medium":
+				return "vericrop-badge-pending";
+			case "low":
+				return "vericrop-badge-info";
+			default:
+				return "vericrop-badge-info";
+		}
+	};
+
+	return (
+		<div className={getConfig(severity)}>
+			{severity}
+		</div>
+	);
+};
+
 const AnalyticsPage = () => {
 	return (
-		<div className="p-8 bg-white text-black">
-			<h1 className="text-3xl font-bold mb-8 text-purple-800">
-				Analytics Dashboard
-			</h1>
-			<div className="space-y-8">
+		<div className="space-y-6">
+			{/* Header */}
+			<div className="text-center mb-8">
+				<h1 className="text-2xl font-bold text-gray-900 mb-2">Analytics Dashboard</h1>
+				<p className="text-gray-600">Advanced data insights and performance metrics</p>
+			</div>
+
+			{/* KPI Cards */}
+			<div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+				<div className="vericrop-card-secondary text-center vericrop-hover-scale">
+					<div className="flex items-center justify-center mb-3">
+						<TrendingUp className="h-8 w-8 vericrop-text-primary" />
+					</div>
+					<h3 className="text-sm font-medium text-gray-500 mb-2">Total Sales</h3>
+					<div className="text-2xl font-bold vericrop-text-primary">$84,500</div>
+					<p className="text-xs text-green-600">+15.2% vs last month</p>
+				</div>
+
+				<div className="vericrop-card-secondary text-center vericrop-hover-scale">
+					<div className="flex items-center justify-center mb-3">
+						<Shield className="h-8 w-8 vericrop-text-success" />
+					</div>
+					<h3 className="text-sm font-medium text-gray-500 mb-2">Verifications</h3>
+					<div className="text-2xl font-bold vericrop-text-primary">1,125</div>
+					<p className="text-xs text-green-600">+8.3% vs last month</p>
+				</div>
+
+				<div className="vericrop-card-secondary text-center vericrop-hover-scale">
+					<div className="flex items-center justify-center mb-3">
+						<Activity className="h-8 w-8 vericrop-text-secondary" />
+					</div>
+					<h3 className="text-sm font-medium text-gray-500 mb-2">Active Batches</h3>
+					<div className="text-2xl font-bold vericrop-text-primary">247</div>
+					<p className="text-xs text-blue-600">Currently processing</p>
+				</div>
+
+				<div className="vericrop-card-secondary text-center vericrop-hover-scale">
+					<div className="flex items-center justify-center mb-3">
+						<BarChart3 className="h-8 w-8 vericrop-text-accent" />
+					</div>
+					<h3 className="text-sm font-medium text-gray-500 mb-2">Success Rate</h3>
+					<div className="text-2xl font-bold vericrop-text-primary">98.7%</div>
+					<p className="text-xs text-green-600">Quality maintained</p>
+				</div>
+			</div>
+
+			{/* Charts Section */}
+			<div className="vericrop-card-primary">
+				<div className="mb-6">
+					<h3 className="text-xl font-semibold text-gray-900 mb-2">Performance Trends</h3>
+					<p className="text-gray-600">Sales, verifications, and transaction analytics over time</p>
+				</div>
+				
 				<ChartContainer
 					config={chartConfig}
-					className="h-[400px] transition-all duration-300"
+					className="h-[400px]"
 				>
-					<AreaChart data={chartData}>
-						<CartesianGrid vertical={false} />
-						<XAxis
-							dataKey="month"
-							tickLine={false}
-							axisLine={false}
-							tickMargin={8}
-						/>
-						<YAxis tickLine={false} axisLine={false} tickMargin={8} />
-						<Tooltip content={<ChartTooltipContent />} />
-						<Area
-							dataKey="transactions"
-							type="natural"
-							fill="var(--color-transactions)"
-							fillOpacity={0.4}
-							stroke="var(--color-transactions)"
-							stackId="a"
-						/>
-						<Area
-							dataKey="verifications"
-							type="natural"
-							fill="var(--color-verifications)"
-							fillOpacity={0.4}
-							stroke="var(--color-verifications)"
-							stackId="a"
-						/>
-						<Area
-							dataKey="sales"
-							type="natural"
-							fill="var(--color-sales)"
-							fillOpacity={0.4}
-							stroke="var(--color-sales)"
-							stackId="a"
-						/>
-					</AreaChart>
-				</ChartContainer>
-
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-					{/* Fraud Detection Overview */}
-					<div className="border rounded-lg p-6 shadow-sm">
-						<div className="flex items-center justify-between mb-4">
-							<h2 className="text-xl font-semibold">
-								Fraud Detection Overview
-							</h2>
-							<AlertTriangle className="text-red-500" />
-						</div>
-						<p className="text-sm text-gray-600 mb-6">
-							Identified potential fraud and discrepancies in recent supply
-							chain activities.
-						</p>
-						<div className="space-y-4">
-							<div className="flex items-start">
-								<AlertTriangle className="w-5 h-5 text-red-500 mr-3 mt-1 flex-shrink-0" />
-								<div>
-									<p className="font-semibold">
-										Fake Label:{" "}
-										<span className="font-normal">
-											Detected counterfeit labels on "Organic Apples" shipment
-											#45678.
-										</span>
-									</p>
-								</div>
-							</div>
-							<div className="flex items-start">
-								<AlertTriangle className="w-5 h-5 text-orange-500 mr-3 mt-1 flex-shrink-0" />
-								<div>
-									<p className="font-semibold">
-										Product Substitution:{" "}
-										<span className="font-normal">
-											"Premium Oranges" substituted with lower-grade oranges in
-											batch #91011.
-										</span>
-									</p>
-								</div>
-							</div>
-							<div className="flex items-start">
-								<AlertTriangle className="w-5 h-5 text-orange-500 mr-3 mt-1 flex-shrink-0" />
-								<div>
-									<p className="font-semibold">
-										Quantity Mismatch:{" "}
-										<span className="font-normal">
-											Received 150 units of "Cherry Tomatoes" instead of 200
-											units for order #12131.
-										</span>
-									</p>
-								</div>
-							</div>
-							<div className="flex items-start">
-								<AlertTriangle className="w-5 h-5 text-orange-500 mr-3 mt-1 flex-shrink-0" />
-								<div>
-									<p className="font-semibold">
-										Product Type Mismatch:{" "}
-										<span className="font-normal">
-											Shipment #14151 contained "Red Bell Peppers" instead of
-											"Yellow Bell Peppers".
-										</span>
-									</p>
-								</div>
-							</div>
-						</div>
-						<button className="w-full mt-6 bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition-colors">
-							View Full Report
-						</button>
-					</div>
-
-					{/* Fruit/Vegetable Quality Classifier */}
-					<div className="border rounded-lg p-6 shadow-sm">
-						<h2 className="text-xl font-semibold mb-2">
-							Fruit/Vegetable Quality Classifier
-						</h2>
-						<p className="text-sm text-gray-600 mb-6">
-							Determine produce quality based on visual data inputs.
-						</p>
-						<div className="border-2 border-dashed border-gray-300 rounded-lg p-12 flex flex-col items-center justify-center text-center mb-4">
-							<UploadCloud className="w-12 h-12 text-gray-400 mb-4" />
-							<p className="text-gray-600">Drag & drop or click to upload</p>
-						</div>
-						<div className="bg-red-100 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-center mb-4">
-							<span className="font-semibold">Result: Bad</span>
-						</div>
-						<button className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition-colors">
-							Classify
-						</button>
-					</div>
-
-					{/* Carton Quality Inspection */}
-					<div className="border rounded-lg p-6 shadow-sm">
-						<h2 className="text-xl font-semibold mb-2">
-							Carton Quality Inspection
-						</h2>
-						<p className="text-sm text-gray-600 mb-6">
-							Upload or select a package for inspection.
-						</p>
-						<div className="mb-4">
-							<label
-								htmlFor="package-select"
-								className="block text-sm font-medium text-gray-700 mb-2"
-							>
-								Select Package
-							</label>
-							<input
-								type="text"
-								id="package-select"
-								value="No package selected"
-								readOnly
-								className="w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-500"
+					<ResponsiveContainer width="100%" height="100%">
+						<AreaChart data={chartData}>
+							<CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+							<XAxis
+								dataKey="month"
+								tickLine={false}
+								axisLine={false}
+								tickMargin={8}
+								className="text-gray-600"
 							/>
+							<YAxis 
+								tickLine={false} 
+								axisLine={false} 
+								tickMargin={8}
+								className="text-gray-600"
+							/>
+							<Tooltip content={<ChartTooltipContent />} />
+							<Area
+								dataKey="transactions"
+								type="monotone"
+								fill="var(--color-transactions)"
+								fillOpacity={0.3}
+								stroke="var(--color-transactions)"
+								strokeWidth={2}
+								stackId="a"
+							/>
+							<Area
+								dataKey="verifications"
+								type="monotone"
+								fill="var(--color-verifications)"
+								fillOpacity={0.3}
+								stroke="var(--color-verifications)"
+								strokeWidth={2}
+								stackId="a"
+							/>
+							<Area
+								dataKey="sales"
+								type="monotone"
+								fill="var(--color-sales)"
+								fillOpacity={0.3}
+								stroke="var(--color-sales)"
+								strokeWidth={2}
+								stackId="a"
+							/>
+						</AreaChart>
+					</ResponsiveContainer>
+				</ChartContainer>
+			</div>
+
+			{/* Fraud Detection & Quick Actions */}
+			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+				{/* Fraud Detection Overview */}
+				<div className="lg:col-span-2 vericrop-card-primary">
+					<div className="flex items-center justify-between mb-6">
+						<div>
+							<h3 className="text-xl font-semibold text-gray-900 mb-2">
+								AI Fraud Detection Overview
+							</h3>
+							<p className="text-gray-600">
+								Machine learning insights on supply chain security
+							</p>
 						</div>
-						<button className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition-colors">
-							Inspect Package
-						</button>
+						<AlertTriangle className="h-8 w-8 text-orange-500" />
+					</div>
+					
+					<div className="space-y-4">
+						{fraudData.map((item, index) => (
+							<div key={index} className="vericrop-card-secondary vericrop-hover-lift">
+								<div className="flex items-start justify-between gap-4">
+									<div className="flex-1">
+										<div className="flex items-center gap-3 mb-2">
+											<h4 className="font-medium text-gray-900">{item.type}</h4>
+											<SeverityBadge severity={item.severity} />
+										</div>
+										<p className="text-sm text-gray-600 mb-2">{item.description}</p>
+										<p className="text-xs text-gray-500">
+											<span className="font-medium">{item.count}</span> occurrence{item.count > 1 ? 's' : ''} detected
+										</p>
+									</div>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Quick Actions */}
+				<div className="vericrop-card-primary">
+					<h3 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h3>
+					<div className="space-y-4">
+						<Button className="w-full vericrop-btn-primary justify-start">
+							<BarChart3 className="mr-2 h-4 w-4" />
+							Generate Report
+						</Button>
+						<Button className="w-full vericrop-btn-secondary justify-start">
+							<Shield className="mr-2 h-4 w-4" />
+							Audit Trail
+						</Button>
+						<Button className="w-full vericrop-btn-secondary justify-start">
+							<Activity className="mr-2 h-4 w-4" />
+							Export Data
+						</Button>
+						<Button className="w-full vericrop-btn-secondary justify-start">
+							<AlertTriangle className="mr-2 h-4 w-4" />
+							Alert Settings
+						</Button>
 					</div>
 				</div>
 			</div>

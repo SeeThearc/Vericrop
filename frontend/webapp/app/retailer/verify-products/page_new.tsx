@@ -2,13 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  ShieldCheck,
   QrCode,
   Cpu,
   Shield,
   CheckCircle,
   Clock,
   XCircle,
+  Store,
+  Package,
 } from "lucide-react";
 import {
   Select,
@@ -21,49 +22,54 @@ import { Label } from "@/components/ui/label";
 
 const recentVerifications = [
   {
-    id: "VC-001",
-    product: "Organic Wheat",
+    id: "RV-001",
+    product: "Organic Wheat Flour",
     authenticity: "Authentic",
-    farmer: "Green Acres Farm",
-    inspector: "AgriCert Inc.",
+    distributor: "Green Acres Dist.",
+    supplier: "Harvest Mills",
     date: "2024-07-20",
     status: "verified",
+    customerRating: 4.8,
   },
   {
-    id: "VC-002",
-    product: "Premium Corn",
+    id: "RV-002",
+    product: "Premium Corn Oil",
     authenticity: "Authentic",
-    farmer: "Sun Harvest Co.",
-    inspector: "BioInspect LLC",
+    distributor: "Sun Harvest Co.",
+    supplier: "Golden Fields",
     date: "2024-07-19",
     status: "verified",
+    customerRating: 4.6,
   },
   {
-    id: "VC-003",
-    product: "Fresh Tomatoes",
+    id: "RV-003",
+    product: "Fresh Tomato Sauce",
     authenticity: "Flagged",
-    farmer: "Fieldstone Organics",
-    inspector: "AgriCert Inc.",
+    distributor: "Fieldstone Organics",
+    supplier: "Fresh Valley",
     date: "2024-07-18",
     status: "flagged",
+    customerRating: 3.2,
   },
   {
-    id: "VC-004",
-    product: "Soybean Batch A",
+    id: "RV-004",
+    product: "Soybean Protein",
     authenticity: "Authentic",
-    farmer: "Rural Roots",
-    inspector: "BioInspect LLC",
+    distributor: "Rural Roots",
+    supplier: "Protein Plus",
     date: "2024-07-17",
     status: "verified",
+    customerRating: 4.9,
   },
   {
-    id: "VC-005",
-    product: "Durum Wheat",
+    id: "RV-005",
+    product: "Durum Pasta",
     authenticity: "Pending",
-    farmer: "Grainbelt Farms",
-    inspector: "AgriCert Inc.",
+    distributor: "Grainbelt Farms",
+    supplier: "Pasta Masters",
     date: "2024-07-17",
     status: "pending",
+    customerRating: 4.4,
   },
 ];
 
@@ -108,6 +114,24 @@ const StatusBadge = ({ status }: { status: string }) => {
   );
 };
 
+const RatingStars = ({ rating }: { rating: number }) => {
+  return (
+    <div className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span
+          key={star}
+          className={`text-sm ${
+            star <= rating ? "text-yellow-400" : "text-gray-300"
+          }`}
+        >
+          ★
+        </span>
+      ))}
+      <span className="text-sm text-gray-600 ml-1">({rating})</span>
+    </div>
+  );
+};
+
 const VerifyProductsPage = () => {
   return (
     <div className="space-y-6">
@@ -134,14 +158,14 @@ const VerifyProductsPage = () => {
         <div className="lg:col-span-1">
           <div className="vericrop-qr-scanner-glass p-6 rounded-2xl">
             <div className="flex items-start mb-4">
-              <ShieldCheck className="h-8 w-8 text-green-700 mr-3 mt-1" />
+              <Store className="h-8 w-8 text-green-700 mr-3 mt-1" />
               <div>
                 <h2 className="text-xl font-bold text-gray-900">
-                  Welcome, VeriCrop Distributor!
+                  Welcome, VeriCrop Retailer!
                 </h2>
                 <p className="text-sm text-gray-600 mt-1">
-                  Monitor supply chain activities, verify products, and detect
-                  fraud with AI-powered technology.
+                  Verify product authenticity, manage inventory quality, and
+                  ensure customer satisfaction with AI-powered verification.
                 </p>
               </div>
             </div>
@@ -150,7 +174,7 @@ const VerifyProductsPage = () => {
                 QR SCANNER
               </h3>
               <Button className="w-full vericrop-btn-primary h-12 text-base">
-                <QrCode className="mr-2 h-5 w-5" /> Scan QR Code
+                <QrCode className="mr-2 h-5 w-5" /> Scan Product QR
               </Button>
             </div>
           </div>
@@ -161,45 +185,61 @@ const VerifyProductsPage = () => {
           <div className="vericrop-card-secondary">
             <div className="text-center">
               <h3 className="text-sm font-medium text-gray-500 mb-2">
-                Total Products Verified
+                Products Verified Today
               </h3>
-              <div className="text-4xl font-bold vericrop-text-primary mb-2">
-                1,245 MT
+              <div className="text-4xl font-bold vericrop-text-primary">
+                342
               </div>
               <p className="text-sm text-green-600 font-medium">
-                +12% this month
+                +24% from yesterday
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Product Authenticity Card */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Product Quality Card */}
         <div className="vericrop-card-secondary vericrop-hover-scale">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900">
-              Product Authenticity
+              Product Quality
             </h3>
-            <Shield className="h-6 w-6 vericrop-text-primary" />
+            <Package className="h-6 w-6 vericrop-text-primary" />
           </div>
           <p className="text-sm text-gray-600 mb-4">
-            All recent products checked have passed authenticity tests with our
-            advanced verification system.
+            Comprehensive quality verification for retail inventory management.
           </p>
           <div className="mb-4">
             <StatusBadge status="verified" />
           </div>
           <Button variant="outline" className="w-full vericrop-btn-secondary">
-            View Detailed Report
+            Quality Report
           </Button>
         </div>
 
-        {/* ML Fraud Detection Card */}
+        {/* Customer Trust Score */}
         <div className="vericrop-card-secondary vericrop-hover-scale">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900">
-              ML Fraud Detection
+              Customer Trust Score
+            </h3>
+            <Shield className="h-6 w-6 vericrop-text-success" />
+          </div>
+          <div className="text-center mb-4">
+            <div className="text-3xl font-bold vericrop-text-primary">
+              96.8%
+            </div>
+            <p className="text-sm text-gray-600">Customer confidence</p>
+          </div>
+          <RatingStars rating={4.8} />
+        </div>
+
+        {/* ML Quality Detection */}
+        <div className="vericrop-card-secondary vericrop-hover-scale">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">
+              AI Quality Detection
             </h3>
             <Cpu className="h-6 w-6 vericrop-text-success" />
           </div>
@@ -207,8 +247,8 @@ const VerifyProductsPage = () => {
             <StatusBadge status="verified" />
           </div>
           <p className="text-sm text-gray-600">
-            No suspicious activities or anomalies detected in the last 24 hours.
-            Machine learning algorithms continuously monitor for fraud patterns.
+            Advanced AI monitoring for product freshness, quality, and
+            authenticity verification.
           </p>
         </div>
       </div>
@@ -217,10 +257,10 @@ const VerifyProductsPage = () => {
       <div className="vericrop-card-primary">
         <div className="mb-6">
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            Recent Verifications
+            Recent Product Verifications
           </h3>
           <p className="text-gray-600">
-            Latest product verification activities and results
+            Latest product verification activities and customer ratings
           </p>
         </div>
         <div className="space-y-4">
@@ -242,15 +282,20 @@ const VerifyProductsPage = () => {
                   </h4>
                   <div className="text-sm text-gray-600 space-y-1">
                     <p>
-                      <span className="font-medium">Farmer:</span> {item.farmer}
+                      <span className="font-medium">Distributor:</span>{" "}
+                      {item.distributor}
                     </p>
                     <p>
-                      <span className="font-medium">Inspector:</span>{" "}
-                      {item.inspector}
+                      <span className="font-medium">Supplier:</span>{" "}
+                      {item.supplier}
                     </p>
                     <p>
                       <span className="font-medium">Date:</span> {item.date}
                     </p>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">Customer Rating:</span>
+                      <RatingStars rating={item.customerRating} />
+                    </div>
                   </div>
                 </div>
                 <div className="flex gap-2">

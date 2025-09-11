@@ -4,57 +4,77 @@ import ProductSearchPage from "./product-search/page";
 import QualityHistoryPage from "./quality-history/page";
 import MyPurchasesPage from "./my-purchases/page";
 import { Card, CardContent } from "@/components/ui/card";
-import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { motion } from "motion/react";
 
 export default function ConsumerPage() {
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50/30">
       <WelcomeBanner />
 
-      <div className="flex flex-col space-y-6 mt-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+      <div className="space-y-12">
+        {/* Product Search Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
+          transition={{ delay: 0.1, duration: 0.6 }}
+          className="space-y-4"
         >
-          <BackgroundGradient className="rounded-[22px] p-1">
-            <Card className="border-0 shadow-lg">
-              <CardContent className="p-6">
-                <ProductSearchPage />
-              </CardContent>
-            </Card>
-          </BackgroundGradient>
-        </motion.div>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold vericrop-text-dark mb-2">
+              Discover Premium Products
+            </h2>
+            <p className="vericrop-text-light">
+              Explore our curated selection of traceable, high-quality
+              agricultural products
+            </p>
+          </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          <BackgroundGradient className="rounded-[22px] p-1">
-            <Card className="border-0 shadow-lg">
-              <CardContent className="p-6">
-                <MyPurchasesPage />
-              </CardContent>
-            </Card>
-          </BackgroundGradient>
-        </motion.div>
+          <Card className="bg-white/95 backdrop-blur-sm vericrop-card-shadow border-0 overflow-hidden">
+            <CardContent className="p-8">
+              <ProductSearchPage />
+            </CardContent>
+          </Card>
+        </motion.section>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+        {/* My Purchases Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="space-y-4"
         >
-          <BackgroundGradient className="rounded-[22px] p-1">
-            <Card className="border-0 shadow-lg">
-              <CardContent className="p-6">
-                <QualityHistoryPage />
-              </CardContent>
-            </Card>
-          </BackgroundGradient>
-        </motion.div>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold vericrop-text-dark mb-2">
+              My Purchase Journey
+            </h2>
+            <p className="vericrop-text-light">
+              Track your orders and monitor product journeys from farm to table
+            </p>
+          </div>
+
+          <MyPurchasesPage />
+        </motion.section>
+
+        {/* Quality History Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="space-y-4"
+        >
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold vericrop-text-dark mb-2">
+              Quality Assurance Timeline
+            </h2>
+            <p className="vericrop-text-light">
+              Follow comprehensive quality checks throughout your product&apos;s
+              journey
+            </p>
+          </div>
+
+          <QualityHistoryPage />
+        </motion.section>
       </div>
-    </>
+    </div>
   );
 }

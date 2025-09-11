@@ -7,196 +7,233 @@ import {
 	Tooltip,
 	XAxis,
 	YAxis,
+	ResponsiveContainer,
 } from "recharts";
 import { ChartContainer, ChartConfig, ChartTooltipContent } from "@/components/ui/chart";
-import { AlertTriangle, UploadCloud } from "lucide-react";
+import { TrendingUp, Users, DollarSign, Star, ShoppingCart, Target } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const chartData = [
-	{ month: "Jan", sales: 12000, verifications: 150, transactions: 45 },
-	{ month: "Feb", sales: 11000, verifications: 140, transactions: 42 },
-	{ month: "Mar", sales: 13000, verifications: 160, transactions: 48 },
-	{ month: "Apr", sales: 14000, verifications: 180, transactions: 52 },
-	{ month: "May", sales: 16500, verifications: 200, transactions: 58 },
-	{ month: "Jun", sales: 18000, verifications: 220, transactions: 62 },
+const salesData = [
+	{ month: "Jan", sales: 45000, customers: 1200, avgOrder: 37.50 },
+	{ month: "Feb", sales: 42000, customers: 1150, avgOrder: 36.50 },
+	{ month: "Mar", sales: 52000, customers: 1400, avgOrder: 37.15 },
+	{ month: "Apr", sales: 58000, customers: 1550, avgOrder: 37.42 },
+	{ month: "May", sales: 63000, customers: 1680, avgOrder: 37.50 },
+	{ month: "Jun", sales: 71000, customers: 1850, avgOrder: 38.38 },
+];
+
+const topProducts = [
+	{ product: "Organic Wheat Flour", sales: 12400, rating: 4.8, units: 620 },
+	{ product: "Premium Corn Oil", sales: 9800, rating: 4.6, units: 490 },
+	{ product: "Fresh Tomato Sauce", sales: 8500, rating: 4.4, units: 850 },
+	{ product: "Soybean Protein", sales: 7200, rating: 4.9, units: 180 },
+	{ product: "Durum Pasta", sales: 6800, rating: 4.5, units: 340 },
+];
+
+const customerInsights = [
+	{
+		metric: "Peak Shopping Hours",
+		value: "2-6 PM",
+		trend: "+15%",
+		description: "Highest customer traffic during afternoon hours"
+	},
+	{
+		metric: "Average Basket Size",
+		value: "$47.50",
+		trend: "+8%",
+		description: "Customers purchasing more items per visit"
+	},
+	{
+		metric: "Return Customer Rate",
+		value: "73%",
+		trend: "+12%",
+		description: "Strong customer loyalty and satisfaction"
+	}
 ];
 
 const chartConfig = {
 	sales: {
 		label: "Sales ($)",
-		color: "hsl(var(--chart-1))",
+		color: "#22c55e",
 	},
-	verifications: {
-		label: "Verifications",
-		color: "#3b82f6",
+	customers: {
+		label: "Customers",
+		color: "#52b788",
 	},
-	transactions: {
-		label: "Transactions",
-		color: "#10b981",
+	avgOrder: {
+		label: "Avg Order ($)",
+		color: "#16a34a",
 	},
 } satisfies ChartConfig;
 
+const RatingStars = ({ rating }: { rating: number }) => {
+	return (
+		<div className="flex items-center gap-1">
+			{[1, 2, 3, 4, 5].map((star) => (
+				<span
+					key={star}
+					className={`text-sm ${
+						star <= rating ? "text-yellow-400" : "text-gray-300"
+					}`}
+				>
+					★
+				</span>
+			))}
+			<span className="text-sm text-gray-600 ml-1">({rating})</span>
+		</div>
+	);
+};
+
 const AnalyticsPage = () => {
 	return (
-		<div className="p-8 bg-white text-black">
-			<h1 className="text-3xl font-bold mb-8 text-purple-800">
-				Analytics Dashboard
-			</h1>
-			<div className="space-y-8">
+		<div className="space-y-6">
+			{/* Header */}
+			<div className="text-center mb-8">
+				<h1 className="text-2xl font-bold text-gray-900 mb-2">Retail Analytics Dashboard</h1>
+				<p className="text-gray-600">Sales insights, customer analytics, and business intelligence</p>
+			</div>
+
+			{/* KPI Cards */}
+			<div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+				<div className="vericrop-card-secondary text-center vericrop-hover-scale">
+					<div className="flex items-center justify-center mb-3">
+						<DollarSign className="h-8 w-8 vericrop-text-primary" />
+					</div>
+					<h3 className="text-sm font-medium text-gray-500 mb-2">Monthly Revenue</h3>
+					<div className="text-2xl font-bold vericrop-text-primary">$71,000</div>
+					<p className="text-xs text-green-600">+12.7% vs last month</p>
+				</div>
+
+				<div className="vericrop-card-secondary text-center vericrop-hover-scale">
+					<div className="flex items-center justify-center mb-3">
+						<Users className="h-8 w-8 vericrop-text-success" />
+					</div>
+					<h3 className="text-sm font-medium text-gray-500 mb-2">Active Customers</h3>
+					<div className="text-2xl font-bold vericrop-text-primary">1,850</div>
+					<p className="text-xs text-green-600">+10.1% vs last month</p>
+				</div>
+
+				<div className="vericrop-card-secondary text-center vericrop-hover-scale">
+					<div className="flex items-center justify-center mb-3">
+						<Star className="h-8 w-8 vericrop-text-secondary" />
+					</div>
+					<h3 className="text-sm font-medium text-gray-500 mb-2">Avg Rating</h3>
+					<div className="text-2xl font-bold vericrop-text-primary">4.7</div>
+					<p className="text-xs text-green-600">Customer satisfaction</p>
+				</div>
+
+				<div className="vericrop-card-secondary text-center vericrop-hover-scale">
+					<div className="flex items-center justify-center mb-3">
+						<ShoppingCart className="h-8 w-8 vericrop-text-accent" />
+					</div>
+					<h3 className="text-sm font-medium text-gray-500 mb-2">Conversion Rate</h3>
+					<div className="text-2xl font-bold vericrop-text-primary">68.3%</div>
+					<p className="text-xs text-green-600">Above industry avg</p>
+				</div>
+			</div>
+
+			{/* Sales Trends Chart */}
+			<div className="vericrop-card-primary">
+				<div className="mb-6">
+					<h3 className="text-xl font-semibold text-gray-900 mb-2">Sales & Customer Trends</h3>
+					<p className="text-gray-600">Monthly sales performance, customer growth, and average order values</p>
+				</div>
+				
 				<ChartContainer
 					config={chartConfig}
-					className="h-[400px] transition-all duration-300"
+					className="h-[400px]"
 				>
-					<AreaChart data={chartData}>
-						<CartesianGrid vertical={false} />
-						<XAxis
-							dataKey="month"
-							tickLine={false}
-							axisLine={false}
-							tickMargin={8}
-						/>
-						<YAxis tickLine={false} axisLine={false} tickMargin={8} />
-						<Tooltip content={<ChartTooltipContent />} />
-						<Area
-							dataKey="transactions"
-							type="natural"
-							fill="var(--color-transactions)"
-							fillOpacity={0.4}
-							stroke="var(--color-transactions)"
-							stackId="a"
-						/>
-						<Area
-							dataKey="verifications"
-							type="natural"
-							fill="var(--color-verifications)"
-							fillOpacity={0.4}
-							stroke="var(--color-verifications)"
-							stackId="a"
-						/>
-						<Area
-							dataKey="sales"
-							type="natural"
-							fill="var(--color-sales)"
-							fillOpacity={0.4}
-							stroke="var(--color-sales)"
-							stackId="a"
-						/>
-					</AreaChart>
-				</ChartContainer>
-
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-					{/* Fraud Detection Overview */}
-					<div className="border rounded-lg p-6 shadow-sm">
-						<div className="flex items-center justify-between mb-4">
-							<h2 className="text-xl font-semibold">
-								Fraud Detection Overview
-							</h2>
-							<AlertTriangle className="text-red-500" />
-						</div>
-						<p className="text-sm text-gray-600 mb-6">
-							Identified potential fraud and discrepancies in recent supply
-							chain activities.
-						</p>
-						<div className="space-y-4">
-							<div className="flex items-start">
-								<AlertTriangle className="w-5 h-5 text-red-500 mr-3 mt-1 flex-shrink-0" />
-								<div>
-									<p className="font-semibold">
-										Fake Label:{" "}
-										<span className="font-normal">
-											Detected counterfeit labels on "Organic Apples" shipment
-											#45678.
-										</span>
-									</p>
-								</div>
-							</div>
-							<div className="flex items-start">
-								<AlertTriangle className="w-5 h-5 text-orange-500 mr-3 mt-1 flex-shrink-0" />
-								<div>
-									<p className="font-semibold">
-										Product Substitution:{" "}
-										<span className="font-normal">
-											"Premium Oranges" substituted with lower-grade oranges in
-											batch #91011.
-										</span>
-									</p>
-								</div>
-							</div>
-							<div className="flex items-start">
-								<AlertTriangle className="w-5 h-5 text-orange-500 mr-3 mt-1 flex-shrink-0" />
-								<div>
-									<p className="font-semibold">
-										Quantity Mismatch:{" "}
-										<span className="font-normal">
-											Received 150 units of "Cherry Tomatoes" instead of 200
-											units for order #12131.
-										</span>
-									</p>
-								</div>
-							</div>
-							<div className="flex items-start">
-								<AlertTriangle className="w-5 h-5 text-orange-500 mr-3 mt-1 flex-shrink-0" />
-								<div>
-									<p className="font-semibold">
-										Product Type Mismatch:{" "}
-										<span className="font-normal">
-											Shipment #14151 contained "Red Bell Peppers" instead of
-											"Yellow Bell Peppers".
-										</span>
-									</p>
-								</div>
-							</div>
-						</div>
-						<button className="w-full mt-6 bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition-colors">
-							View Full Report
-						</button>
-					</div>
-
-					{/* Fruit/Vegetable Quality Classifier */}
-					<div className="border rounded-lg p-6 shadow-sm">
-						<h2 className="text-xl font-semibold mb-2">
-							Fruit/Vegetable Quality Classifier
-						</h2>
-						<p className="text-sm text-gray-600 mb-6">
-							Determine produce quality based on visual data inputs.
-						</p>
-						<div className="border-2 border-dashed border-gray-300 rounded-lg p-12 flex flex-col items-center justify-center text-center mb-4">
-							<UploadCloud className="w-12 h-12 text-gray-400 mb-4" />
-							<p className="text-gray-600">Drag & drop or click to upload</p>
-						</div>
-						<div className="bg-red-100 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-center mb-4">
-							<span className="font-semibold">Result: Bad</span>
-						</div>
-						<button className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition-colors">
-							Classify
-						</button>
-					</div>
-
-					{/* Carton Quality Inspection */}
-					<div className="border rounded-lg p-6 shadow-sm">
-						<h2 className="text-xl font-semibold mb-2">
-							Carton Quality Inspection
-						</h2>
-						<p className="text-sm text-gray-600 mb-6">
-							Upload or select a package for inspection.
-						</p>
-						<div className="mb-4">
-							<label
-								htmlFor="package-select"
-								className="block text-sm font-medium text-gray-700 mb-2"
-							>
-								Select Package
-							</label>
-							<input
-								type="text"
-								id="package-select"
-								value="No package selected"
-								readOnly
-								className="w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-500"
+					<ResponsiveContainer width="100%" height="100%">
+						<AreaChart data={salesData}>
+							<CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+							<XAxis
+								dataKey="month"
+								tickLine={false}
+								axisLine={false}
+								tickMargin={8}
+								className="text-gray-600"
 							/>
+							<YAxis 
+								tickLine={false} 
+								axisLine={false} 
+								tickMargin={8}
+								className="text-gray-600"
+							/>
+							<Tooltip content={<ChartTooltipContent />} />
+							<Area
+								dataKey="sales"
+								type="monotone"
+								fill="var(--color-sales)"
+								fillOpacity={0.3}
+								stroke="var(--color-sales)"
+								strokeWidth={2}
+							/>
+						</AreaChart>
+					</ResponsiveContainer>
+				</ChartContainer>
+			</div>
+
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+				{/* Top Products */}
+				<div className="vericrop-card-primary">
+					<div className="mb-6">
+						<h3 className="text-xl font-semibold text-gray-900 mb-2">Top Performing Products</h3>
+						<p className="text-gray-600">Best-selling products with customer ratings</p>
+					</div>
+					
+					<div className="space-y-4">
+						{topProducts.map((product, index) => (
+							<div key={index} className="vericrop-card-secondary vericrop-hover-lift">
+								<div className="flex items-center justify-between">
+									<div className="flex-1">
+										<h4 className="font-medium text-gray-900 mb-1">{product.product}</h4>
+										<div className="flex items-center gap-4 text-sm text-gray-600">
+											<span><span className="font-medium">Sales:</span> ${product.sales.toLocaleString()}</span>
+											<span><span className="font-medium">Units:</span> {product.units}</span>
+										</div>
+										<div className="mt-2">
+											<RatingStars rating={product.rating} />
+										</div>
+									</div>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Customer Insights */}
+				<div className="vericrop-card-primary">
+					<div className="mb-6">
+						<h3 className="text-xl font-semibold text-gray-900 mb-2">Customer Insights</h3>
+						<p className="text-gray-600">Behavioral patterns and shopping preferences</p>
+					</div>
+					
+					<div className="space-y-4">
+						{customerInsights.map((insight, index) => (
+							<div key={index} className="vericrop-card-secondary vericrop-hover-lift">
+								<div className="flex items-center justify-between mb-2">
+									<h4 className="font-medium text-gray-900">{insight.metric}</h4>
+									<span className="text-sm text-green-600 font-medium">{insight.trend}</span>
+								</div>
+								<div className="text-2xl font-bold vericrop-text-primary mb-2">{insight.value}</div>
+								<p className="text-sm text-gray-600">{insight.description}</p>
+							</div>
+						))}
+						
+						{/* Quick Actions */}
+						<div className="pt-4 border-t border-gray-100">
+							<h4 className="font-medium text-gray-900 mb-4">Quick Actions</h4>
+							<div className="space-y-2">
+								<Button className="w-full vericrop-btn-primary justify-start">
+									<Target className="mr-2 h-4 w-4" />
+									Customer Analysis Report
+								</Button>
+								<Button className="w-full vericrop-btn-secondary justify-start">
+									<TrendingUp className="mr-2 h-4 w-4" />
+									Sales Forecast
+								</Button>
+							</div>
 						</div>
-						<button className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition-colors">
-							Inspect Package
-						</button>
 					</div>
 				</div>
 			</div>
