@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "motion/react";
-import { Leaf, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
+import Image from "next/image";
 
 export const WelcomeBanner = () => {
   return (
@@ -28,8 +29,16 @@ export const WelcomeBanner = () => {
               }}
               className="relative"
             >
-              <div className="p-4 bg-white/20 backdrop-blur-sm rounded-2xl border border-white/30">
-                <Leaf className="h-10 w-10 text-white" />
+              <div className="p-8 bg-white/20 backdrop-blur-sm rounded-2xl border border-white/30">
+                <div className="h-24 w-24 relative">
+                  <Image
+                    src="/original_logo.png"
+                    alt="VeriCrop Logo"
+                    fill
+                    className="object-contain"
+                    sizes="96px"
+                  />
+                </div>
               </div>
               <motion.div
                 initial={{ scale: 0 }}
@@ -49,7 +58,7 @@ export const WelcomeBanner = () => {
                 className="text-3xl lg:text-4xl font-bold text-white mb-2"
                 style={{ fontFamily: "Inter, system-ui" }}
               >
-                Welcome to Your Food Journey
+                Welcome Valued Customer
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, x: -30 }}

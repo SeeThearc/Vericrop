@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import { motion } from "motion/react";
+import Image from "next/image";
 
 interface SidebarLinkType {
   label: string;
@@ -109,10 +110,18 @@ export function AceternityAppSidebar({
 export const Logo = () => {
   return (
     <a
-      href="#"
+      href="/consumer"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
     >
-      <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+      <div className="h-8 w-8 shrink-0 relative">
+        <Image
+          src="/original_logo.png"
+          alt="VeriCrop Logo"
+          fill
+          className="object-contain"
+          sizes="32px"
+        />
+      </div>
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -127,10 +136,18 @@ export const Logo = () => {
 export const LogoIcon = () => {
   return (
     <a
-      href="#"
+      href="/consumer"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
     >
-      <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+      <div className="h-6 w-6 shrink-0 relative">
+        <Image
+          src="/original_logo.png"
+          alt="VeriCrop Logo"
+          fill
+          className="object-contain"
+          sizes="24px"
+        />
+      </div>
     </a>
   );
 };
