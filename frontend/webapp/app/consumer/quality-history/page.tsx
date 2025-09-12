@@ -143,9 +143,6 @@ const QualityHistoryPage = () => {
         </CardHeader>
         <CardContent>
           <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-400 via-blue-400 to-gray-300"></div>
-
             <div className="space-y-8">
               {qualityCheckpoints.map((checkpoint, index) => {
                 const statusInfo = getStatusInfo(checkpoint.status);

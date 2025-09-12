@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+    // Allow local images from public directory
+    domains: ["localhost"],
   },
 };
 
