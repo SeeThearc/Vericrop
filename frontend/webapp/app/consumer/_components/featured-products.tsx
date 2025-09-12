@@ -1,176 +1,163 @@
-import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { motion } from "motion/react";
-import { MapPin, Star, Truck, Shield } from "lucide-react";
+import { useState } from "react";
+import { EnhancedProductCard } from "./enhanced-product-card";
 
 type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
 
 const products = [
   {
+    id: 1001,
     name: "Organic Roma Tomatoes",
     location: "California, USA",
-    status: "Available",
+    status: "VERIFIED",
+    productState: "LISTED",
     price: "$4.99/kg",
     rating: 4.8,
-    image: "/tomatoes.jpg",
+    image: "/tomato.png",
     statusVariant: "secondary" as BadgeVariant,
-    certification: "Organic Certified",
+    certification: "Grade A - Organic Certified",
     description: "Premium vine-ripened tomatoes with exceptional taste",
+    currentStage: "RETAIL",
+    overallGrade: "A",
+    qualityScore: 92,
+    temperature: 18,
+    farmer: "Green Valley Farms",
+    distributor: "Fresh Supply Co.",
+    retailer: "FreshMart",
+    expiresAt: "2025-09-20",
+    traceabilityId: "TV-1001-2025",
   },
   {
-    name: "Hass Avocados",
-    location: "Amazon, Brazil",
-    status: "Available",
+    id: 1002,
+    name: "Premium Hass Avocados",
+    location: "Amazon Basin, Brazil",
+    status: "VERIFIED",
+    productState: "LISTED",
     price: "$7.50/kg",
     rating: 4.9,
-    image: "/avocados.jpg",
+    image: "/avocado.png",
     statusVariant: "secondary" as BadgeVariant,
-    certification: "Fair Trade",
+    certification: "Grade A - Fair Trade",
     description: "Creamy, nutrient-rich avocados from sustainable farms",
+    currentStage: "RETAIL",
+    overallGrade: "A",
+    qualityScore: 95,
+    temperature: 16,
+    farmer: "Sustainable Avocado Co.",
+    distributor: "Eco Logistics",
+    retailer: "Premium Produce",
+    expiresAt: "2025-09-18",
+    traceabilityId: "AV-1002-2025",
   },
   {
+    id: 1003,
     name: "Alphonso Mangoes",
-    location: "Punjab, India",
-    status: "Limited Stock",
+    location: "Ratnagiri, India",
+    status: "RECEIVED",
+    productState: "PENDING_PICKUP",
     price: "$12.99/kg",
     rating: 4.7,
-    image: "/mangoes.jpg",
+    image: "/mango.png",
     statusVariant: "destructive" as BadgeVariant,
-    certification: "Premium Grade",
-    description: "The king of mangoes with unmatched sweetness",
+    certification: "Grade A - Premium Export",
+    description: "The king of mangoes with unmatched sweetness and aroma",
+    currentStage: "DISTRIBUTION",
+    overallGrade: "A",
+    qualityScore: 88,
+    temperature: 20,
+    farmer: "Konkan Mango Growers",
+    distributor: "International Fresh",
+    retailer: "Exotic Fruits Ltd",
+    expiresAt: "2025-09-15",
+    traceabilityId: "MG-1003-2025",
   },
   {
-    name: "Chardonnay Grapes",
+    id: 1004,
+    name: "Premium Wine Grapes",
     location: "Loire Valley, France",
-    status: "Available",
+    status: "VERIFIED",
+    productState: "LISTED",
     price: "$8.99/kg",
     rating: 4.6,
-    image: "/grapes.jpg",
+    image: "/grapes.png",
     statusVariant: "secondary" as BadgeVariant,
-    certification: "AOC Certified",
+    certification: "Grade B - AOC Certified",
     description: "Premium wine grapes from renowned French vineyards",
+    currentStage: "RETAIL",
+    overallGrade: "B",
+    qualityScore: 78,
+    temperature: 14,
+    farmer: "Château Vignobles",
+    distributor: "Wine Route Logistics",
+    retailer: "Gourmet Market",
+    expiresAt: "2025-09-25",
+    traceabilityId: "GR-1004-2025",
   },
   {
-    name: "Heirloom Carrots",
-    location: "California, USA",
-    status: "Seasonal",
+    id: 1005,
+    name: "Heritage Rainbow Carrots",
+    location: "California Central Valley, USA",
+    status: "VERIFIED",
+    productState: "LISTED",
     price: "$5.49/kg",
     rating: 4.5,
-    image: "/carrots.jpg",
+    image: "/carrot.png",
     statusVariant: "outline" as BadgeVariant,
-    certification: "Non-GMO",
-    description: "Colorful heritage varieties with exceptional flavor",
+    certification: "Grade B - Non-GMO Verified",
+    description:
+      "Colorful heritage varieties with exceptional flavor and nutrition",
+    currentStage: "RETAIL",
+    overallGrade: "B",
+    qualityScore: 75,
+    temperature: 12,
+    farmer: "Rainbow Roots Farm",
+    distributor: "Veggie Express",
+    retailer: "Healthy Choice Market",
+    expiresAt: "2025-10-01",
+    traceabilityId: "CR-1005-2025",
   },
   {
-    name: "Butterhead Lettuce",
-    location: "Oregon, USA",
-    status: "Available",
+    id: 1006,
+    name: "Hydroponic Butterhead Lettuce",
+    location: "Portland, Oregon, USA",
+    status: "VERIFIED",
+    productState: "LISTED",
     price: "$3.99/kg",
     rating: 4.4,
-    image: "/lettuce.jpg",
+    image: "/lettuce.png",
     statusVariant: "secondary" as BadgeVariant,
-    certification: "Hydroponic",
-    description: "Fresh, crisp lettuce grown in controlled environments",
+    certification: "Grade A - Hydroponic Grown",
+    description:
+      "Fresh, crisp lettuce grown in controlled hydroponic environments",
+    currentStage: "RETAIL",
+    overallGrade: "A",
+    qualityScore: 86,
+    temperature: 8,
+    farmer: "Urban Greens Hydroponics",
+    distributor: "Fresh Leaf Co.",
+    retailer: "Green Market",
+    expiresAt: "2025-09-16",
+    traceabilityId: "LT-1006-2025",
   },
 ];
 
-const ProductCard = ({
-  product,
-  index,
-}: {
-  product: (typeof products)[0];
-  index: number;
-}) => {
-  const getStatusColor = () => {
-    switch (product.status) {
-      case "Available":
-        return "bg-green-100 text-green-700 border-green-200";
-      case "Limited Stock":
-        return "bg-orange-100 text-orange-700 border-orange-200";
-      case "Seasonal":
-        return "bg-blue-100 text-blue-700 border-blue-200";
-      default:
-        return "bg-gray-100 text-gray-700 border-gray-200";
-    }
+export const FeaturedProducts = () => {
+  const [expandedProducts, setExpandedProducts] = useState<Set<number>>(
+    new Set()
+  );
+
+  const toggleExpanded = (productId: number) => {
+    setExpandedProducts((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(productId)) {
+        newSet.delete(productId);
+      } else {
+        newSet.add(productId);
+      }
+      return newSet;
+    });
   };
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-    >
-      <Card className="group h-full bg-white vericrop-card-shadow vericrop-hover-scale border-0 overflow-hidden">
-        <CardContent className="p-0">
-          {/* Product Image */}
-          <div className="relative w-full h-48 overflow-hidden">
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-            <div className="absolute top-3 left-3">
-              <Badge className={`${getStatusColor()} font-medium px-2 py-1`}>
-                {product.status}
-              </Badge>
-            </div>
-            <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 flex items-center space-x-1">
-              <Star className="h-3 w-3 text-yellow-500 fill-current" />
-              <span className="text-xs font-semibold text-gray-700">
-                {product.rating}
-              </span>
-            </div>
-          </div>
-
-          {/* Product Info */}
-          <div className="p-6">
-            <div className="mb-3">
-              <h3 className="text-xl font-semibold vericrop-text-dark mb-1 group-hover:vericrop-text-primary transition-colors duration-200">
-                {product.name}
-              </h3>
-              <p className="text-sm vericrop-text-light mb-2">
-                {product.description}
-              </p>
-              <div className="flex items-center space-x-1 text-sm vericrop-text-light">
-                <MapPin className="h-3 w-3" />
-                <span>{product.location}</span>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-2">
-                <Shield className="h-4 w-4 vericrop-text-success" />
-                <span className="text-xs font-medium vericrop-text-success">
-                  {product.certification}
-                </span>
-              </div>
-              <div className="text-right">
-                <div className="text-lg font-bold vericrop-text-success">
-                  {product.price}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex space-x-2">
-              <Button
-                className="flex-1 vericrop-gradient-primary text-white border-0 hover:shadow-lg transition-all duration-250"
-                size="sm"
-              >
-                <Truck className="h-4 w-4 mr-2" />
-                View Journey
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-};
-
-export const FeaturedProducts = () => {
   return (
     <div>
       <motion.div
@@ -186,14 +173,19 @@ export const FeaturedProducts = () => {
           Featured Products
         </h2>
         <p className="vericrop-text-light text-base">
-          Discover premium agricultural products with complete traceability and
-          quality assurance
+          Discover premium agricultural products with complete blockchain
+          traceability and quality assurance
         </p>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {products.map((product, index) => (
-          <ProductCard key={product.name} product={product} index={index} />
+        {products.map((product) => (
+          <EnhancedProductCard
+            key={product.id}
+            product={product}
+            isExpanded={expandedProducts.has(product.id)}
+            onToggle={() => toggleExpanded(product.id)}
+          />
         ))}
       </div>
     </div>

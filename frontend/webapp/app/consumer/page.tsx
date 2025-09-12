@@ -1,5 +1,7 @@
 "use client";
 import { WelcomeBanner } from "./_components/welcome-banner";
+import { FruitCategories } from "./_components/fruit-categories";
+import { BlockchainStats } from "./_components/blockchain-stats";
 import ProductSearchPage from "./product-search/page";
 import QualityHistoryPage from "./quality-history/page";
 import MyPurchasesPage from "./my-purchases/page";
@@ -12,6 +14,12 @@ export default function ConsumerPage() {
       <WelcomeBanner />
 
       <div className="space-y-12">
+        {/* Fruit Categories Section */}
+        <FruitCategories />
+
+        {/* Blockchain Statistics */}
+        <BlockchainStats />
+
         {/* Product Search Section */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
