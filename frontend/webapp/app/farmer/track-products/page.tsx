@@ -1,7 +1,7 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/shadcn/ui/badge";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 import { motion } from "framer-motion";
 import {
   MapPin,
@@ -14,7 +14,7 @@ import {
   Eye,
   ArrowRight,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 
 const products = [
   {

@@ -1,8 +1,7 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
+import { Badge } from "@/components/shadcn/ui/badge";
 import dynamic from "next/dynamic";
-import { ScanQrCodeCard } from "../_components/scan-qr-code-card";
 import { motion } from "motion/react";
 import {
   Calendar,
@@ -14,8 +13,9 @@ import {
   Star,
 } from "lucide-react";
 import Image from "next/image";
+import { ScanQrCodeCard } from "@/components/consumer/scan-qr-code-card";
 
-const DynamicMap = dynamic(() => import("../_components/dynamic-map"), {
+const DynamicMap = dynamic(() => import("@/components/dynamic-map"), {
   ssr: false,
   loading: () => (
     <div className="flex items-center justify-center h-full">

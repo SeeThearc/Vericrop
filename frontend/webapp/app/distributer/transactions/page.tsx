@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 import { CheckCircle, Clock, Truck, MapPin, Eye } from "lucide-react";
 import dynamic from "next/dynamic";
 
-const DynamicMap = dynamic(() => import("../_components/dynamic-map"), {
+const DynamicMap = dynamic(() => import("@/components/dynamic-map"), {
   ssr: false,
   loading: () => <div className="vericrop-card-secondary h-64 flex items-center justify-center">Loading map...</div>,
 });
@@ -154,7 +154,7 @@ const TransactionsPage = () => {
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Recent Transactions</h3>
           <p className="text-gray-600">Latest transaction activities and status updates</p>
         </div>
-        
+
         <div className="space-y-4">
           {transactions.map((transaction) => (
             <div key={transaction.id} className="vericrop-card-secondary vericrop-hover-lift">
@@ -164,9 +164,9 @@ const TransactionsPage = () => {
                     <span className="font-semibold text-gray-900">{transaction.id}</span>
                     <StatusBadge status={transaction.status} />
                   </div>
-                  
+
                   <h4 className="font-medium text-gray-900 text-lg mb-2">{transaction.product}</h4>
-                  
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-600">
                     <div className="space-y-2">
                       <p><span className="font-medium">Farmer:</span> {transaction.farmer}</p>
@@ -183,7 +183,7 @@ const TransactionsPage = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" className="vericrop-btn-secondary">
                     <Eye className="h-4 w-4 mr-1" />

@@ -10,9 +10,11 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
-    // Allow local images from public directory
-    domains: ["localhost"],
+    unoptimized: true,
   },
+  devIndicators: false,
+  output: "export",
+  reactStrictMode: true,
 };
 
 export default nextConfig;

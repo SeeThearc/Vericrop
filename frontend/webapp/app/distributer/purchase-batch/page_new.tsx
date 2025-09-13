@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { FilterBatches } from "../_components/filter-batches";
-import { FeaturedBatches } from "../_components/featured-batches";
+import { FeaturedBatches } from "@/components/distributor/featured-batches";
+import { FilterBatches } from "@/components/filter-batches";
+import { Button } from "@/components/shadcn/ui/button";
+import { Input } from "@/components/shadcn/ui/input";
+import { Label } from "@/components/shadcn/ui/label";
 import { ShoppingCart, Search, Filter } from "lucide-react";
 
 const PurchaseBatchPage = () => {

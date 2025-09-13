@@ -1,4 +1,4 @@
-import { ProductLookup } from "../_components/product-lookup";
+import { ProductLookup } from "@/components/consumer/product-lookup";
 
 const ProductSearchPage = () => {
   return (

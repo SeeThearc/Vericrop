@@ -1,11 +1,11 @@
 "use client";
-import { WelcomeBanner } from "./_components/welcome-banner";
-import { BlockchainStats } from "./_components/blockchain-stats";
 import ProductSearchPage from "./product-search/page";
 import QualityHistoryPage from "./quality-history/page";
 import MyPurchasesPage from "./my-purchases/page";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 import { motion } from "motion/react";
+import { WelcomeBanner } from "@/components/consumer/welcome-banner";
+import { BlockchainStats } from "@/components/consumer/blockchain-stats";
 
 export default function ConsumerPage() {
   return (

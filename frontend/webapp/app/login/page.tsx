@@ -1,28 +1,28 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import ThemeToggle from "../components/ThemeToggle";
+} from "@/components/shadcn/ui/card";
+import { Input } from "@/components/shadcn/ui/input";
+import { Label } from "@/components/shadcn/ui/label";
+import ThemeToggle from "@/components/ThemeToggle";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/shadcn/ui/select";
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/authSlice";
 import { Eye, EyeOff, Leaf, Sprout, Sparkles, Shield } from "lucide-react";
-import { Boxes } from "@/components/ui/shadcn-io/background-boxes";
+import { Boxes } from "@/components/shadcn/ui/shadcn-io/background-boxes";
 import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
@@ -101,7 +101,7 @@ export default function LoginPage() {
 
       {/* Theme Toggle */}
       <div className="absolute top-6 right-6 z-50">
-        <div className="p-2 bg-white/20 dark:bg-slate-900/20 backdrop-blur-md rounded-full shadow-lg border border-white/20 dark:border-slate-700/20">
+        <div className="absolute top-6 right-6 z-50">
           <ThemeToggle />
         </div>
       </div>

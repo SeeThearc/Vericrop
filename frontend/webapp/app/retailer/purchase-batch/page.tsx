@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { FilterBatches } from "../_components/filter-batches";
-import { FeaturedBatches } from "../_components/featured-batches";
+import { Button } from "@/components/shadcn/ui/button";
+import { Input } from "@/components/shadcn/ui/input";
+import { Label } from "@/components/shadcn/ui/label";
+import { FilterBatches } from "@/components/filter-batches";
 import { ShoppingCart, Search, Filter, Store } from "lucide-react";
+import { FeaturedBatches } from "@/components/retailer/featured-batches";
 
 const PurchaseBatchPage = () => {
   return (
@@ -21,8 +21,8 @@ const PurchaseBatchPage = () => {
             <Label className="text-gray-700 text-sm font-medium mb-2 block">Search Products</Label>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <Input 
-                placeholder="Search by product name, category, or supplier..." 
+              <Input
+                placeholder="Search by product name, category, or supplier..."
                 className="vericrop-input pl-10"
               />
             </div>

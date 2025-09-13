@@ -13,7 +13,7 @@ import {
   ChartContainer,
   ChartConfig,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@/components/shadcn/ui/chart";
 import {
   AlertTriangle,
   TrendingUp,
@@ -21,7 +21,7 @@ import {
   BarChart3,
   Shield,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 
 const chartData = [
   { month: "Jan", sales: 12000, verifications: 150, transactions: 45 },

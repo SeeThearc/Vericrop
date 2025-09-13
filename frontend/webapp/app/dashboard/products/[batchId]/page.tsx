@@ -1,5 +1,6 @@
 "use client";
-import Nav from "../../../components/Nav";
+
+import Nav from "@/components/Nav";
 
 interface Props {
   params: { batchId: string };

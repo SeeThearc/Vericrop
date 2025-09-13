@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 import { CheckCircle, Clock, MapPin, Eye, Star, ShoppingBag } from "lucide-react";
 import dynamic from "next/dynamic";
 
-const DynamicMap = dynamic(() => import("../_components/dynamic-map"), {
+const DynamicMap = dynamic(() => import("@/components/dynamic-map"), {
   ssr: false,
   loading: () => <div className="vericrop-card-secondary h-64 flex items-center justify-center">Loading map...</div>,
 });
@@ -121,15 +121,14 @@ const StatusBadge = ({ status }: { status: string }) => {
 
 const CustomerRating = ({ rating }: { rating: number | null }) => {
   if (!rating) return <span className="text-sm text-gray-400">No rating</span>;
-  
+
   return (
     <div className="flex items-center gap-1">
       {[1, 2, 3, 4, 5].map((star) => (
         <Star
           key={star}
-          className={`h-4 w-4 ${
-            star <= rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-          }`}
+          className={`h-4 w-4 ${star <= rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+            }`}
         />
       ))}
       <span className="text-sm text-gray-600 ml-1">({rating})</span>
@@ -187,7 +186,7 @@ const TransactionsPage = () => {
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Recent Customer Transactions</h3>
           <p className="text-gray-600">Latest sales activities, customer feedback, and satisfaction ratings</p>
         </div>
-        
+
         <div className="space-y-4">
           {customerTransactions.map((transaction) => (
             <div key={transaction.id} className="vericrop-card-secondary vericrop-hover-lift">
@@ -197,9 +196,9 @@ const TransactionsPage = () => {
                     <span className="font-semibold text-gray-900">{transaction.id}</span>
                     <StatusBadge status={transaction.status} />
                   </div>
-                  
+
                   <h4 className="font-medium text-gray-900 text-lg mb-2">{transaction.product}</h4>
-                  
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-600">
                     <div className="space-y-2">
                       <p><span className="font-medium">Customer:</span> {transaction.customer}</p>
@@ -215,7 +214,7 @@ const TransactionsPage = () => {
                       <p><span className="font-medium">Amount:</span> <span className="text-lg font-bold vericrop-text-primary">${transaction.amount}</span></p>
                     </div>
                   </div>
-                  
+
                   {/* Customer Feedback Section */}
                   <div className="mt-4 pt-4 border-t border-gray-100">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -232,7 +231,7 @@ const TransactionsPage = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" className="vericrop-btn-secondary">
                     <Eye className="h-4 w-4 mr-1" />

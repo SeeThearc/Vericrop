@@ -3,17 +3,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import ThemeToggle from "./ThemeToggle";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/shadcn/ui/button";
+import { Avatar, AvatarFallback } from "@/components/shadcn/ui/avatar";
+import { Badge } from "@/components/shadcn/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@/components/shadcn/ui/dropdown-menu";
 import { Bell, User, Settings, LogOut, Home, Package, Scan, BarChart3, Wifi, WifiOff } from "lucide-react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -34,7 +34,7 @@ export default function Nav() {
     if (user?.email) {
       setUserEmail(user.email);
     }
-    
+
     // Check backend connection and refresh data
     checkBackendStatus();
   }, [user]);
@@ -61,7 +61,7 @@ export default function Nav() {
     // Store current URL as referrer before redirecting
     const currentUrl = window.location.pathname + window.location.search;
     localStorage.setItem('login_referrer', currentUrl);
-    
+
     // Pass referrer as query parameter to backend
     const params = new URLSearchParams({ referrer: currentUrl });
     window.location.href = `${BACKEND}/signin/google?${params.toString()}`;
@@ -71,7 +71,7 @@ export default function Nav() {
     try {
       await axios.post(`${BACKEND}/signout`, {}, { withCredentials: true });
       setBackendStatus('disconnected');
-      
+
     } catch (err) {
       console.error('Backend logout error:', err);
     }
@@ -97,28 +97,27 @@ export default function Nav() {
         <div className="w-10 h-10 bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
           <span className="text-white font-bold text-lg dark:text-white">V</span>
         </div>
-        <span 
+        <span
           className="font-bold text-2xl bg-gradient-to-r from-emerald-700 to-green-700 bg-clip-text text-transparent dark:from-emerald-400 dark:to-green-400"
           style={{ fontFamily: 'var(--font-libre-baskerville)' }}
         >
           VeriCrop
         </span>
       </Link>
-      
+
       {/* Navigation Links */}
       <div className="hidden md:flex items-center gap-2">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
           return (
-            <Link 
+            <Link
               key={item.href}
-              href={item.href} 
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium ${
-                isActive 
-                  ? 'bg-emerald-600 text-white' 
-                  : 'text-slate-600 dark:text-slate-300'
-              }`}
+              href={item.href}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium ${isActive
+                ? 'bg-emerald-600 text-white'
+                : 'text-slate-600 dark:text-slate-300'
+                }`}
             >
               <Icon size={18} />
               {item.label}
@@ -126,7 +125,7 @@ export default function Nav() {
           );
         })}
       </div>
-      
+
       {/* Right side */}
       <div className="flex items-center gap-4">
         {/* Notifications */}
@@ -196,7 +195,7 @@ export default function Nav() {
         </DropdownMenu>
 
         <ThemeToggle />
-        
+
         {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -242,7 +241,7 @@ export default function Nav() {
                 <Settings className="mr-3 h-4 w-4 text-slate-500" />
                 <span className="text-slate-900 dark:text-slate-100">Settings</span>
               </DropdownMenuItem>
-              
+
               {/* Backend Authentication Section */}
               <DropdownMenuSeparator className="my-2 border-slate-200/50 dark:border-slate-700/50" />
               <div className="px-3 py-2">
@@ -255,25 +254,25 @@ export default function Nav() {
                   <span className="text-xs font-medium text-slate-700 dark:text-slate-300">Backend Connection</span>
                 </div>
                 {backendStatus === 'connected' ? (
-                  <Button 
+                  <Button
                     onClick={handleBackendLogout}
-                    variant="outline" 
-                    size="sm" 
+                    variant="outline"
+                    size="sm"
                     className="w-full text-xs border-red-200 text-red-700 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
                   >
                     Disconnect Backend
                   </Button>
                 ) : (
-                  <Button 
+                  <Button
                     onClick={handleBackendLogin}
-                    size="sm" 
+                    size="sm"
                     className="w-full text-xs bg-blue-600 hover:bg-blue-700 text-white"
                   >
                     Connect Backend
                   </Button>
                 )}
               </div>
-              
+
               <DropdownMenuSeparator className="my-2 border-slate-200/50 dark:border-slate-700/50" />
               <DropdownMenuItem onClick={handleLogout} className="p-3 rounded-xl cursor-pointer">
                 <LogOut className="mr-3 h-4 w-4 text-red-500" />

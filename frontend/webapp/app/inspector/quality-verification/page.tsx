@@ -1,29 +1,26 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
 import {
   ClipboardCheck,
   FileText,
   QrCode,
   ShieldCheck,
   UploadCloud,
-  XCircle,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 import { useState } from "react";
 import {
   Area,
   AreaChart,
   CartesianGrid,
-  Tooltip,
   XAxis,
-  YAxis,
 } from "recharts";
 import {
   ChartContainer,
   ChartConfig,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@/components/shadcn/ui/chart";
 import {
   Table,
   TableBody,
@@ -31,17 +28,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/components/shadcn/ui/table";
+import { Input } from "@/components/shadcn/ui/input";
+import { Label } from "@/components/shadcn/ui/label";
+import { Textarea } from "@/components/shadcn/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/shadcn/ui/select";
 
 const qualityChartData = [
   { month: "Jan", good: 186, bad: 80 },
@@ -140,11 +137,10 @@ const QualityVerificationPage = () => {
                   </Button>
                   {result && (
                     <div
-                      className={`mt-2 p-2 rounded-md text-xs ${
-                        result === "Good"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
+                      className={`mt-2 p-2 rounded-md text-xs ${result === "Good"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                        }`}
                     >
                       Result: {result}
                     </div>
