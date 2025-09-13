@@ -39,13 +39,9 @@ export default function LoginPage() {
       "/dashboard";
     setReferrerUrl(referrer);
     localStorage.setItem("login_referrer", referrer);
+    handleDevLogin();
   }, [searchParams]);
 
-  const handleGoogleLogin = () => {
-    setIsLoading(true);
-    const referrer = encodeURIComponent(referrerUrl);
-    window.location.href = `https://abeergupta.tech/signin/google?referrer=${referrer}`;
-  };
 
   const handleDevLogin = () => {
     const userData = {
@@ -181,48 +177,6 @@ export default function LoginPage() {
                         </p>
                       </div>
 
-                      <Button
-                        onClick={handleGoogleLogin}
-                        disabled={isLoading}
-                        className="w-full h-16 bg-white hover:bg-gray-50 text-gray-900 font-semibold text-lg rounded-2xl shadow-2xl border-2 border-gray-200 hover:shadow-gray-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group transform hover:scale-[1.02] active:scale-[0.98]"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-gray-50/20 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000 ease-out"></div>
-                        <div className="relative flex items-center justify-center gap-3">
-                          {isLoading ? (
-                            <>
-                              <div className="w-6 h-6 border-3 border-gray-400 border-t-gray-600 rounded-full animate-spin"></div>
-                              <span>Signing you in...</span>
-                            </>
-                          ) : (
-                            <>
-                              <svg
-                                className="w-6 h-6"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M22.56 12.25C22.56 11.45 22.49 10.68 22.36 9.92H12V14.45H18.02C17.73 15.89 16.93 17.13 15.73 17.92V20.59H19.62C21.55 18.83 22.56 15.83 22.56 12.25Z"
-                                  fill="#4285F4"
-                                />
-                                <path
-                                  d="M12 23C14.97 23 17.45 22.04 19.28 20.59L15.73 17.92C14.74 18.59 13.45 19 12 19C9.27 19 6.94 17.24 6.02 14.81H2.03V17.5C3.86 20.73 7.63 23 12 23Z"
-                                  fill="#34A853"
-                                />
-                                <path
-                                  d="M6.02 14.81C5.79 14.12 5.66 13.38 5.66 12.6C5.66 11.82 5.79 11.08 6.02 10.39V7.7H2.03C1.24 9.23 0.75 10.86 0.75 12.6C0.75 14.34 1.24 15.97 2.03 17.5L6.02 14.81Z"
-                                  fill="#FBBC05"
-                                />
-                                <path
-                                  d="M12 5.5C13.59 5.5 15.01 6.08 16.13 7.13L19.35 3.9C17.45 2.18 14.97 1 12 1C7.63 1 3.86 3.27 2.03 6.5L6.02 9.19C6.94 6.76 9.27 5.5 12 5.5Z"
-                                  fill="#EA4335"
-                                />
-                              </svg>
-                              <span>Sign in with Google</span>
-                            </>
-                          )}
-                        </div>
-                      </Button>
 
                       <div className="text-center pt-4">
                         <button

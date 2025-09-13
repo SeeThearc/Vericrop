@@ -19,7 +19,6 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { logout } from "@/lib/authSlice";
 
-const BACKEND = "https://abeergupta.tech";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -44,25 +43,6 @@ export default function Nav() {
     window.location.href = '/';
   };
 
-  const handleBackendLogin = () => {
-    // Store current URL as referrer before redirecting
-    const currentUrl = window.location.pathname + window.location.search;
-    localStorage.setItem('login_referrer', currentUrl);
-
-    // Pass referrer as query parameter to backend
-    const params = new URLSearchParams({ referrer: currentUrl });
-    window.location.href = `${BACKEND}/signin/google?${params.toString()}`;
-  };
-
-  const handleBackendLogout = async () => {
-    try {
-      await axios.post(`${BACKEND}/signout`, {}, { withCredentials: true });
-      setBackendStatus('disconnected');
-
-    } catch (err) {
-      console.error('Backend logout error:', err);
-    }
-  };
 
   if (!isDashboard) {
     return null; // Don't show nav on non-dashboard pages
@@ -231,34 +211,6 @@ export default function Nav() {
 
               {/* Backend Authentication Section */}
               <DropdownMenuSeparator className="my-2 border-slate-200/50 dark:border-slate-700/50" />
-              <div className="px-3 py-2">
-                <div className="flex items-center gap-2 mb-2">
-                  {backendStatus === 'connected' ? (
-                    <Wifi className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <WifiOff className="h-4 w-4 text-red-500" />
-                  )}
-                  <span className="text-xs font-medium text-slate-700 dark:text-slate-300">Backend Connection</span>
-                </div>
-                {backendStatus === 'connected' ? (
-                  <Button
-                    onClick={handleBackendLogout}
-                    variant="outline"
-                    size="sm"
-                    className="w-full text-xs border-red-200 text-red-700 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
-                  >
-                    Disconnect Backend
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={handleBackendLogin}
-                    size="sm"
-                    className="w-full text-xs bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    Connect Backend
-                  </Button>
-                )}
-              </div>
 
               <DropdownMenuSeparator className="my-2 border-slate-200/50 dark:border-slate-700/50" />
               <DropdownMenuItem onClick={handleLogout} className="p-3 rounded-xl cursor-pointer">

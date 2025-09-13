@@ -20,8 +20,6 @@ import {
 } from "@/lib/authSlice";
 import Nav from "@/components/Nav";
 
-const BACKEND = "https://abeergupta.tech";
-const WS_URL = "wss://abeergupta.tech/ws";
 
 export default function DashboardPage() {
   const dispatch = useAppDispatch();
@@ -52,98 +50,11 @@ export default function DashboardPage() {
     }
   }, [user, dispatch]);
 
-  // Setup WebSocket connection when user is logged in
-  useEffect(() => {
-    if (!mounted || !user || !isLoggedIn) return;
 
-    let socket: WebSocket | null = null;
-    try {
-      socket = new WebSocket(WS_URL);
-      socket.onopen = () => {
-        dispatch(addMessage("connected"));
-      };
-      socket.onmessage = (ev) => {
-        dispatch(addMessage(`recv: ${ev.data}`));
-      };
-      socket.onclose = () => {
-        dispatch(addMessage("closed"));
-      };
-      socket.onerror = () => {
-        dispatch(addMessage("error"));
-      };
-      setWs(socket);
-      dispatch(setWebSocket(true));
-    } catch (err) {
-      dispatch(addMessage(`ws error: ${err}`));
-    }
 
-    return () => {
-      if (socket) socket.close();
-      setWs(null);
-      dispatch(setWebSocket(false));
-    };
-  }, [mounted, user, isLoggedIn, dispatch]);
-
-  const signIn = () => {
-    // Store current URL as referrer before redirecting
-    const currentUrl = window.location.pathname + window.location.search;
-    localStorage.setItem("login_referrer", currentUrl);
-
-    // Pass referrer as query parameter to backend
-    const params = new URLSearchParams({ referrer: currentUrl });
-    window.location.href = `${BACKEND}/signin/google?${params.toString()}`;
-  };
-
-  const signOut = async () => {
-    dispatch(setStatus("Signing out..."));
-    try {
-      const res = await axios.post(
-        `${BACKEND}/signout`,
-        {},
-        { withCredentials: true }
-      );
-      const data = res.data as unknown;
-      const text = typeof data === "string" ? data : JSON.stringify(data);
-      dispatch(setStatus(`Sign out response: ${res.status} ${text}`));
-      dispatch(logout());
-
-      // Clear localStorage
-      localStorage.removeItem("vericrop_logged_in");
-      localStorage.removeItem("vericrop_user_email");
-    } catch (err: unknown) {
-      dispatch(setStatus(`Sign out error: ${formatError(err)}`));
-    }
-  };
-
-  const verify = async () => {
-    dispatch(setStatus("Verifying session..."));
-    try {
-      const res = await axios.get(`${BACKEND}/verify`, {
-        withCredentials: true,
-      });
-      const data = res.data as unknown;
-      const text = typeof data === "string" ? data : JSON.stringify(data);
-      dispatch(setStatus(`Verify response: ${res.status} ${text}`));
-    } catch (err: unknown) {
-      dispatch(setStatus(`Verify error: ${formatError(err)}`));
-    }
-  };
-
-  const sendMessage = () => {
-    if (!ws || ws.readyState !== WebSocket.OPEN) {
-      dispatch(addMessage("not connected"));
-      return;
-    }
-    ws.send(outgoing);
-    dispatch(addMessage(`sent: ${outgoing}`));
-  };
-
-  const handleBackendLogin = () => {
-    signIn();
-  };
-
-  const handleBackendLogout = () => {
-    signOut();
+  const signOut = () => {
+    dispatch(logout());
+    window.location.href = "/login";
   };
 
   return (
@@ -180,37 +91,14 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex gap-4 flex-wrap">
-                {!isLoggedIn ? (
+                {isLoggedIn && (
                   <Button
-                    onClick={handleBackendLogin}
-                    className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white"
+                    onClick={signOut}
+                    variant="outline"
+                    className="border-red-200 text-red-700 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
                   >
-                    Login to Backend
+                    Logout
                   </Button>
-                ) : (
-                  <>
-                    <Button
-                      onClick={handleBackendLogout}
-                      variant="outline"
-                      className="border-red-200 text-red-700 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
-                    >
-                      Logout from Backend
-                    </Button>
-                    <Button
-                      onClick={verify}
-                      variant="outline"
-                      className="border-green-200 text-green-700 hover:bg-green-50 dark:border-green-800 dark:text-green-400 dark:hover:bg-green-950"
-                    >
-                      Verify Session
-                    </Button>
-                    <Button
-                      onClick={() => dispatch(setStatus("User data refreshed from Redux state"))}
-                      variant="outline"
-                      className="border-purple-200 text-purple-700 hover:bg-purple-50 dark:border-purple-800 dark:text-purple-400 dark:hover:bg-purple-950"
-                    >
-                      Show Redux User
-                    </Button>
-                  </>
                 )}
               </div>
 
@@ -241,54 +129,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* WebSocket Section - Only show when logged in */}
-          {isLoggedIn && (
-            <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm dark:bg-slate-900/80">
-              <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center gap-2">
-                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
-                    <span className="text-white text-sm">🌐</span>
-                  </div>
-                  WebSocket Connection
-                </CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400">
-                  Real-time communication with the backend
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex gap-4 items-center">
-                  <Input
-                    value={outgoing}
-                    onChange={(e) => setOutgoing(e.target.value)}
-                    className="flex-1"
-                    placeholder="Enter message..."
-                  />
-                  <Button
-                    onClick={sendMessage}
-                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
-                  >
-                    Send
-                  </Button>
-                </div>
-
-                <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 max-h-48 overflow-y-auto">
-                  <strong className="text-slate-900 dark:text-slate-100">
-                    Messages:
-                  </strong>
-                  <div className="mt-2 space-y-1">
-                    {messages.map((msg, i) => (
-                      <div
-                        key={i}
-                        className="text-sm text-slate-700 dark:text-slate-300 font-mono"
-                      >
-                        {msg}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
 
           {/* Dashboard Stats and Backend Status */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
