@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
-import { BackgroundGradient } from "@/components/ui/background-gradient";
+import { BentoGrid, BentoGridItem } from "@/components/shadcn/ui/bento-grid";
+import { BackgroundGradient } from "@/components/shadcn/ui/background-gradient";
 import { motion } from "motion/react";
 import {
   Search,

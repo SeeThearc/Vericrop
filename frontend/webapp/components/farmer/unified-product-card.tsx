@@ -16,10 +16,10 @@ import {
   Eye,
   ArrowRight,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/shadcn/ui/badge";
+import { Button } from "@/components/shadcn/ui/button";
+import { Progress } from "@/components/shadcn/ui/progress";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 import { useState } from "react";
 
 interface ProductData {

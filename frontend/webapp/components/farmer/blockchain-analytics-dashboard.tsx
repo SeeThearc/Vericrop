@@ -10,8 +10,8 @@ import {
   PieChart,
   Activity,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
+import { Badge } from "@/components/shadcn/ui/badge";
 import {
   ResponsiveContainer,
   LineChart,

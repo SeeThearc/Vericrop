@@ -13,9 +13,9 @@ import {
   ChevronUp,
   Loader2,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/shadcn/ui/button";
+import { Badge } from "@/components/shadcn/ui/badge";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 import { useState } from "react";
 import Image from "next/image";
 

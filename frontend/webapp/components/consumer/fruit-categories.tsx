@@ -1,8 +1,8 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/shadcn/ui/badge";
 
 const fruitCategories = [
   {

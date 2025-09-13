@@ -12,9 +12,9 @@ import {
   Calendar,
   MapPin,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/shadcn/ui/badge";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
+import { Button } from "@/components/shadcn/ui/button";
 import { useState } from "react";
 
 interface StageData {

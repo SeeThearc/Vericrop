@@ -14,10 +14,10 @@ import {
   Award,
   MapPin,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/shadcn/ui/button";
+import { Badge } from "@/components/shadcn/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/shadcn/ui/avatar";
 import { useState } from "react";
 
 interface FarmerProfileData {

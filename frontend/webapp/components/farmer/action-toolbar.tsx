@@ -9,9 +9,9 @@ import {
   Loader2,
   CheckCircle,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/shadcn/ui/button";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
+import { Badge } from "@/components/shadcn/ui/badge";
 import { useState } from "react";
 
 interface ActionToolbarProps {

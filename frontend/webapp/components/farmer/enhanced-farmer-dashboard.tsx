@@ -9,8 +9,8 @@ import { SupplyChainStageTracker } from "./supply-chain-stage-tracker";
 import { IPFSLinksCollection } from "./ipfs-integration";
 import { BlockchainAnalyticsDashboard } from "./blockchain-analytics-dashboard";
 import { Sprout, Scissors, Factory, Truck, Store } from "lucide-react";
-import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
-import { Card, CardContent } from "@/components/ui/card";
+import { BackgroundBeamsWithCollision } from "@/components/shadcn/ui/background-beams-with-collision";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 
 // Mock data - replace with actual data from your blockchain integration
 const mockProductData = {

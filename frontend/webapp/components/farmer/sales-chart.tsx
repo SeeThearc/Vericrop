@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 import { TrendingUp, Package, DollarSign, BarChart3 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 
 const chartData = [
   { month: "Jan", revenue: 12000, products: 45, transactions: 120 },

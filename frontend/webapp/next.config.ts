@@ -13,7 +13,6 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   devIndicators: false,
-  output: "export",
   reactStrictMode: true,
 };
 

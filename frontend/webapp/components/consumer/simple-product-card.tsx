@@ -1,6 +1,6 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
+import { Button } from "@/components/shadcn/ui/button";
 import { motion } from "motion/react";
 import { MapPin, Star, ShoppingCart } from "lucide-react";
 import Image from "next/image";

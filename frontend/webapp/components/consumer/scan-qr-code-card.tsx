@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/shadcn/ui/button";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 import { QrCode, Camera, Scan } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
