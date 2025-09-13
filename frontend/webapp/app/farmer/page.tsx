@@ -4,25 +4,34 @@ import TrackProductsPage from "./track-products/page";
 import { Card, CardContent } from "@/components/shadcn/ui/card";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/shadcn/ui/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/shadcn/ui/tabs";
 import { Package2, BarChart3, Plus } from "lucide-react";
 import { FarmerWelcomeBanner } from "@/components/farmer/farmer-welcome-banner";
 import { SalesChart } from "@/components/farmer/sales-chart";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 
 const FarmerPage = () => {
   const [activeTab, setActiveTab] = useState("register");
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1B4332] via-[#2D5A3D] to-[#52B788] relative">
+      {/* Background Beams */}
+      <BackgroundBeams className="opacity-30" />
+
       {/* Texture Overlay */}
       <div
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-30 z-10"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}
       ></div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <FarmerWelcomeBanner />
 
         {/* Floating Navigation Tabs with Glass Morphism */}

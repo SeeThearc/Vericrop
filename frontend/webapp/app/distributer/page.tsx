@@ -3,11 +3,15 @@ import TransactionsPage from "./transactions/page";
 import AnalyticsPage from "./analytics/page";
 import PurchaseBatchPage from "./purchase-batch/page";
 import RegisterProductPage from "./register-product/page";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 
 const DistributerPage = () => {
   return (
-    <div className="min-h-screen vericrop-gradient-forest-sage p-6">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen vericrop-gradient-forest-sage p-6 relative">
+      {/* Background Beams */}
+      <BackgroundBeams className="opacity-25" />
+
+      <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         {/* Welcome Header */}
         <div className="vericrop-card-primary text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
