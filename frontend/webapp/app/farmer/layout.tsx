@@ -1,5 +1,6 @@
 "use client";
 
+import { AceternityLayout } from "@/components/AceternityLayout";
 import {
   Home,
   Package,
@@ -8,7 +9,6 @@ import {
   Settings,
   HelpCircle,
 } from "lucide-react";
-import { AceternityLayout } from "@/app/components/AceternityLayout";
 
 const routes = [
   {

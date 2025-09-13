@@ -1,14 +1,13 @@
 "use client";
-import Nav from "../components/Nav";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from "@/components/shadcn/ui/card";
+import { Button } from "@/components/shadcn/ui/button";
+import { Input } from "@/components/shadcn/ui/input";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -19,6 +18,7 @@ import {
   addMessage,
   logout,
 } from "@/lib/authSlice";
+import Nav from "@/components/Nav";
 
 const BACKEND = "http://localhost:3000";
 const WS_URL = "ws://localhost:3000/ws";
@@ -302,9 +302,8 @@ export default function DashboardPage() {
                     </p>
                     <div className="flex items-center gap-2 mt-1">
                       <div
-                        className={`w-3 h-3 rounded-full ${
-                          isLoggedIn ? "bg-green-500" : "bg-red-500"
-                        }`}
+                        className={`w-3 h-3 rounded-full ${isLoggedIn ? "bg-green-500" : "bg-red-500"
+                          }`}
                       ></div>
                       <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
                         {isLoggedIn ? "Connected" : "Disconnected"}
@@ -556,13 +555,12 @@ export default function DashboardPage() {
                       className="flex items-start gap-3 p-3 rounded-xl"
                     >
                       <div
-                        className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm ${
-                          activity.type === "success"
-                            ? "bg-green-100 dark:bg-green-900/30 text-green-600"
-                            : activity.type === "warning"
+                        className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm ${activity.type === "success"
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-600"
+                          : activity.type === "warning"
                             ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600"
                             : "bg-blue-100 dark:bg-blue-900/30 text-blue-600"
-                        }`}
+                          }`}
                       >
                         {activity.icon}
                       </div>

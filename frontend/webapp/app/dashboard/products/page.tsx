@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import Nav from "../../components/Nav";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
+import { Button } from "@/components/shadcn/ui/button";
+import Nav from "@/components/Nav";
 
 export default function ProductsPage() {
   return (
@@ -12,7 +12,7 @@ export default function ProductsPage() {
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
           <div className="space-y-2">
-            <h1 
+            <h1
               className="text-3xl font-bold text-[#1A4D2E] dark:text-[#B6E388]"
               style={{ fontFamily: 'var(--font-libre-baskerville)' }}
             >

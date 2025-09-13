@@ -13,7 +13,7 @@ import {
   ChartContainer,
   ChartConfig,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@/components/shadcn/ui/chart";
 import {
   TrendingUp,
   Users,
@@ -22,7 +22,7 @@ import {
   ShoppingCart,
   Target,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 
 const salesData = [
   { month: "Jan", sales: 45000, customers: 1200, avgOrder: 37.5 },
@@ -83,9 +83,8 @@ const RatingStars = ({ rating }: { rating: number }) => {
       {[1, 2, 3, 4, 5].map((star) => (
         <span
           key={star}
-          className={`text-sm ${
-            star <= rating ? "text-yellow-400" : "text-gray-300"
-          }`}
+          className={`text-sm ${star <= rating ? "text-yellow-400" : "text-gray-300"
+            }`}
         >
           ★
         </span>

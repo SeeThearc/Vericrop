@@ -1,10 +1,11 @@
 "use client";
-import { WelcomeBanner } from "./_components/welcome-banner";
 import ProductSearchPage from "./product-search/page";
 import QualityHistoryPage from "./quality-history/page";
 import MyPurchasesPage from "./my-purchases/page";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 import { motion } from "motion/react";
+import { WelcomeBanner } from "@/components/consumer/welcome-banner";
+import { BlockchainStats } from "@/components/consumer/blockchain-stats";
 
 export default function ConsumerPage() {
   return (
@@ -21,11 +22,11 @@ export default function ConsumerPage() {
         >
           <div className="mb-6">
             <h2 className="text-2xl font-bold vericrop-text-dark mb-2">
-              Discover Premium Products
+              Product Traceability Lookup
             </h2>
             <p className="vericrop-text-light">
-              Explore our curated selection of traceable, high-quality
-              agricultural products
+              Enter a Product ID or scan a QR code to access complete product
+              traceability information from farm to table
             </p>
           </div>
 
@@ -35,6 +36,9 @@ export default function ConsumerPage() {
             </CardContent>
           </Card>
         </motion.section>
+
+        {/* Blockchain Statistics */}
+        <BlockchainStats />
 
         {/* My Purchases Section */}
         <motion.section

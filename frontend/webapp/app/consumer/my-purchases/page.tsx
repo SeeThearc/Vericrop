@@ -1,8 +1,7 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
+import { Badge } from "@/components/shadcn/ui/badge";
 import dynamic from "next/dynamic";
-import { ScanQrCodeCard } from "../_components/scan-qr-code-card";
 import { motion } from "motion/react";
 import {
   Calendar,
@@ -14,8 +13,9 @@ import {
   Star,
 } from "lucide-react";
 import Image from "next/image";
+import { ScanQrCodeCard } from "@/components/consumer/scan-qr-code-card";
 
-const DynamicMap = dynamic(() => import("../_components/dynamic-map"), {
+const DynamicMap = dynamic(() => import("@/components/dynamic-map"), {
   ssr: false,
   loading: () => (
     <div className="flex items-center justify-center h-full">
@@ -34,7 +34,7 @@ const MyPurchasesPage = () => {
       pricePerKg: 2.7,
       quantity: 2,
       status: "delivered",
-      image: "/tomatoes.jpg",
+      image: "/tomato.png",
       location: "California, USA",
       certification: "Organic Certified",
       trackingId: "TRK-TOM-2024-001",
@@ -46,7 +46,7 @@ const MyPurchasesPage = () => {
       pricePerKg: 3.5,
       quantity: 1,
       status: "in-transit",
-      image: "/avocados.jpg",
+      image: "/avocado.png",
       location: "Amazon, Brazil",
       certification: "Fair Trade",
       trackingId: "TRK-AVO-2024-002",
@@ -58,7 +58,7 @@ const MyPurchasesPage = () => {
       pricePerKg: 4.2,
       quantity: 3,
       status: "pending",
-      image: "/mangoes.jpg",
+      image: "/mango.png",
       location: "Punjab, India",
       certification: "Premium Grade",
       trackingId: "TRK-MAN-2024-003",

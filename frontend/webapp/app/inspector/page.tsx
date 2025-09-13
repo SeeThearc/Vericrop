@@ -1,7 +1,7 @@
 import CompliancePage from "./compliance/page";
 import FlaggedShipmentsPage from "./flagged-shipments/page";
 import QualityVerificationPage from "./quality-verification/page";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 
 const InspectorPage = () => {
   return (

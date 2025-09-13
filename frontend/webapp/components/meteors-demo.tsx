@@ -1,5 +1,5 @@
 import React from "react";
-import { Meteors } from "@/components/ui/meteors";
+import { Meteors } from "@/components/shadcn/ui/meteors";
 
 export default function MeteorsDemo() {
   return (

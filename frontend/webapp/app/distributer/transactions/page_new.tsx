@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 import { CheckCircle, Clock, Truck, MapPin, Eye } from "lucide-react";
 import dynamic from "next/dynamic";
 
-const DynamicMap = dynamic(() => import("../_components/dynamic-map"), {
+const DynamicMap = dynamic(() => import("@/components/dynamic-map"), {
   ssr: false,
   loading: () => (
     <div className="vericrop-card-secondary h-64 flex items-center justify-center">

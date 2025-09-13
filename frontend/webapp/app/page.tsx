@@ -2,9 +2,9 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import ThemeToggle from "./components/ThemeToggle";
+import { Button } from "@/components/shadcn/ui/button";
 import { useAppSelector } from "@/lib/hooks";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Home() {
   const { isLoggedIn } = useAppSelector(state => state.auth);
@@ -20,26 +20,33 @@ export default function Home() {
       <header className="w-full py-6 px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">V</span>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center">
+              <span className="text-white font-bold text-lg">
+                <Image
+                  src="./small-logo.png"
+                  width={150}
+                  height={150}
+                  alt="logo"
+                />
+              </span>
             </div>
-            <span 
+            <span
               className="font-bold text-2xl text-slate-800 dark:text-slate-100"
               style={{ fontFamily: 'var(--font-libre-baskerville)' }}
             >
               VeriCrop
             </span>
           </div>
-          
+
           <div className="flex items-center gap-6">
             <nav className="hidden md:flex items-center gap-8">
               <a href="#features" className="text-slate-600 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 transition-colors">Features</a>
               <a href="#about" className="text-slate-600 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 transition-colors">About</a>
               <a href="#contact" className="text-slate-600 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 transition-colors">Contact</a>
             </nav>
-            
+
             <ThemeToggle />
-            
+
             {isLoggedIn ? (
               <Link href="/dashboard">
                 <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6">
@@ -120,7 +127,7 @@ export default function Home() {
               />
               <div className="absolute -inset-4 bg-gradient-to-r from-emerald-400/20 to-green-400/20 rounded-2xl blur-xl -z-10"></div>
             </div>
-            
+
             {/* Floating Cards */}
             <div className="absolute top-8 -left-8 bg-white dark:bg-slate-800 rounded-xl p-4 shadow-lg border border-slate-200 dark:border-slate-700">
               <div className="flex items-center gap-3">
@@ -226,8 +233,15 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">V</span>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold">
+                    <Image
+                      src="./small-logo.png"
+                      width={150}
+                      height={150}
+                      alt="logo"
+                    />
+                  </span>
                 </div>
                 <span className="font-bold text-xl">VeriCrop</span>
               </div>
@@ -235,7 +249,7 @@ export default function Home() {
                 Sustainable farming solutions for the future
               </p>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-slate-400">
@@ -244,7 +258,7 @@ export default function Home() {
                 <li><a href="#" className="hover:text-white transition-colors">Security</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-slate-400">
@@ -253,7 +267,7 @@ export default function Home() {
                 <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-slate-400">
@@ -263,7 +277,7 @@ export default function Home() {
               </ul>
             </div>
           </div>
-          
+
           <div className="border-t border-slate-800 mt-12 pt-8 text-center text-slate-400">
             <p>&copy; 2025 VeriCrop. All rights reserved.</p>
           </div>

@@ -1,9 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { FilterBatches } from "../_components/filter-batches";
-import { FeaturedBatches } from "../_components/featured-batches";
+import { CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
+import { FilterBatches } from "@/components/filter-batches";
+import { FeaturedBatches } from "@/components/distributor/featured-batches";
 
 const PurchaseBatchPage = () => {
   return (

@@ -1,13 +1,13 @@
 "use client";
 import RegisterProductPage from "./register-product/page";
 import TrackProductsPage from "./track-products/page";
-import { SalesChart } from "./_components/sales-chart";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/shadcn/ui/card";
 import { motion } from "framer-motion";
-import { FarmerWelcomeBanner } from "./_components/farmer-welcome-banner";
 import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/shadcn/ui/tabs";
 import { Package2, BarChart3, Plus } from "lucide-react";
+import { FarmerWelcomeBanner } from "@/components/farmer/farmer-welcome-banner";
+import { SalesChart } from "@/components/farmer/sales-chart";
 
 const FarmerPage = () => {
   const [activeTab, setActiveTab] = useState("register");

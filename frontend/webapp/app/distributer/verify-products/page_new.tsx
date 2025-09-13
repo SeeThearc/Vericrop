@@ -1,15 +1,11 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 import {
   ShieldCheck,
   QrCode,
-  Package,
-  FileText,
   Cpu,
   Shield,
-  AlertTriangle,
   CheckCircle,
   Clock,
   XCircle,
@@ -20,10 +16,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/components/shadcn/ui/select";
+import { Label } from "@/components/shadcn/ui/label";
 
 const recentVerifications = [
   {

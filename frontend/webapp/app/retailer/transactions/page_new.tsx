@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 import {
   CheckCircle,
   Clock,
@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 
-const DynamicMap = dynamic(() => import("../_components/dynamic-map"), {
+const DynamicMap = dynamic(() => import("@/components/dynamic-map"), {
   ssr: false,
   loading: () => (
     <div className="vericrop-card-secondary h-64 flex items-center justify-center">
@@ -138,9 +138,8 @@ const CustomerRating = ({ rating }: { rating: number | null }) => {
       {[1, 2, 3, 4, 5].map((star) => (
         <Star
           key={star}
-          className={`h-4 w-4 ${
-            star <= rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-          }`}
+          className={`h-4 w-4 ${star <= rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+            }`}
         />
       ))}
       <span className="text-sm text-gray-600 ml-1">({rating})</span>

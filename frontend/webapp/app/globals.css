@@ -76,6 +76,10 @@
   --ring: 194 231 157;
 }
 
+body {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
 @layer base {
   * {
     border-color: hsl(var(--border));

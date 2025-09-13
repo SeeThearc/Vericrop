@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
+import { Badge } from "@/components/shadcn/ui/badge";
 import {
   CheckCircle,
   Clock,
@@ -143,9 +143,6 @@ const QualityHistoryPage = () => {
         </CardHeader>
         <CardContent>
           <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-400 via-blue-400 to-gray-300"></div>
-
             <div className="space-y-8">
               {qualityCheckpoints.map((checkpoint, index) => {
                 const statusInfo = getStatusInfo(checkpoint.status);
@@ -162,15 +159,14 @@ const QualityHistoryPage = () => {
                   >
                     {/* Timeline dot */}
                     <div
-                      className={`absolute left-4 w-4 h-4 rounded-full border-4 border-white ${
-                        checkpoint.status === "passed"
-                          ? "bg-green-500"
-                          : checkpoint.status === "attention"
+                      className={`absolute left-4 w-4 h-4 rounded-full border-4 border-white ${checkpoint.status === "passed"
+                        ? "bg-green-500"
+                        : checkpoint.status === "attention"
                           ? "bg-yellow-500"
                           : checkpoint.status === "pending"
-                          ? "bg-blue-500"
-                          : "bg-gray-400"
-                      } shadow-lg -translate-x-1/2`}
+                            ? "bg-blue-500"
+                            : "bg-gray-400"
+                        } shadow-lg -translate-x-1/2`}
                     ></div>
 
                     {/* Content card */}
@@ -205,8 +201,8 @@ const QualityHistoryPage = () => {
                           {checkpoint.status === "passed"
                             ? "Passed"
                             : checkpoint.status === "attention"
-                            ? "Attention"
-                            : "Pending"}
+                              ? "Attention"
+                              : "Pending"}
                         </Badge>
                       </div>
 

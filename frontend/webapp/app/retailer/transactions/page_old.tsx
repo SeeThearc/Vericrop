@@ -7,12 +7,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from "@/components/shadcn/ui/table";
+import { Badge } from "@/components/shadcn/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
 import dynamic from "next/dynamic";
 
-const DynamicMap = dynamic(() => import("../_components/dynamic-map"), {
+const DynamicMap = dynamic(() => import("@/components/dynamic-map"), {
   ssr: false,
   loading: () => <p>Loading map...</p>,
 });
@@ -101,12 +101,12 @@ const TransactionsPage = () => {
                     transaction.status === "Completed"
                       ? "bg-green-100 text-green-800"
                       : transaction.status === "Pending"
-                      ? "bg-yellow-100 text-yellow-800"
-                      : transaction.status === "In Transit"
-                      ? "bg-blue-100 text-blue-800"
-                      : transaction.status === "Delivered"
-                      ? "bg-purple-100 text-purple-800"
-                      : "bg-gray-100 text-gray-800"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : transaction.status === "In Transit"
+                          ? "bg-blue-100 text-blue-800"
+                          : transaction.status === "Delivered"
+                            ? "bg-purple-100 text-purple-800"
+                            : "bg-gray-100 text-gray-800"
                   }
                 >
                   {transaction.status}

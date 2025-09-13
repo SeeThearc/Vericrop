@@ -10,7 +10,11 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+    unoptimized: true,
   },
+  devIndicators: false,
+  output: "export",
+  reactStrictMode: true,
 };
 
 export default nextConfig;
