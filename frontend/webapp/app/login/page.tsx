@@ -44,7 +44,7 @@ export default function LoginPage() {
   const handleGoogleLogin = () => {
     setIsLoading(true);
     const referrer = encodeURIComponent(referrerUrl);
-    window.location.href = `http://localhost:3000/signin/google?referrer=${referrer}`;
+    window.location.href = `https://abeergupta.tech/signin/google?referrer=${referrer}`;
   };
 
   const handleDevLogin = () => {

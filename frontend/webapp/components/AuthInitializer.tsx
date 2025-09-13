@@ -1,58 +1,60 @@
-'use client'
+"use client";
 
-import { useEffect, useCallback } from 'react'
-import axios from 'axios'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { setUser, setStatus } from '@/lib/authSlice'
+import { useEffect, useCallback } from "react";
+import axios from "axios";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setUser, setStatus } from "@/lib/authSlice";
 
-const BACKEND = "http://localhost:3000"
+const BACKEND = "https://abeergupta.tech";
 
 export default function AuthInitializer() {
-  const dispatch = useAppDispatch()
-  const { user, isLoggedIn } = useAppSelector((state) => state.auth)
+  const dispatch = useAppDispatch();
+  const { user, isLoggedIn } = useAppSelector((state) => state.auth);
 
   function formatError(err: unknown): string {
-    if (err instanceof Error) return err.message
+    if (err instanceof Error) return err.message;
     try {
-      return typeof err === "string" ? err : JSON.stringify(err)
+      return typeof err === "string" ? err : JSON.stringify(err);
     } catch {
-      return String(err)
+      return String(err);
     }
   }
 
   const fetchUserData = useCallback(async () => {
     try {
-      const res = await axios.get(`${BACKEND}/user`, { withCredentials: true })
-      
+      const res = await axios.get(`${BACKEND}/user`, { withCredentials: true });
+
       if (res.data && typeof res.data === "object") {
-        const userData = res.data as Record<string, unknown>
-        const user = userData.user as Record<string, unknown>
-        
+        const userData = res.data as Record<string, unknown>;
+        const user = userData.user as Record<string, unknown>;
+
         if (user) {
-          dispatch(setUser(user))
-          localStorage.setItem("vericrop_logged_in", "true")
-          dispatch(setStatus("User authenticated and loaded"))
+          dispatch(setUser(user));
+          localStorage.setItem("vericrop_logged_in", "true");
+          dispatch(setStatus("User authenticated and loaded"));
         } else {
-          dispatch(setUser(null))
-          localStorage.removeItem("vericrop_logged_in")
-          dispatch(setStatus("No user data found"))
+          dispatch(setUser(null));
+          localStorage.removeItem("vericrop_logged_in");
+          dispatch(setStatus("No user data found"));
         }
       } else {
-        dispatch(setUser(null))
-        localStorage.removeItem("vericrop_logged_in")
-        dispatch(setStatus("Invalid response format"))
+        dispatch(setUser(null));
+        localStorage.removeItem("vericrop_logged_in");
+        dispatch(setStatus("Invalid response format"));
       }
     } catch (err: unknown) {
-      dispatch(setUser(null))
-      localStorage.removeItem("vericrop_logged_in")
-      dispatch(setStatus(`Auth error: ${formatError(err)}`))
+      dispatch(setUser(null));
+      localStorage.removeItem("vericrop_logged_in");
+      dispatch(setStatus(`Auth error: ${formatError(err)}`));
     }
-  }, [dispatch])
+  }, [dispatch]);
 
   const verifySession = useCallback(async () => {
     try {
-      const res = await axios.get(`${BACKEND}/verify`, { withCredentials: true });
-      
+      const res = await axios.get(`${BACKEND}/verify`, {
+        withCredentials: true,
+      });
+
       if (res.data && res.data.ok) {
         dispatch(setStatus("Session verified successfully"));
         await fetchUserData();
@@ -78,7 +80,7 @@ export default function AuthInitializer() {
     const initializeAuth = async () => {
       // If we are on the page that completes auth, do nothing.
       // That page is responsible for the initial user state.
-      if (window.location.pathname === '/auth-complete') {
+      if (window.location.pathname === "/auth-complete") {
         return;
       }
 

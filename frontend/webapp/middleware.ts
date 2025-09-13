@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
   if (sessionCookie) {
     try {
       // Verify session with the backend
-      const verifyUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000'}/verify`;
+      const verifyUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://abeergupta.tech'}/verify`;
       const response = await fetch(verifyUrl, {
         headers: {
           'Cookie': `session_id=${sessionCookie.value}`

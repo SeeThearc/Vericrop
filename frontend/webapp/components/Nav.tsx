@@ -19,7 +19,7 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { logout } from "@/lib/authSlice";
 
-const BACKEND = "http://localhost:3000";
+const BACKEND = "https://abeergupta.tech";
 
 export default function Nav() {
   const pathname = usePathname();

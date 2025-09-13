@@ -20,8 +20,8 @@ import {
 } from "@/lib/authSlice";
 import Nav from "@/components/Nav";
 
-const BACKEND = "http://localhost:3000";
-const WS_URL = "ws://localhost:3000/ws";
+const BACKEND = "https://abeergupta.tech";
+const WS_URL = "wss://abeergupta.tech/ws";
 
 export default function DashboardPage() {
   const dispatch = useAppDispatch();
