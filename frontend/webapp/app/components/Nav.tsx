@@ -33,24 +33,11 @@ export default function Nav() {
     // Load user email from Redux state
     if (user?.email) {
       setUserEmail(user.email);
-    }
-    
-    // Check backend connection and refresh data
-    checkBackendStatus();
-  }, [user]);
-
-  const checkBackendStatus = async () => {
-    try {
-      const res = await axios.get(`${BACKEND}/user`, { withCredentials: true });
-      if (res.data && typeof res.data === 'object') {
-        setBackendStatus('connected');
-      } else {
-        setBackendStatus('disconnected');
-      }
-    } catch {
+      setBackendStatus('connected'); // If we have user data, we're connected
+    } else {
       setBackendStatus('disconnected');
     }
-  };
+  }, [user]);
 
   const handleLogout = () => {
     dispatch(logout());

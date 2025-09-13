@@ -12,7 +12,7 @@ import {
 import ThemeToggle from "../components/ThemeToggle";
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/authSlice";
-import { Leaf, Sprout, Sparkles, Shield } from "lucide-react";
+import { Leaf, Sparkles } from "lucide-react";
 import { Boxes } from "@/components/ui/shadcn-io/background-boxes";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +20,6 @@ export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const [referrerUrl, setReferrerUrl] = useState<string>("");
 
   useEffect(() => {
@@ -33,7 +32,7 @@ export default function LoginPage() {
   }, [searchParams]);
 
   const handleGoogleLogin = () => {
-    setIsLoading(true);
+    // Redirect to backend Google OAuth endpoint
     const referrer = encodeURIComponent(referrerUrl);
     window.location.href = `http://localhost:3000/signin/google?referrer=${referrer}`;
   };
@@ -111,26 +110,6 @@ export default function LoginPage() {
                     table.
                   </p>
                 </div>
-                <div className="grid grid-cols-2 gap-6 pt-6">
-                  <div className="flex items-center space-x-3 p-4 bg-emerald-100/50 dark:bg-emerald-900/20 rounded-2xl backdrop-blur-sm border border-emerald-200/50 dark:border-emerald-700/30">
-                    <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-green-500 rounded-xl flex items-center justify-center">
-                      <Sprout className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Carbon Neutral</div>
-                      <div className="text-xs text-emerald-600 dark:text-emerald-400">100% Green</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3 p-4 bg-green-100/50 dark:bg-green-900/20 rounded-2xl backdrop-blur-sm border border-green-200/50 dark:border-green-700/30">
-                    <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-lime-500 rounded-xl flex items-center justify-center">
-                      <Shield className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-green-700 dark:text-green-300">Certified Organic</div>
-                      <div className="text-xs text-green-600 dark:text-green-400">Trusted Quality</div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -141,9 +120,6 @@ export default function LoginPage() {
               <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 via-green-500 to-lime-500 rounded-3xl blur-lg opacity-25 group-hover:opacity-40 transition-opacity duration-500 animate-pulse"></div>
               <Card className="relative shadow-2xl border-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-3xl overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-white/10 to-green-50/50 dark:from-emerald-950/30 dark:via-slate-900/10 dark:to-green-950/30"></div>
-                <div className="absolute inset-0 opacity-5 dark:opacity-10">
-                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 via-transparent to-green-500/20 animate-pulse"></div>
-                </div>
                 <div className="relative z-10">
                   <CardHeader className="space-y-6 text-center pb-8 pt-10">
                     <div className="mx-auto relative">
@@ -166,63 +142,38 @@ export default function LoginPage() {
                   </CardHeader>
                   <CardContent className="space-y-8 px-10 pb-10">
                     <div className="space-y-6">
-                      <div className="text-center">
-                        <p className="text-slate-600 dark:text-slate-400 mb-6">
-                          Sign in with your Google account to access VeriCrop
-                        </p>
-                      </div>
-
                       <Button
                         onClick={handleGoogleLogin}
-                        disabled={isLoading}
-                        className="w-full h-16 bg-white hover:bg-gray-50 text-gray-900 font-semibold text-lg rounded-2xl shadow-2xl border-2 border-gray-200 hover:shadow-gray-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group transform hover:scale-[1.02] active:scale-[0.98]"
+                        className="w-full h-16 bg-white hover:bg-gray-50 text-gray-900 font-bold text-lg rounded-2xl shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group border-2 border-gray-200"
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-gray-50/20 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000 ease-out"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-gray-50/50 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000 ease-out"></div>
                         <div className="relative flex items-center justify-center gap-3">
-                          {isLoading ? (
-                            <>
-                              <div className="w-6 h-6 border-3 border-gray-400 border-t-gray-600 rounded-full animate-spin"></div>
-                              <span>Signing you in...</span>
-                            </>
-                          ) : (
-                            <>
-                              <svg
-                                className="w-6 h-6"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M22.56 12.25C22.56 11.45 22.49 10.68 22.36 9.92H12V14.45H18.02C17.73 15.89 16.93 17.13 15.73 17.92V20.59H19.62C21.55 18.83 22.56 15.83 22.56 12.25Z"
-                                  fill="#4285F4"
-                                />
-                                <path
-                                  d="M12 23C14.97 23 17.45 22.04 19.28 20.59L15.73 17.92C14.74 18.59 13.45 19 12 19C9.27 19 6.94 17.24 6.02 14.81H2.03V17.5C3.86 20.73 7.63 23 12 23Z"
-                                  fill="#34A853"
-                                />
-                                <path
-                                  d="M6.02 14.81C5.79 14.12 5.66 13.38 5.66 12.6C5.66 11.82 5.79 11.08 6.02 10.39V7.7H2.03C1.24 9.23 0.75 10.86 0.75 12.6C0.75 14.34 1.24 15.97 2.03 17.5L6.02 14.81Z"
-                                  fill="#FBBC05"
-                                />
-                                <path
-                                  d="M12 5.5C13.59 5.5 15.01 6.08 16.13 7.13L19.35 3.9C17.45 2.18 14.97 1 12 1C7.63 1 3.86 3.27 2.03 6.5L6.02 9.19C6.94 6.76 9.27 5.5 12 5.5Z"
-                                  fill="#EA4335"
-                                />
-                              </svg>
-                              <span>Sign in with Google</span>
-                            </>
-                          )}
+                          <svg className="w-6 h-6" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                          </svg>
+                          <span>Continue with Google</span>
                         </div>
                       </Button>
 
-                      <div className="text-center pt-4">
-                        <button
-                          onClick={handleDevLogin}
-                          className="text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 text-sm transition-all duration-200 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-                        >
-                          Developer Login
-                        </button>
+                      <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                          <span className="w-full border-t border-gray-300 dark:border-gray-600" />
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                          <span className="px-2 bg-white dark:bg-slate-900 text-gray-500 dark:text-gray-400">Or</span>
+                        </div>
                       </div>
+
+                      <Button
+                        onClick={handleDevLogin}
+                        variant="outline"
+                        className="w-full h-14 border-2 border-emerald-200 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 font-semibold rounded-2xl transition-all duration-300"
+                      >
+                        Developer Login (Farmer)
+                      </Button>
                     </div>
                   </CardContent>
                 </div>

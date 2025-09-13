@@ -41,37 +41,16 @@ export default function DashboardPage() {
     }
   }
 
-  const getUser = useCallback(async () => {
-    dispatch(setStatus("Fetching user..."));
-    try {
-      const res = await axios.get(`${BACKEND}/user`, { withCredentials: true });
-      const data = res.data as unknown;
-      if (data && typeof data === "object") {
-        const userData = data as Record<string, unknown>;
-        dispatch(setUser(userData));
-
-        // Update localStorage as fallback
-        localStorage.setItem("vericrop_logged_in", "true");
-      } else {
-        dispatch(setUser(null));
-      }
-      dispatch(setStatus("User fetched successfully"));
-    } catch (err: unknown) {
-      dispatch(setStatus(`Get user error: ${formatError(err)}`));
-      dispatch(setUser(null));
-    }
-  }, [dispatch]);
-
   useEffect(() => {
     setMounted(true);
-
-    // Check local login status (fallback)
-    const loggedIn = localStorage.getItem("vericrop_logged_in") === "true";
-    if (loggedIn && !isLoggedIn) {
-      // Try to refresh user data from backend if we think we're logged in
-      getUser();
+    
+    // Show current Redux state status
+    if (user) {
+      dispatch(setStatus("User data loaded from Redux state"));
+    } else {
+      dispatch(setStatus("No user data in Redux state"));
     }
-  }, [getUser, isLoggedIn]);
+  }, [user, dispatch]);
 
   // Setup WebSocket connection when user is logged in
   useEffect(() => {
@@ -225,11 +204,11 @@ export default function DashboardPage() {
                       Verify Session
                     </Button>
                     <Button
-                      onClick={getUser}
+                      onClick={() => dispatch(setStatus("User data refreshed from Redux state"))}
                       variant="outline"
                       className="border-purple-200 text-purple-700 hover:bg-purple-50 dark:border-purple-800 dark:text-purple-400 dark:hover:bg-purple-950"
                     >
-                      Refresh User
+                      Show Redux User
                     </Button>
                   </>
                 )}
@@ -243,13 +222,16 @@ export default function DashboardPage() {
                   <div className="text-slate-700 dark:text-slate-300 mt-1 whitespace-pre-wrap">
                     {status}
                   </div>
+                  <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                    Session cookies: {document.cookie.includes('session_id') ? 'Present' : 'Not found'}
+                  </div>
                 </div>
               )}
 
               {user && (
                 <div className="p-4 bg-emerald-50 dark:bg-emerald-950 rounded-lg">
                   <strong className="text-emerald-900 dark:text-emerald-100">
-                    Backend User:
+                    Redux User Data:
                   </strong>
                   <pre className="text-emerald-800 dark:text-emerald-200 mt-1 text-sm overflow-x-auto">
                     {JSON.stringify(user, null, 2)}
