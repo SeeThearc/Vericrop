@@ -76,10 +76,10 @@ export const BlockchainStats = () => {
       className="mb-12"
     >
       <div className="mb-8">
-        <h2 className="text-3xl font-bold vericrop-text-dark mb-2">
+        <h2 className="text-3xl font-bold text-gray-100 dark mb-2">
           Transparency & Trust
         </h2>
-        <p className="vericrop-text-light text-base">
+        <p className="text-gray-300 text-base">
           Real-time blockchain statistics showcasing our commitment to quality
           and transparency
         </p>

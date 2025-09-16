@@ -114,8 +114,8 @@ const TransactionsPage = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Transaction History</h1>
-        <p className="text-gray-600">Complete supply chain transaction visibility and tracking</p>
+        <h1 className="text-2xl font-bold text-gray-100 mb-2">Transaction History</h1>
+        <p className="text-gray-300">Complete supply chain transaction visibility and tracking</p>
       </div>
 
       {/* Stats Overview */}

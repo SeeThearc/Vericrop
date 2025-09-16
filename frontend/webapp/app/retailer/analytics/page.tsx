@@ -88,8 +88,8 @@ const AnalyticsPage = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Retail Analytics Dashboard</h1>
-        <p className="text-gray-600">Sales insights, customer analytics, and business intelligence</p>
+        <h1 className="text-2xl font-bold text-gray-100 mb-2">Retail Analytics Dashboard</h1>
+        <p className="text-gray-300">Sales insights, customer analytics, and business intelligence</p>
       </div>
 
       {/* KPI Cards */}

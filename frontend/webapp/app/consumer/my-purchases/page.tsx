@@ -112,10 +112,10 @@ const MyPurchasesPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-3xl font-bold vericrop-text-dark mb-2">
+        <h1 className="text-3xl text-gray-100 font-bold mb-2">
           My Purchases & Tracking
         </h1>
-        <p className="vericrop-text-light">
+        <p className="text-gray-300">
           Monitor your orders and track product journeys in real-time
         </p>
       </motion.div>

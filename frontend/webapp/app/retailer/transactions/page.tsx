@@ -141,8 +141,8 @@ const TransactionsPage = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Customer Transaction History</h1>
-        <p className="text-gray-600">Complete retail transaction tracking and customer satisfaction metrics</p>
+        <h1 className="text-2xl font-bold text-gray-100 mb-2">Customer Transaction History</h1>
+        <p className="text-gray-300">Complete retail transaction tracking and customer satisfaction metrics</p>
       </div>
 
       {/* Stats Overview */}

@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
 import { Badge } from "@/components/shadcn/ui/badge";
 import {
@@ -9,7 +10,7 @@ import {
   ShoppingCart,
   Home,
 } from "lucide-react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const QualityHistoryPage = () => {
   const qualityCheckpoints = [

@@ -10,8 +10,8 @@ const PurchaseBatchPage = () => {
     <div className="space-y-6">
       {/* Header Section */}
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Batch Management & Purchasing</h1>
-        <p className="text-gray-600">Discover, filter, and purchase premium agricultural batches</p>
+        <h1 className="text-2xl font-bold text-white mb-2">Batch Management & Purchasing</h1>
+        <p className="text-gray-300">Discover, filter, and purchase premium agricultural batches</p>
       </div>
 
       {/* Search and Filter Bar */}

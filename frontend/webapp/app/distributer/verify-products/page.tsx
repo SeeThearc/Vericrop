@@ -110,15 +110,15 @@ const StatusBadge = ({ status }: { status: string }) => {
 
 const VerifyProductsPage = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Language Selector */}
       <div className="flex justify-end">
         <div className="w-48">
-          <Label className="text-gray-700 text-sm font-medium">
+          <Label className="text-white text-sm font-medium">
             Select Language
           </Label>
           <Select>
-            <SelectTrigger className="vericrop-input h-12 mt-1">
+            <SelectTrigger className="vericrop-input h-12 mt-1 text-white">
               <SelectValue placeholder="English" />
             </SelectTrigger>
             <SelectContent className="bg-white">
@@ -129,17 +129,17 @@ const VerifyProductsPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         {/* QR Scanner Card */}
         <div className="lg:col-span-1">
           <div className="vericrop-qr-scanner-glass p-6 rounded-2xl">
             <div className="flex items-start mb-4">
               <ShieldCheck className="h-8 w-8 text-green-700 mr-3 mt-1" />
               <div>
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 className="text-xl font-bold text-gray-900 bg-white">
                   Welcome, VeriCrop Distributor!
                 </h2>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-gray-500 mt-1">
                   Monitor supply chain activities, verify products, and detect
                   fraud with AI-powered technology.
                 </p>
@@ -174,7 +174,7 @@ const VerifyProductsPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         {/* Product Authenticity Card */}
         <div className="vericrop-card-secondary vericrop-hover-scale">
           <div className="flex items-center justify-between mb-4">
@@ -223,7 +223,7 @@ const VerifyProductsPage = () => {
             Latest product verification activities and results
           </p>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-6">
           {recentVerifications.map((item) => (
             <div
               key={item.id}

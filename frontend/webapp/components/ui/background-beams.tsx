@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 export const BackgroundBeams = React.memo(
@@ -127,10 +127,10 @@ export const BackgroundBeams = React.memo(
                   delay: Math.random() * 2,
                 }}
               >
-                <stop stopColor="#10B981" stopOpacity="0" />
-                <stop stopColor="#10B981" stopOpacity="1" />
-                <stop offset="32.5%" stopColor="#059669" stopOpacity="1" />
-                <stop offset="100%" stopColor="#34D399" stopOpacity="0" />
+                <stop stopColor="#3B82F6" stopOpacity="0" />
+                <stop stopColor="#3B82F6" stopOpacity="1" />
+                <stop offset="32.5%" stopColor="#1D4ED8" stopOpacity="1" />
+                <stop offset="100%" stopColor="#60A5FA" stopOpacity="0" />
               </motion.linearGradient>
             ))}
 
@@ -142,9 +142,9 @@ export const BackgroundBeams = React.memo(
               gradientUnits="userSpaceOnUse"
               gradientTransform="translate(352 34) rotate(90) scale(555 1560.62)"
             >
-              <stop offset="0.0666667" stopColor="#10B981" stopOpacity="0.4" />
-              <stop offset="0.243243" stopColor="#10B981" stopOpacity="0.2" />
-              <stop offset="0.43594" stopColor="#34D399" stopOpacity="0" />
+              <stop offset="0.0666667" stopColor="#3B82F6" stopOpacity="0.4" />
+              <stop offset="0.243243" stopColor="#3B82F6" stopOpacity="0.2" />
+              <stop offset="0.43594" stopColor="#60A5FA" stopOpacity="0" />
             </radialGradient>
           </defs>
         </svg>

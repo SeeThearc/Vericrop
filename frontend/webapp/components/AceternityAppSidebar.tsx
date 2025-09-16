@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { Sidebar, SidebarBody, SidebarLink } from "@/components/shadcn/ui/sidebar";
-import { motion } from "motion/react";
+import { Sidebar, SidebarBody, SidebarLink, useSidebar } from "@/components/shadcn/ui/sidebar";
+import { motion, useAnimation } from "motion/react";
 import Image from "next/image";
 
 interface SidebarLinkType {
@@ -25,7 +25,7 @@ export function AceternityAppSidebar({
   const convertedRoutes = routes.map((route) => ({
     ...route,
     icon: (
-      <div className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200">
+      <div className="h-5 w-5 shrink-0 text-white/70 group-hover:text-white transition-colors duration-200">
         {route.icon}
       </div>
     ),
@@ -34,7 +34,7 @@ export function AceternityAppSidebar({
   const convertedBottomRoutes = bottomRoutes.map((route) => ({
     ...route,
     icon: (
-      <div className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200">
+      <div className="h-5 w-5 shrink-0 text-white/70 group-hover:text-white transition-colors duration-200">
         {route.icon}
       </div>
     ),
@@ -42,12 +42,26 @@ export function AceternityAppSidebar({
 
   return (
     <Sidebar open={open} setOpen={setOpen} animate={true}>
-      <SidebarBody className="justify-between gap-10">
-        <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
-          <>
-            <Logo />
-          </>
-          <div className="mt-8 flex flex-col gap-2">
+      <SidebarBody className="justify-between gap-10 h-full">
+        <div className="flex flex-col gap-6 flex-1 overflow-x-hidden overflow-y-auto">
+          <div className="flex flex-col gap-3 px-1">
+            <SidebarLink
+              link={{
+                label: "VeriCrop",
+                href: "/consumer",
+                icon: (
+                  <div className="h-8 w-8 shrink-0 relative">
+                    <Image
+                      src="/original_logo.png"
+                      alt="VeriCrop Logo"
+                      fill
+                      className="object-contain"
+                      sizes="32px"
+                    />
+                  </div>
+                ),
+              }}
+            />
             {convertedRoutes.map((link, idx) => (
               <motion.div
                 key={idx}
@@ -62,7 +76,7 @@ export function AceternityAppSidebar({
             ))}
           </div>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3 px-1 pb-4">
           {convertedBottomRoutes.map((link, idx) => (
             <motion.div
               key={idx}
@@ -106,48 +120,3 @@ export function AceternityAppSidebar({
     </Sidebar>
   );
 }
-
-export const Logo = () => {
-  return (
-    <a
-      href="/consumer"
-      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
-    >
-      <div className="h-8 w-8 shrink-0 relative">
-        <Image
-          src="/original_logo.png"
-          alt="VeriCrop Logo"
-          fill
-          className="object-contain"
-          sizes="32px"
-        />
-      </div>
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="font-medium whitespace-pre text-black dark:text-white"
-      >
-        VeriCrop
-      </motion.span>
-    </a>
-  );
-};
-
-export const LogoIcon = () => {
-  return (
-    <a
-      href="/consumer"
-      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
-    >
-      <div className="h-6 w-6 shrink-0 relative">
-        <Image
-          src="/original_logo.png"
-          alt="VeriCrop Logo"
-          fill
-          className="object-contain"
-          sizes="24px"
-        />
-      </div>
-    </a>
-  );
-};

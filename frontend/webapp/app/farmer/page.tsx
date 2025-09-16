@@ -4,6 +4,8 @@ import TrackProductsPage from "./track-products/page";
 import { Card, CardContent } from "@/components/shadcn/ui/card";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Image from "next/image";
+
 import {
   Tabs,
   TabsContent,
@@ -19,19 +21,24 @@ const FarmerPage = () => {
   const [activeTab, setActiveTab] = useState("register");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1B4332] via-[#2D5A3D] to-[#52B788] relative">
+    <div className="min-h-screen relative">
+      {/* Background Image with Single Blur */}
+      <div className="fixed inset-0 z-0">
+        <Image
+          src="/parallex.png"
+          alt="Background"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-md"></div>
+      </div>
+
       {/* Background Beams */}
       <BackgroundBeams className="opacity-30" />
 
-      {/* Texture Overlay */}
-      <div
-        className="absolute inset-0 opacity-30 z-10"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-      ></div>
-
-      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="relative z-10 max-w-screen-xl mx-auto px-2 sm:px-4 lg:px-6 py-8">
         <FarmerWelcomeBanner />
 
         {/* Floating Navigation Tabs with Glass Morphism */}
@@ -39,7 +46,7 @@ const FarmerPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.5 }}
-          className="mb-8"
+          className="backdrop-blur-xl bg-white/5 rounded-2xl p-2 shadow-lg border border-white/20"
         >
           <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-2 shadow-lg border border-white/20">
             <Tabs
@@ -50,21 +57,21 @@ const FarmerPage = () => {
               <TabsList className="grid w-full grid-cols-3 bg-transparent gap-2">
                 <TabsTrigger
                   value="register"
-                  className="flex items-center gap-2 bg-white/20 data-[state=active]:bg-white data-[state=active]:text-[#1B4332] text-white border-0 rounded-xl transition-all duration-200 hover:bg-white/30"
+                  className="flex items-center gap-2 bg-white/10 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 border-0 rounded-xl transition-all duration-200 hover:bg-white/20"
                 >
                   <Plus className="h-4 w-4" />
                   Register Product
                 </TabsTrigger>
                 <TabsTrigger
                   value="track"
-                  className="flex items-center gap-2 bg-white/20 data-[state=active]:bg-white data-[state=active]:text-[#1B4332] text-white border-0 rounded-xl transition-all duration-200 hover:bg-white/30"
+                  className="flex items-center gap-2 bg-white/10 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 border-0 rounded-xl transition-all duration-200 hover:bg-white/20"
                 >
                   <Package2 className="h-4 w-4" />
                   Track Products
                 </TabsTrigger>
                 <TabsTrigger
                   value="analytics"
-                  className="flex items-center gap-2 bg-white/20 data-[state=active]:bg-white data-[state=active]:text-[#1B4332] text-white border-0 rounded-xl transition-all duration-200 hover:bg-white/30"
+                  className="flex items-center gap-2 bg-white/10 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 border-0 rounded-xl transition-all duration-200 hover:bg-white/20"
                 >
                   <BarChart3 className="h-4 w-4" />
                   Analytics
@@ -78,7 +85,7 @@ const FarmerPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
                   >
-                    <Card className="border-0 shadow-lg bg-white rounded-2xl overflow-hidden">
+                    <Card className="border-white/20 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden">
                       <CardContent className="p-0">
                         <RegisterProductPage />
                       </CardContent>
@@ -92,7 +99,7 @@ const FarmerPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
                   >
-                    <Card className="border-0 shadow-lg bg-white rounded-2xl overflow-hidden">
+                    <Card className="border-white/20 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden">
                       <CardContent className="p-0">
                         <TrackProductsPage />
                       </CardContent>
@@ -106,7 +113,7 @@ const FarmerPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
                   >
-                    <Card className="border-0 shadow-lg bg-white rounded-2xl overflow-hidden">
+                    <Card className="border-white/20 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden">
                       <CardContent className="p-0">
                         <SalesChart />
                       </CardContent>
