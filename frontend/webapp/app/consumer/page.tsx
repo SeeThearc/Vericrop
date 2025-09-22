@@ -25,7 +25,7 @@ export default function ConsumerPage() {
       </div>
 
       {/* Background Beams */}
-      <BackgroundBeams className="opacity-30" />
+      <BackgroundBeams className="z-5" />
 
       <div className="relative z-10 max-w-screen-xl mx-auto px-2 sm:px-4 lg:px-6 py-8">
         <WelcomeBanner />

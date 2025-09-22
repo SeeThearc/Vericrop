@@ -1,156 +1,330 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { Leaf } from "lucide-react";
+
+interface LeafData {
+  id: number;
+  x: number;
+  y: number;
+  vx: number; // velocity x
+  vy: number; // velocity y
+  size: number;
+  rotation: number;
+  rotationSpeed: number; // degrees per second (fixed rotation speed)
+  rotationDirection: number; // 1 or -1 for clockwise/counterclockwise
+  windOffset: number;
+  windPhase: number;
+  mass: number; // affects how much it responds to forces
+  opacity: number;
+}
+
+interface MouseData {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  prevX: number;
+  prevY: number;
+}
 
 export const BackgroundBeams = React.memo(
   ({ className }: { className?: string }) => {
-    const paths = [
-      "M-380 -189C-380 -189 -312 216 152 343C616 470 684 875 684 875",
-      "M-373 -197C-373 -197 -305 208 159 335C623 462 691 867 691 867",
-      "M-366 -205C-366 -205 -298 200 166 327C630 454 698 859 698 859",
-      "M-359 -213C-359 -213 -291 192 173 319C637 446 705 851 705 851",
-      "M-352 -221C-352 -221 -284 184 180 311C644 438 712 843 712 843",
-      "M-345 -229C-345 -229 -277 176 187 303C651 430 719 835 719 835",
-      "M-338 -237C-338 -237 -270 168 194 295C658 422 726 827 726 827",
-      "M-331 -245C-331 -245 -263 160 201 287C665 414 733 819 733 819",
-      "M-324 -253C-324 -253 -256 152 208 279C672 406 740 811 740 811",
-      "M-317 -261C-317 -261 -249 144 215 271C679 398 747 803 747 803",
-      "M-310 -269C-310 -269 -242 136 222 263C686 390 754 795 754 795",
-      "M-303 -277C-303 -277 -235 128 229 255C693 382 761 787 761 787",
-      "M-296 -285C-296 -285 -228 120 236 247C700 374 768 779 768 779",
-      "M-289 -293C-289 -293 -221 112 243 239C707 366 775 771 775 771",
-      "M-282 -301C-282 -301 -214 104 250 231C714 358 782 763 782 763",
-      "M-275 -309C-275 -309 -207 96 257 223C721 350 789 755 789 755",
-      "M-268 -317C-268 -317 -200 88 264 215C728 342 796 747 796 747",
-      "M-261 -325C-261 -325 -193 80 271 207C735 334 803 739 803 739",
-      "M-254 -333C-254 -333 -186 72 278 199C742 326 810 731 810 731",
-      "M-247 -341C-247 -341 -179 64 285 191C749 318 817 723 817 723",
-      "M-240 -349C-240 -349 -172 56 292 183C756 310 824 715 824 715",
-      "M-233 -357C-233 -357 -165 48 299 175C763 302 831 707 831 707",
-      "M-226 -365C-226 -365 -158 40 306 167C770 294 838 699 838 699",
-      "M-219 -373C-219 -373 -151 32 313 159C777 286 845 691 845 691",
-      "M-212 -381C-212 -381 -144 24 320 151C784 278 852 683 852 683",
-      "M-205 -389C-205 -389 -137 16 327 143C791 270 859 675 859 675",
-      "M-198 -397C-198 -397 -130 8 334 135C798 262 866 667 866 667",
-      "M-191 -405C-191 -405 -123 0 341 127C805 254 873 659 873 659",
-      "M-184 -413C-184 -413 -116 -8 348 119C812 246 880 651 880 651",
-      "M-177 -421C-177 -421 -109 -16 355 111C819 238 887 643 887 643",
-      "M-170 -429C-170 -429 -102 -24 362 103C826 230 894 635 894 635",
-      "M-163 -437C-163 -437 -95 -32 369 95C833 222 901 627 901 627",
-      "M-156 -445C-156 -445 -88 -40 376 87C840 214 908 619 908 619",
-      "M-149 -453C-149 -453 -81 -48 383 79C847 206 915 611 915 611",
-      "M-142 -461C-142 -461 -74 -56 390 71C854 198 922 603 922 603",
-      "M-135 -469C-135 -469 -67 -64 397 63C861 190 929 595 929 595",
-      "M-128 -477C-128 -477 -60 -72 404 55C868 182 936 587 936 587",
-      "M-121 -485C-121 -485 -53 -80 411 47C875 174 943 579 943 579",
-      "M-114 -493C-114 -493 -46 -88 418 39C882 166 950 571 950 571",
-      "M-107 -501C-107 -501 -39 -96 425 31C889 158 957 563 957 563",
-      "M-100 -509C-100 -509 -32 -104 432 23C896 150 964 555 964 555",
-      "M-93 -517C-93 -517 -25 -112 439 15C903 142 971 547 971 547",
-      "M-86 -525C-86 -525 -18 -120 446 7C910 134 978 539 978 539",
-      "M-79 -533C-79 -533 -11 -128 453 -1C917 126 985 531 985 531",
-      "M-72 -541C-72 -541 -4 -136 460 -9C924 118 992 523 992 523",
-      "M-65 -549C-65 -549 3 -144 467 -17C931 110 999 515 999 515",
-      "M-58 -557C-58 -557 10 -152 474 -25C938 102 1006 507 1006 507",
-      "M-51 -565C-51 -565 17 -160 481 -33C945 94 1013 499 1013 499",
-      "M-44 -573C-44 -573 24 -168 488 -41C952 86 1020 491 1020 491",
-      "M-37 -581C-37 -581 31 -176 495 -49C959 78 1027 483 1027 483",
-    ];
+    const [windowWidth, setWindowWidth] = useState(0);
+    const [windowHeight, setWindowHeight] = useState(0);
+    const [leaves, setLeaves] = useState<LeafData[]>([]);
+    const mouseRef = useRef<MouseData>({
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+      prevX: 0,
+      prevY: 0,
+    });
+    const animationRef = useRef<number | null>(null);
+    const lastTimeRef = useRef<number>(0);
+    const lastSpawnTimeRef = useRef<number>(0);
+    const leafIdCounterRef = useRef<number>(0);
+
+    // Initialize window dimensions
+    useEffect(() => {
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+        setWindowHeight(window.innerHeight);
+      };
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    // Create a single leaf with random properties
+    const createLeaf = useCallback((x?: number, y?: number): LeafData => {
+      // Random rotation speed: 5-10 seconds per full revolution
+      const revolutionTime = 225 + Math.random() * 15; // 5 to 10 seconds
+      const rotationSpeed = 360 / revolutionTime; // degrees per second
+      
+      return {
+        id: leafIdCounterRef.current++,
+        x: x ?? Math.random() * windowWidth,
+        y: y ?? (-100 - Math.random() * 100),
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: 0.2 + Math.random() * 0.3,
+        size: 16 + Math.random() * 16,
+        rotation: Math.random() * 360,
+        rotationSpeed: rotationSpeed,
+        rotationDirection: Math.random() < 0.5 ? 1 : -1, // Random direction
+        windOffset: Math.random() * Math.PI * 2,
+        windPhase: Math.random() * Math.PI * 2,
+        mass: 0.3 + Math.random() * 0.7, // Wider mass range for more variation
+        opacity: 0.6 + Math.random() * 0.4,
+      };
+    }, [windowWidth]);
+
+    // Initialize with no leaves - only spawn from timer
+    const initialLeaves = useMemo(() => {
+      return []; // Start with empty array
+    }, []);
+
+    useEffect(() => {
+      setLeaves([]);
+      leafIdCounterRef.current = 0;
+      lastSpawnTimeRef.current = 0;
+    }, [windowWidth, windowHeight]);
+
+    // Mouse tracking with bounds checking
+    const handleMouseMove = useCallback((e: MouseEvent) => {
+      const mouse = mouseRef.current;
+      mouse.prevX = mouse.x;
+      mouse.prevY = mouse.y;
+      
+      // Only update if mouse is within browser bounds
+      if (e.clientX >= 0 && e.clientX <= windowWidth && 
+          e.clientY >= 0 && e.clientY <= windowHeight) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        
+        // Calculate mouse velocity (smoothed)
+        mouse.vx = (mouse.x - mouse.prevX) * 0.8 + mouse.vx * 0.2;
+        mouse.vy = (mouse.y - mouse.prevY) * 0.8 + mouse.vy * 0.2;
+      } else {
+        // Gradually reduce mouse velocity when outside bounds
+        mouse.vx *= 0.9;
+        mouse.vy *= 0.9;
+      }
+    }, [windowWidth, windowHeight]);
+
+    // Track mouse leave to stop wind effects
+    const handleMouseLeave = useCallback(() => {
+      const mouse = mouseRef.current;
+      mouse.vx *= 0.5;
+      mouse.vy *= 0.5;
+    }, []);
+
+    useEffect(() => {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseleave', handleMouseLeave);
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseleave', handleMouseLeave);
+      };
+    }, [handleMouseMove, handleMouseLeave]);
+
+    // Animation loop
+    useEffect(() => {
+      if (windowWidth === 0 || windowHeight === 0) return;
+
+      const animate = (currentTime: number) => {
+        const deltaTime = currentTime - lastTimeRef.current;
+        lastTimeRef.current = currentTime;
+
+        // Skip if delta is too large (tab was inactive)
+        if (deltaTime > 100) {
+          animationRef.current = requestAnimationFrame(animate);
+          return;
+        }
+
+        // Spawn new leaves every 1 second (random 0-5 leaves)
+        if (currentTime - lastSpawnTimeRef.current >= 1000) { // 1000ms = 1 second
+          const numNewLeaves = Math.floor(Math.random() * 6); // 0-5 leaves
+          
+          setLeaves(prevLeaves => {
+            const newLeaves = [];
+            for (let i = 0; i < numNewLeaves; i++) {
+              newLeaves.push(createLeaf(Math.random() * windowWidth, -100 - Math.random() * 50));
+            }
+            return [...prevLeaves, ...newLeaves];
+          });
+          
+          lastSpawnTimeRef.current = currentTime;
+        }
+
+        const dt = deltaTime * 0.016; // Normalize to ~60fps
+        const mouse = mouseRef.current;
+        const time = currentTime * 0.001; // Convert to seconds
+
+        setLeaves(prevLeaves => 
+          prevLeaves.map(leaf => {
+            // Calculate distance to mouse
+            const dx = mouse.x - leaf.x;
+            const dy = mouse.y - leaf.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Calculate forces
+            let fx = 0;
+            let fy = 0;
+
+            // Natural wind force (very gentle environmental wind)
+            const windStrength = 0.05;
+            const windX = Math.sin(time * 0.15 + leaf.windPhase) * windStrength;
+            const windY = Math.sin(time * 0.1 + leaf.windOffset) * windStrength * 0.2;
+            fx += windX;
+            fy += windY;
+
+            // Mass-affected gravity - heavier leaves fall faster
+            // F = ma, so a = F/m, but for gravity F = mg, so a = g (constant)
+            // But we can simulate different drag coefficients based on mass
+            const gravityForce = leaf.mass * 0.18; // Heavier leaves have more gravitational force
+            fy += gravityForce;
+
+            // Enhanced mouse horizontal wind effect
+            const mouseSpeed = Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy);
+            const mouseInBounds = mouse.x >= 0 && mouse.x <= windowWidth && mouse.y >= 0 && mouse.y <= windowHeight;
+            
+            if (mouseSpeed > 0.3 && mouseInBounds && distance > 0) {
+              // Mouse wind force - lighter leaves are more affected
+              const distanceFactor = Math.exp(-distance / 180);
+              const massResistanceFactor = 1 / Math.sqrt(leaf.mass); // Lighter leaves are more affected
+              
+              fx += mouse.vx * 0.05 * distanceFactor * massResistanceFactor;
+              fy += mouse.vy * 0.008 * distanceFactor * massResistanceFactor;
+              
+              // Additional directional wind based on mouse speed
+              if (mouseSpeed > 1) {
+                const horizontalBoost = Math.sign(mouse.vx) * Math.min(mouseSpeed * 0.02, 0.3);
+                fx += horizontalBoost * distanceFactor * massResistanceFactor;
+              }
+            }
+
+            // Simplified leaf-to-leaf collision (reduced intensity)
+            let leafCollisionForce = { x: 0, y: 0 };
+            prevLeaves.forEach(otherLeaf => {
+              if (otherLeaf.id !== leaf.id) {
+                const ldx = otherLeaf.x - leaf.x;
+                const ldy = otherLeaf.y - leaf.y;
+                const leafDistance = Math.sqrt(ldx * ldx + ldy * ldy);
+                const minDistance = (leaf.size + otherLeaf.size) * 0.6;
+
+                if (leafDistance < minDistance && leafDistance > 0) {
+                  const pushAngle = Math.atan2(-ldy, -ldx);
+                  const overlap = minDistance - leafDistance;
+                  const pushForce = overlap * 0.02; // Much weaker collision
+                  
+                  leafCollisionForce.x += Math.cos(pushAngle) * pushForce;
+                  leafCollisionForce.y += Math.sin(pushAngle) * pushForce;
+                }
+              }
+            });
+            
+            fx += leafCollisionForce.x;
+            fy += leafCollisionForce.y;
+
+            // Mass-based air resistance - heavier leaves have less air resistance relative to their mass
+            // Air resistance is proportional to velocity^2 and inversely related to mass
+            const airResistanceCoeff = 0.04 / leaf.mass; // Lighter leaves experience more air resistance
+            const horizontalAirResistance = leaf.vx * Math.abs(leaf.vx) * airResistanceCoeff;
+            const verticalAirResistance = leaf.vy * Math.abs(leaf.vy) * airResistanceCoeff * 0.5; // Less vertical resistance
+            
+            fx -= horizontalAirResistance;
+            fy -= verticalAirResistance;
+
+            // Update velocity using F = ma (a = F/m)
+            const acceleration = 1 / leaf.mass;
+            leaf.vx += fx * acceleration * dt;
+            leaf.vy += fy * acceleration * dt;
+
+            // Mass-based velocity limits - heavier leaves can move faster
+            const baseMassMultiplier = Math.sqrt(leaf.mass);
+            const maxHorizontalVel = 1.5 * baseMassMultiplier; // Heavier leaves can move faster horizontally
+            const maxVerticalVel = 2.5 * baseMassMultiplier; // Heavier leaves fall faster
+
+            if (Math.abs(leaf.vx) > maxHorizontalVel) {
+              leaf.vx = Math.sign(leaf.vx) * maxHorizontalVel;
+            }
+            
+            if (leaf.vy > maxVerticalVel) {
+              leaf.vy = maxVerticalVel;
+            } else if (leaf.vy < -maxVerticalVel * 0.1) {
+              leaf.vy = -maxVerticalVel * 0.1;
+            }
+
+            // Update position
+            leaf.x += leaf.vx * dt * 0.8;
+            leaf.y += leaf.vy * dt * 0.6;
+
+            // Fixed rotation - independent of mouse or other forces
+            leaf.rotation += leaf.rotationSpeed * leaf.rotationDirection * dt;
+
+            return { ...leaf };
+          }).filter(leaf => {
+            // Remove leaves that are far off screen
+            return leaf.y < windowHeight + 200 && leaf.x > -200 && leaf.x < windowWidth + 200;
+          })
+        );
+
+        animationRef.current = requestAnimationFrame(animate);
+      };
+
+      animationRef.current = requestAnimationFrame(animate);
+
+      return () => {
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+      };
+    }, [windowWidth, windowHeight, createLeaf]);
 
     return (
       <div
         className={cn(
-          "fixed inset-0 w-full h-full pointer-events-none z-0",
-          className
+          "absolute inset-0 h-full w-full overflow-hidden pointer-events-none",
+          className,
         )}
       >
-        <svg
-          className="absolute inset-0 w-full h-full"
-          width="100%"
-          height="100%"
-          viewBox="0 0 696 316"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M-380 -189C-380 -189 -312 216 152 343C616 470 684 875 684 875M-373 -197C-373 -197 -305 208 159 335C623 462 691 867 691 867M-366 -205C-366 -205 -298 200 166 327C630 454 698 859 698 859M-359 -213C-359 -213 -291 192 173 319C637 446 705 851 705 851M-352 -221C-352 -221 -284 184 180 311C644 438 712 843 712 843M-345 -229C-345 -229 -277 176 187 303C651 430 719 835 719 835M-338 -237C-338 -237 -270 168 194 295C658 422 726 827 726 827M-331 -245C-331 -245 -263 160 201 287C665 414 733 819 733 819M-324 -253C-324 -253 -256 152 208 279C672 406 740 811 740 811M-317 -261C-317 -261 -249 144 215 271C679 398 747 803 747 803M-310 -269C-310 -269 -242 136 222 263C686 390 754 795 754 795M-303 -277C-303 -277 -235 128 229 255C693 382 761 787 761 787M-296 -285C-296 -285 -228 120 236 247C700 374 768 779 768 779M-289 -293C-289 -293 -221 112 243 239C707 366 775 771 775 771M-282 -301C-282 -301 -214 104 250 231C714 358 782 763 782 763M-275 -309C-275 -309 -207 96 257 223C721 350 789 755 789 755M-268 -317C-268 -317 -200 88 264 215C728 342 796 747 796 747M-261 -325C-261 -325 -193 80 271 207C735 334 803 739 803 739M-254 -333C-254 -333 -186 72 278 199C742 326 810 731 810 731M-247 -341C-247 -341 -179 64 285 191C749 318 817 723 817 723M-240 -349C-240 -349 -172 56 292 183C756 310 824 715 824 715M-233 -357C-233 -357 -165 48 299 175C763 302 831 707 831 707M-226 -365C-226 -365 -158 40 306 167C770 294 838 699 838 699M-219 -373C-219 -373 -151 32 313 159C777 286 845 691 845 691M-212 -381C-212 -381 -144 24 320 151C784 278 852 683 852 683M-205 -389C-205 -389 -137 16 327 143C791 270 859 675 859 675M-198 -397C-198 -397 -130 8 334 135C798 262 866 667 866 667M-191 -405C-191 -405 -123 0 341 127C805 254 873 659 873 659M-184 -413C-184 -413 -116 -8 348 119C812 246 880 651 880 651M-177 -421C-177 -421 -109 -16 355 111C819 238 887 643 887 643M-170 -429C-170 -429 -102 -24 362 103C826 230 894 635 894 635M-163 -437C-163 -437 -95 -32 369 95C833 222 901 627 901 627M-156 -445C-156 -445 -88 -40 376 87C840 214 908 619 908 619M-149 -453C-149 -453 -81 -48 383 79C847 206 915 611 915 611M-142 -461C-142 -461 -74 -56 390 71C854 198 922 603 922 603M-135 -469C-135 -469 -67 -64 397 63C861 190 929 595 929 595M-128 -477C-128 -477 -60 -72 404 55C868 182 936 587 936 587M-121 -485C-121 -485 -53 -80 411 47C875 174 943 579 943 579M-114 -493C-114 -493 -46 -88 418 39C882 166 950 571 950 571M-107 -501C-107 -501 -39 -96 425 31C889 158 957 563 957 563M-100 -509C-100 -509 -32 -104 432 23C896 150 964 555 964 555M-93 -517C-93 -517 -25 -112 439 15C903 142 971 547 971 547M-86 -525C-86 -525 -18 -120 446 7C910 134 978 539 978 539M-79 -533C-79 -533 -11 -128 453 -1C917 126 985 531 985 531M-72 -541C-72 -541 -4 -136 460 -9C924 118 992 523 992 523M-65 -549C-65 -549 3 -144 467 -17C931 110 999 515 999 515M-58 -557C-58 -557 10 -152 474 -25C938 102 1006 507 1006 507M-51 -565C-51 -565 17 -160 481 -33C945 94 1013 499 1013 499M-44 -573C-44 -573 24 -168 488 -41C952 86 1020 491 1020 491M-37 -581C-37 -581 31 -176 495 -49C959 78 1027 483 1027 483"
-            stroke="url(#paint0_radial_242_278)"
-            strokeOpacity="0.2"
-            strokeWidth="1"
-          />
-
-          {paths.map((path, index) => (
-            <motion.path
-              key={`path-` + index}
-              d={path}
-              stroke={`url(#linearGradient-${index})`}
-              strokeOpacity="1"
-              strokeWidth="2"
-              initial={{
-                pathLength: 0,
-              }}
-              animate={{
-                pathLength: 1,
-              }}
-              transition={{
-                duration: Math.random() * 6 + 4,
-                ease: "easeInOut",
-                repeat: Infinity,
-                repeatType: "loop",
-                delay: Math.random() * 3,
-              }}
-            />
-          ))}
-
-          <defs>
-            {paths.map((path, index) => (
-              <motion.linearGradient
-                id={`linearGradient-${index}`}
-                key={`gradient-${index}`}
-                initial={{
-                  x1: "0%",
-                  x2: "0%",
-                  y1: "0%",
-                  y2: "0%",
-                }}
-                animate={{
-                  x1: ["0%", "100%"],
-                  x2: ["0%", "95%"],
-                  y1: ["0%", "100%"],
-                  y2: ["0%", `${93 + Math.random() * 8}%`],
-                }}
-                transition={{
-                  duration: Math.random() * 8 + 6,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                  delay: Math.random() * 2,
-                }}
-              >
-                <stop stopColor="#3B82F6" stopOpacity="0" />
-                <stop stopColor="#3B82F6" stopOpacity="1" />
-                <stop offset="32.5%" stopColor="#1D4ED8" stopOpacity="1" />
-                <stop offset="100%" stopColor="#60A5FA" stopOpacity="0" />
-              </motion.linearGradient>
-            ))}
-
-            <radialGradient
-              id="paint0_radial_242_278"
-              cx="0"
-              cy="0"
-              r="1"
-              gradientUnits="userSpaceOnUse"
-              gradientTransform="translate(352 34) rotate(90) scale(555 1560.62)"
-            >
-              <stop offset="0.0666667" stopColor="#3B82F6" stopOpacity="0.4" />
-              <stop offset="0.243243" stopColor="#3B82F6" stopOpacity="0.2" />
-              <stop offset="0.43594" stopColor="#60A5FA" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-        </svg>
+        {leaves.map((leaf) => (
+          <motion.div
+            key={leaf.id}
+            style={{
+              position: 'absolute',
+              left: leaf.x,
+              top: leaf.y,
+              transform: `rotate(${leaf.rotation}deg)`,
+              opacity: leaf.opacity,
+            }}
+            className="text-green-200 drop-shadow-lg transition-opacity"
+          >
+            <Leaf size={leaf.size} />
+          </motion.div>
+        ))}
+        
+        {/* Optional: Show mouse influence area for debugging */}
+        {/* 
+        <div
+          style={{
+            position: 'absolute',
+            left: mouseRef.current.x - 100,
+            top: mouseRef.current.y - 100,
+            width: 200,
+            height: 200,
+            borderRadius: '50%',
+            border: '1px solid rgba(255,255,255,0.1)',
+            pointerEvents: 'none',
+          }}
+        />
+        */}
       </div>
     );
-  }
+  },
 );
 
 BackgroundBeams.displayName = "BackgroundBeams";
