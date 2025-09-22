@@ -3,7 +3,7 @@ import "./globals.css";
 import StoreProvider from "./StoreProvider";
 // import RoleRedirect from "../components/RoleRedirect";
 import AuthInitializer from "../components/AuthInitializer";
-import DataProvider from "../context/Context.jsx";
+import DataProvider from "../context/Context";
 
 export const metadata: Metadata = {
   title: "VeriCrop",

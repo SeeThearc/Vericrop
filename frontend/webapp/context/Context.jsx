@@ -1,8 +1,12 @@
 "use client"; // This makes it a Client Component in Next.js 13+
 
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { ethers } from "ethers";
 import dynamic from "next/dynamic";
+
+// IPFS Configuration
+const IPFS_GATEWAY_URL = "https://ipfs.io/ipfs/";
+const PINATA_API_URL = "https://api.pinata.cloud";
 
 // Dynamic imports for ABIs to avoid SSR issues
 const loadABIs = async () => {
@@ -48,6 +52,11 @@ export const DataProvider = ({ children }) => {
   const [isClient, setIsClient] = useState(false);
   const [abis, setAbis] = useState(null);
   const [contractsConfig, setContractsConfig] = useState(null);
+  const [ipfsLoading, setIpfsLoading] = useState(false);
+
+  // IPFS Configuration - Using API Key and Secret
+  const PINATA_API_KEY = process.env.NEXT_PUBLIC_PINATA_API_KEY || "";
+  const PINATA_SECRET_API_KEY = process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY || "";
 
   // Ensure we're on client side
   useEffect(() => {
@@ -65,32 +74,32 @@ export const DataProvider = ({ children }) => {
           name: "AgriTrace Batch Contract"
         },
         contract2: {
-          address: "0x4791d697b2af3191E3Ff09589650f2fc8C96b7b1", // Replace with actual address
+          address: "0x4791d697b2af3191E3Ff09589650f2fc8C96b7b1",
           abi: loadedAbis.contract2Abi.abi,
           name: "Contract 2"
         },
         contract3: {
-          address: "0xa18AD321d13167105D3c123DA18317ba9d4ddfC9", // Replace with actual address
+          address: "0xa18AD321d13167105D3c123DA18317ba9d4ddfC9",
           abi: loadedAbis.contract3Abi.abi,
           name: "Contract 3"
         },
         contract4: {
-          address: "0xF588b76226944B4657c56691209f45B84a9C392d", // Replace with actual address
+          address: "0xF588b76226944B4657c56691209f45B84a9C392d",
           abi: loadedAbis.contract4Abi.abi,
           name: "Contract 4"
         },
         contract5: {
-          address: "0x146fe66160E7886444ac5791A845203eC8a5181A", // Replace with actual address
+          address: "0x146fe66160E7886444ac5791A845203eC8a5181A",
           abi: loadedAbis.contract5Abi.abi,
           name: "Contract 5"
         },
         contract6: {
-          address: "0x56880F1110c87347fB095f1c89AC14633552c5A8", // Replace with actual address
+          address: "0x56880F1110c87347fB095f1c89AC14633552c5A8",
           abi: loadedAbis.contract6Abi.abi,
           name: "Contract 6"
         },
         contract7: {
-          address: "0xC3731441B0BD0909ce624f705A6d39b4226C3a09", // Replace with actual address
+          address: "0xC3731441B0BD0909ce624f705A6d39b4226C3a09",
           abi: loadedAbis.contract7Abi.abi,
           name: "Contract 7"
         }
@@ -195,6 +204,141 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+  // IPFS Functions
+
+  /**
+   * Upload any JSON data to IPFS
+   * @param {Object} jsonData - The JSON data to upload (form fields, etc.)
+   * @param {string} fileName - Optional filename for the upload
+   * @returns {Promise<{hash: string, url: string}>} - Returns IPFS hash and gateway URL
+   */
+  const uploadJsonToIPFS = async (jsonData, fileName = null) => {
+    if (!jsonData) {
+      throw new Error("No data provided for IPFS upload");
+    }
+
+    try {
+      setIpfsLoading(true);
+
+      // Prepare data with metadata
+      const dataToUpload = {
+        timestamp: new Date().toISOString(),
+        walletAddress: acc !== "Not connected" ? acc : null,
+        ...jsonData
+      };
+
+      // Generate filename if not provided
+      const finalFileName = fileName || `data-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.json`;
+
+      // Check if we have Pinata API credentials
+      if (PINATA_API_KEY && PINATA_SECRET_API_KEY) {
+        const formData = new FormData();
+        const blob = new Blob([JSON.stringify(dataToUpload, null, 2)], {
+          type: 'application/json'
+        });
+        
+        formData.append('file', blob, finalFileName);
+        
+        const metadata = JSON.stringify({
+          name: finalFileName,
+          keyvalues: {
+            walletAddress: acc !== "Not connected" ? acc : 'anonymous',
+            uploadedAt: new Date().toISOString()
+          }
+        });
+        formData.append('pinataMetadata', metadata);
+
+        const options = JSON.stringify({
+          cidVersion: 0,
+        });
+        formData.append('pinataOptions', options);
+
+        const response = await fetch(`${PINATA_API_URL}/pinning/pinFileToIPFS`, {
+          method: 'POST',
+          headers: {
+            'pinata_api_key': PINATA_API_KEY,
+            'pinata_secret_api_key': PINATA_SECRET_API_KEY,
+          },
+          body: formData
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Pinata upload failed: ${response.statusText} - ${errorText}`);
+        }
+
+        const result = await response.json();
+        const ipfsHash = result.IpfsHash;
+        const ipfsUrl = `${IPFS_GATEWAY_URL}${ipfsHash}`;
+
+        console.log("Data uploaded to IPFS:", { hash: ipfsHash, url: ipfsUrl });
+        return { hash: ipfsHash, url: ipfsUrl };
+      }
+
+      // Fallback method for development/testing (when no Pinata credentials)
+      else {
+        console.warn("No Pinata API credentials found. Using fallback method.");
+        
+        const mockHash = "Qm" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        const mockUrl = `${IPFS_GATEWAY_URL}${mockHash}`;
+        
+        // Store in localStorage as fallback
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(`ipfs_mock_${mockHash}`, JSON.stringify(dataToUpload));
+        }
+        
+        return { hash: mockHash, url: mockUrl, mock: true };
+      }
+
+    } catch (error) {
+      console.error("IPFS upload error:", error);
+      throw new Error(`Failed to upload to IPFS: ${error.message}`);
+    } finally {
+      setIpfsLoading(false);
+    }
+  };
+
+  /**
+   * Fetch JSON data from IPFS using hash
+   * @param {string} ipfsHash - The IPFS hash to fetch
+   * @returns {Promise<Object>} - Returns the JSON data
+   */
+  const retrieveJsonFromIPFS = async (ipfsHash) => {
+    if (!ipfsHash) {
+      throw new Error("No IPFS hash provided");
+    }
+
+    try {
+      setIpfsLoading(true);
+
+      // Check if it's a mock hash (fallback method)
+      if (typeof window !== 'undefined') {
+        const mockData = localStorage.getItem(`ipfs_mock_${ipfsHash}`);
+        if (mockData) {
+          return JSON.parse(mockData);
+        }
+      }
+
+      // Fetch from IPFS gateway
+      const response = await fetch(`${IPFS_GATEWAY_URL}${ipfsHash}`);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch from IPFS: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Data fetched from IPFS:", data);
+      
+      return data;
+
+    } catch (error) {
+      console.error("IPFS fetch error:", error);
+      throw new Error(`Failed to fetch from IPFS: ${error.message}`);
+    } finally {
+      setIpfsLoading(false);
+    }
+  };
+
   // Helper function to get a specific contract
   const getContract = (contractName) => {
     return state.contracts[contractName] || null;
@@ -238,7 +382,11 @@ export const DataProvider = ({ children }) => {
         getAvailableContracts: () => [],
         getNetworkInfo: () => null,
         isConnecting: false,
-        contracts: {}
+        contracts: {},
+        // IPFS functions
+        uploadJsonToIPFS: () => Promise.reject(new Error("Not on client side")),
+        retrieveJsonFromIPFS: () => Promise.reject(new Error("Not on client side")),
+        ipfsLoading: false
       }}>
         {children}
       </DataContext.Provider>
@@ -257,7 +405,11 @@ export const DataProvider = ({ children }) => {
       getAvailableContracts,
       getNetworkInfo,
       isConnecting,
-      contracts: state.contracts
+      contracts: state.contracts,
+      // IPFS functions - just two simple functions
+      uploadJsonToIPFS,      // Upload any JSON data (form fields, etc.)
+      retrieveJsonFromIPFS,  // Retrieve JSON data by hash
+      ipfsLoading
     }}>
       {children}
     </DataContext.Provider>
