@@ -7,6 +7,8 @@ import {
   CheckCircle,
   Clock,
   XCircle,
+  Upload,
+  Loader2,
 } from "lucide-react";
 import {
   Select,
@@ -16,6 +18,8 @@ import {
   SelectValue,
 } from "@/components/shadcn/ui/select";
 import { Label } from "@/components/shadcn/ui/label";
+import { Input } from "@/components/shadcn/ui/input";
+import { useState } from "react";
 
 const recentVerifications = [
   {
@@ -107,6 +111,81 @@ const StatusBadge = ({ status }: { status: string }) => {
 };
 
 const VerifyProductsPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [verificationResults, setVerificationResults] = useState<any>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [expectedProduct, setExpectedProduct] = useState("");
+
+  // Handle file selection
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  // Fraud Detection API call
+  const handleFraudDetection = async () => {
+    if (!selectedFile || !expectedProduct) {
+      alert("Please select an image and enter expected product name");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+      formData.append("expected_product", expectedProduct);
+
+      const response = await fetch("http://localhost:8000/detect-fraud", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to detect fraud");
+      }
+
+      const result = await response.json();
+      setVerificationResults({ type: "fraud", data: result });
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error detecting fraud. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Fruit Quality API call
+  const handleFruitQuality = async () => {
+    if (!selectedFile) {
+      alert("Please select an image");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+
+      const response = await fetch("http://localhost:8000/grade-fruit-quality", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to analyze fruit quality");
+      }
+
+      const result = await response.json();
+      setVerificationResults({ type: "quality", data: result });
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error analyzing fruit quality. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="space-y-8">
       {/* Language Selector */}
@@ -140,6 +219,147 @@ const VerifyProductsPage = () => {
             <p className="text-sm text-green-600 font-medium">
               +12% this month
             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Product Verification Interface */}
+      <div className="vericrop-card-primary mb-8">
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            Product Verification
+          </h3>
+          <p className="text-gray-600">
+            Upload product images for fraud detection and quality analysis
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* File Upload Section */}
+          <div className="space-y-4">
+            <div>
+              <Label className="text-gray-900 font-medium">Upload Product Image</Label>
+              <div className="mt-2">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileSelect}
+                  className="vericrop-input"
+                />
+              </div>
+              {selectedFile && (
+                <p className="text-sm text-green-600 mt-1">
+                  Selected: {selectedFile.name}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Label className="text-gray-900 font-medium">Expected Product (for fraud detection)</Label>
+              <Input
+                type="text"
+                placeholder="e.g., strawberry, apple, tomato"
+                value={expectedProduct}
+                onChange={(e) => setExpectedProduct(e.target.value)}
+                className="vericrop-input mt-2"
+              />
+            </div>
+
+            <div className="flex gap-2">
+              <Button
+                onClick={handleFraudDetection}
+                disabled={isLoading || !selectedFile || !expectedProduct}
+                className="vericrop-btn-primary flex-1"
+              >
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                ) : (
+                  <Shield className="h-4 w-4 mr-2" />
+                )}
+                Detect Fraud
+              </Button>
+              <Button
+                onClick={handleFruitQuality}
+                disabled={isLoading || !selectedFile}
+                className="vericrop-btn-secondary flex-1"
+              >
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                ) : (
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                )}
+                Check Quality
+              </Button>
+            </div>
+          </div>
+
+          {/* Results Section */}
+          <div className="space-y-4">
+            <Label className="text-gray-900 font-medium">Verification Results</Label>
+            {verificationResults ? (
+              <div className="vericrop-card-secondary">
+                {verificationResults.type === "fraud" && (
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-3">Fraud Detection Results</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Status:</span>
+                        <span className={verificationResults.data.is_fraudulent ? "text-red-600 font-medium" : "text-green-600 font-medium"}>
+                          {verificationResults.data.is_fraudulent ? "Fraudulent" : "Authentic"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Expected:</span>
+                        <span className="text-gray-900">{verificationResults.data.expected_product}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Detected:</span>
+                        <span className="text-gray-900">{verificationResults.data.actual_product}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Confidence:</span>
+                        <span className="text-gray-900">{(verificationResults.data.confidence_score * 100).toFixed(1)}%</span>
+                      </div>
+                      {verificationResults.data.fraud_type && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Fraud Type:</span>
+                          <span className="text-gray-900">{verificationResults.data.fraud_type}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {verificationResults.type === "quality" && (
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-3">Quality Analysis Results</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Crop Type:</span>
+                        <span className="text-gray-900">{verificationResults.data.crop_type}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Health Score:</span>
+                        <span className="text-gray-900">{verificationResults.data.health_score}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Grade:</span>
+                        <span className={`font-medium ${
+                          verificationResults.data.grade === 'A' ? 'text-green-600' :
+                          verificationResults.data.grade === 'B' ? 'text-yellow-600' : 'text-red-600'
+                        }`}>
+                          Grade {verificationResults.data.grade}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="vericrop-card-secondary text-center text-gray-500">
+                <Upload className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                Upload an image and run verification to see results
+              </div>
+            )}
           </div>
         </div>
       </div>
