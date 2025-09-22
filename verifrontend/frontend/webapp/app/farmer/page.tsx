@@ -3,7 +3,7 @@ import RegisterProductPage from "./register-product/page";
 import TrackProductsPage from "./track-products/page";
 import { Card, CardContent } from "@/components/shadcn/ui/card";
 import { motion } from "framer-motion";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import Image from "next/image";
 
 import {
@@ -51,14 +51,7 @@ const FarmerPage = () => {
     ipfsLoading
   } = useContext(DataContext);
 
-  // Fetch user details when component mounts or wallet changes
-  useEffect(() => {
-    if (isConnected() && acc && state.contracts.contract2) {
-      fetchUserDetails();
-    }
-  }, [isConnected(), acc, state.contracts.contract2]);
-
-  const fetchUserDetails = async () => {
+  const fetchUserDetails = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -119,7 +112,14 @@ const FarmerPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [acc, getContract, retrieveJsonFromIPFS, setIsLoading, setError, setUserDetails, setUserData]);
+
+  // Fetch user details when component mounts or wallet changes
+  useEffect(() => {
+    if (isConnected() && acc && state.contracts.contract2) {
+      fetchUserDetails();
+    }
+  }, [isConnected, acc, state.contracts.contract2, fetchUserDetails]);
 
   // Function to get role name
   const getRoleName = (roleId: number): string => {

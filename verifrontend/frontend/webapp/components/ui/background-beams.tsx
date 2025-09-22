@@ -81,10 +81,6 @@ export const BackgroundBeams = React.memo(
       };
     }, [windowWidth]);
 
-    // Initialize with no leaves - only spawn from timer
-    const initialLeaves = useMemo(() => {
-      return []; // Start with empty array
-    }, []);
 
     useEffect(() => {
       setLeaves([]);
@@ -208,7 +204,7 @@ export const BackgroundBeams = React.memo(
             }
 
             // Simplified leaf-to-leaf collision (reduced intensity)
-            let leafCollisionForce = { x: 0, y: 0 };
+            const leafCollisionForce = { x: 0, y: 0 };
             prevLeaves.forEach(otherLeaf => {
               if (otherLeaf.id !== leaf.id) {
                 const ldx = otherLeaf.x - leaf.x;
@@ -308,21 +304,6 @@ export const BackgroundBeams = React.memo(
           </motion.div>
         ))}
         
-        {/* Optional: Show mouse influence area for debugging */}
-        {/* 
-        <div
-          style={{
-            position: 'absolute',
-            left: mouseRef.current.x - 100,
-            top: mouseRef.current.y - 100,
-            width: 200,
-            height: 200,
-            borderRadius: '50%',
-            border: '1px solid rgba(255,255,255,0.1)',
-            pointerEvents: 'none',
-          }}
-        />
-        */}
       </div>
     );
   },

@@ -49,7 +49,7 @@ export default function AuthComplete() {
         router.push('/login')
       }
     } catch (error) {
-      dispatch(setStatus('Authentication failed - invalid data'))
+      dispatch(setStatus('Authentication failed - invalid data'+error))
       router.push('/login')
     }
   }, [searchParams, dispatch, router])

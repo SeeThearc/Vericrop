@@ -16,7 +16,6 @@ import {
   Upload,
   Camera,
   MapPin,
-  Calendar,
   Package,
   Globe,
   Sparkles,

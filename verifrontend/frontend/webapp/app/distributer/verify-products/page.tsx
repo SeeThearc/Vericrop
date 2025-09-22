@@ -2,8 +2,6 @@
 
 import { Button } from "@/components/shadcn/ui/button";
 import {
-  ShieldCheck,
-  QrCode,
   Cpu,
   Shield,
   CheckCircle,

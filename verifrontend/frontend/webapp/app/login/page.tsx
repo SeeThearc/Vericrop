@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/shadcn/ui/button";
 import {
   Card,
   CardContent,
@@ -9,19 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/ui/card";
-import { Input } from "@/components/shadcn/ui/input";
-import { Label } from "@/components/shadcn/ui/label";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/shadcn/ui/select";
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/authSlice";
-import { Eye, EyeOff, Sprout, Sparkles, Shield } from "lucide-react";
+import {  Sprout, Sparkles, Shield } from "lucide-react";
 import { Boxes } from "@/components/shadcn/ui/shadcn-io/background-boxes";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +18,6 @@ export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const [referrerUrl, setReferrerUrl] = useState<string>("");
 
   useEffect(() => {
