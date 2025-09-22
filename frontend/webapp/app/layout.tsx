@@ -3,6 +3,7 @@ import "./globals.css";
 import StoreProvider from "./StoreProvider";
 // import RoleRedirect from "../components/RoleRedirect";
 import AuthInitializer from "../components/AuthInitializer";
+import DataProvider from "../context/Context.jsx";
 
 export const metadata: Metadata = {
   title: "VeriCrop",
@@ -33,8 +34,10 @@ export default function RootLayout({
         }}
       >
         <StoreProvider>
-          <AuthInitializer />
+        <AuthInitializer />
+        < DataProvider >
           {children}
+        </ DataProvider >
         </StoreProvider>
       </body>
     </html>

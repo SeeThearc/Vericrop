@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "BufferChainlink",
+  "sourceName": "@chainlink/contracts/src/v0.8/vendor/BufferChainlink.sol",
+  "abi": [],
+  "bytecode": "0x60808060405234601757603a9081601d823930815050f35b600080fdfe600080fdfea26469706673582212205ea7754bccf0489f23a9d81d56774755e7dc62a061a4ce80a3471c7ead96aed964736f6c63430008130033",
+  "deployedBytecode": "0x600080fdfea26469706673582212205ea7754bccf0489f23a9d81d56774755e7dc62a061a4ce80a3471c7ead96aed964736f6c63430008130033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "AgriTraceLib",
+  "sourceName": "contracts/AgriTraceLib.sol",
+  "abi": [],
+  "bytecode": "0x60808060405234601757603a9081601d823930815050f35b600080fdfe600080fdfea26469706673582212207033e23fdbecb5ee73abcedf5365afbe0e747f8f8576febed69c5018d01ef61364736f6c63430008130033",
+  "deployedBytecode": "0x600080fdfea26469706673582212207033e23fdbecb5ee73abcedf5365afbe0e747f8f8576febed69c5018d01ef61364736f6c63430008130033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
