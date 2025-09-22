@@ -140,10 +140,10 @@ export const FarmerWelcomeBanner: React.FC<FarmerWelcomeBannerProps> = ({
 
   // Get reputation badge
   const getReputationBadge = (avgRep: number) => {
-    if (avgRep >= 4.5) return "⭐ Elite";
-    if (avgRep >= 4.0) return "🏆 Verified";
-    if (avgRep >= 3.5) return "✅ Trusted";
-    if (avgRep >= 3.0) return "📈 Growing";
+    if (avgRep >= 40) return "⭐ Elite";
+    if (avgRep >= 30) return "🏆 Verified";
+    if (avgRep >= 20) return "✅ Trusted";
+    if (avgRep >= 15) return "📈 Growing";
     return "🌱 New";
   };
 
@@ -169,6 +169,28 @@ export const FarmerWelcomeBanner: React.FC<FarmerWelcomeBannerProps> = ({
       gradient: "from-rose-400/20 to-rose-600/20",
       badge: "Active",
     },
+    {
+      title: "Reputation Badge",
+      value: getReputationBadge(parseFloat(averageReputation())),
+      icon: <Shield className="h-6 w-6" />,
+      gradient: "from-yellow-400/20 to-yellow-600/20",
+      badge: `Score: ${averageReputation()}/100.0`,
+    },
+    {
+      title: "Total Products",
+      value: 47,
+      icon: <Package className="h-6 w-6" />,
+      gradient: "from-blue-400/20 to-blue-600/20",
+      badge: "+5 this month",
+    },
+    {
+      title: "Active Products",
+      value: 23,
+      icon: <CheckCircle className="h-6 w-6" />,
+      gradient: "from-green-400/20 to-green-600/20",
+      badge: "In supply chain",
+    },
+
   ];
 
   return (
@@ -277,32 +299,6 @@ export const FarmerWelcomeBanner: React.FC<FarmerWelcomeBannerProps> = ({
             </motion.div>
           ))}
         </div>
-
-        {/* Additional Info Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-8 p-4 bg-black/20 rounded-lg border border-white/10"
-        >
-          <h3 className="text-lg font-semibold text-white mb-2">Account Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-            <div>
-              <span className="text-gray-400">Wallet Address:</span>
-              <p className="text-white font-mono">{address}</p>
-            </div>
-            {email && (
-              <div>
-                <span className="text-gray-400">Email:</span>
-                <p className="text-white">{email}</p>
-              </div>
-            )}
-            <div>
-              <span className="text-gray-400">Primary Role:</span>
-              <p className="text-white capitalize">{role}</p>
-            </div>
-          </div>
-        </motion.div>
       </CardContent>
     </Card>
   );
