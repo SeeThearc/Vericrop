@@ -22,7 +22,7 @@ import {
 } from "@/components/shadcn/ui/select";
 import { Boxes } from "@/components/shadcn/ui/shadcn-io/background-boxes";
 import { cn } from "@/lib/utils";
-import { Sparkles, Sprout, Shield, Wallet, Chrome } from "lucide-react";
+import { Sparkles, Sprout, Shield, Wallet } from "lucide-react";
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/authSlice";
 import { DataContext } from "../../context/Context.jsx";
@@ -306,13 +306,6 @@ export default function RegisterPage() {
                           disabled={isConnecting}
                         >
                           {isConnecting ? "Connecting..." : "Connect Wallet"}
-                        </Button>
-                        <Button
-                          className="w-full bg-white text-gray-700 border border-gray-300 font-semibold shadow-lg hover:bg-gray-50 transition flex items-center justify-center space-x-2"
-                          onClick={() => window.location.href = 'http://localhost:3000/signin/google'}
-                        >
-                          <Chrome className="w-5 h-5" />
-                          <span>Login with Google</span>
                         </Button>
                       </div>
                     ) : (
