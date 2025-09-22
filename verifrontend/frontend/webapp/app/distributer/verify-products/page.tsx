@@ -201,6 +201,9 @@ const VerifyProductsPage = () => {
             <SelectContent className="bg-white">
               <SelectItem value="en">English</SelectItem>
               <SelectItem value="hi">Hindi</SelectItem>
+              <SelectItem value="te">Telugu</SelectItem>
+              <SelectItem value="kn">Kannada</SelectItem>
+              <SelectItem value="ta">Tamil</SelectItem>
             </SelectContent>
           </Select>
         </div>
