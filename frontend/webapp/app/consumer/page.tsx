@@ -25,7 +25,7 @@ export default function ConsumerPage() {
       </div>
 
       {/* Background Beams */}
-      <BackgroundBeams className="opacity-30" />
+      <BackgroundBeams className="fixed inset-0 z-5" />
 
       <div className="relative z-10 max-w-screen-xl mx-auto px-2 sm:px-4 lg:px-6 py-8">
         <WelcomeBanner />
@@ -35,14 +35,14 @@ export default function ConsumerPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.6 }}
-          className="bg-white/10 backdrop-blur-xl p-8 my-8 rounded-2xl border border-white/20 shadow-lg"
+          className="bg-white/10 backdrop-blur-md p-8 my-8 rounded-2xl border border-white/20 shadow-lg"
         >
           <div className="mb-4">
             <h2 className="text-2xl font-semibold text-white mb-2">
               Product Traceability Lookup
             </h2>
             <p className="text-gray-300">
-              Enter a Product ID or scan a QR code to access complete product
+              Enter a Product ID to access complete product
               traceability information from farm to table
             </p>
           </div>
@@ -50,7 +50,7 @@ export default function ConsumerPage() {
         </motion.div>
 
         {/* Blockchain Statistics */}
-        <div className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/20 shadow-lg">
+        <div className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-lg">
           <BlockchainStats />
         </div>
 
@@ -59,7 +59,7 @@ export default function ConsumerPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="bg-white/10 backdrop-blur-xl p-8 my-8 rounded-2xl border border-white/20 shadow-lg"
+          className="bg-white/10 backdrop-blur-md p-8 my-8 rounded-2xl border border-white/20 shadow-lg"
         >
           <div className="mb-4">
             <h2 className="text-2xl font-semibold text-white mb-2">
@@ -78,7 +78,7 @@ export default function ConsumerPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/20 shadow-lg"
+          className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-lg"
         >
           <div className="mb-4">
             <h2 className="text-2xl font-semibold text-white mb-2">

@@ -129,47 +129,19 @@ const VerifyProductsPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-        {/* QR Scanner Card */}
-        <div className="lg:col-span-1">
-          <div className="vericrop-qr-scanner-glass p-6 rounded-2xl">
-            <div className="flex items-start mb-4">
-              <ShieldCheck className="h-8 w-8 text-green-700 mr-3 mt-1" />
-              <div>
-                <h2 className="text-xl font-bold text-gray-900 bg-white">
-                  Welcome, VeriCrop Distributor!
-                </h2>
-                <p className="text-sm text-gray-500 mt-1">
-                  Monitor supply chain activities, verify products, and detect
-                  fraud with AI-powered technology.
-                </p>
-              </div>
-            </div>
-            <div className="mt-6">
-              <h3 className="text-2xl font-bold mb-4 vericrop-text-primary">
-                QR SCANNER
-              </h3>
-              <Button className="w-full vericrop-btn-primary h-12 text-base">
-                <QrCode className="mr-2 h-5 w-5" /> Scan QR Code
-              </Button>
-            </div>
-          </div>
-        </div>
-
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 mb-8">
         {/* Statistics Card */}
-        <div className="lg:col-span-2">
-          <div className="vericrop-card-secondary">
-            <div className="text-center">
-              <h3 className="text-sm font-medium text-gray-500 mb-2">
-                Total Products Verified
-              </h3>
-              <div className="text-4xl font-bold vericrop-text-primary mb-2">
-                1,245 MT
-              </div>
-              <p className="text-sm text-green-600 font-medium">
-                +12% this month
-              </p>
+        <div className="vericrop-card-secondary">
+          <div className="text-center">
+            <h3 className="text-sm font-medium text-gray-500 mb-2">
+              Total Products Verified
+            </h3>
+            <div className="text-4xl font-bold vericrop-text-primary mb-2">
+              1,245 MT
             </div>
+            <p className="text-sm text-green-600 font-medium">
+              +12% this month
+            </p>
           </div>
         </div>
       </div>
