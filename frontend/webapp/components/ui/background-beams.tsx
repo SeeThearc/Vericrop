@@ -144,9 +144,10 @@ export const BackgroundBeams = React.memo(
           return;
         }
 
-        // Spawn new leaves every 1 second (random 0-5 leaves)
-        if (currentTime - lastSpawnTimeRef.current >= 1000) { // 1000ms = 1 second
-          const numNewLeaves = Math.floor(Math.random() * 6); // 0-5 leaves
+        // Spawn new leaves
+        const spawnInterval = leaves.length > 15 ? 1000 + (leaves.length - 15) * 200 : 1000;
+        if (currentTime - lastSpawnTimeRef.current >= spawnInterval) {
+          const numNewLeaves = Math.floor(Math.random() * 3); // 0-2 leaves to be gentler
           
           setLeaves(prevLeaves => {
             const newLeaves = [];
