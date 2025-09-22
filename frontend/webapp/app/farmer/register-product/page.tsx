@@ -26,14 +26,46 @@ import { useState } from "react";
 const RegisterProductPage = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
+  const [language, setLanguage] = useState("en");
+  const [productName, setProductName] = useState("");
+  const [productType, setProductType] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [harvestDate, setHarvestDate] = useState("");
+  const [farmLocation, setFarmLocation] = useState("");
 
   const handleFileUpload = () => {
-    setIsUploading(true);
-    // Simulate upload process
-    setTimeout(() => {
-      setIsUploading(false);
-      setSelectedFile("product-image.jpg");
-    }, 2000);
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+    fileInput.onchange = () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        setIsUploading(true);
+        setTimeout(() => {
+          setIsUploading(false);
+          setSelectedFile(fileInput.files![0].name);
+        }, 1000);
+      }
+    };
+
+    fileInput.click();
+  };
+
+  const handleSubmit = () => {
+    const productData = {
+      language,
+      productName,
+      productType,
+      quantity,
+      harvestDate,
+      farmLocation,
+      uploadedFile: selectedFile,
+      aiAssessment: selectedFile
+        ? "✅ Excellent quality detected\n🌿 Optimal freshness levels\n📊 Grade A classification\n🔍 No defects identified"
+        : "",
+    };
+
+    localStorage.setItem("vericrop_product_data", JSON.stringify(productData));
+    alert("Product details saved!");
   };
 
   return (
@@ -64,21 +96,15 @@ const RegisterProductPage = () => {
             <Globe className="h-4 w-4 inline mr-2" />
             Language
           </Label>
-          <Select>
+          <Select onValueChange={(val) => setLanguage(val)}>
             <SelectTrigger className="bg-white border-[#E5E7EB] text-[#374151] h-12 rounded-xl focus:ring-2 focus:ring-[#22C55E] focus:border-transparent transition-all duration-200">
               <SelectValue placeholder="English" />
             </SelectTrigger>
             <SelectContent className="bg-white text-[#374151] border border-[#E5E7EB] rounded-xl shadow-lg">
-              <SelectItem
-                value="en"
-                className="hover:bg-gray-50 cursor-pointer"
-              >
+              <SelectItem value="en" className="hover:bg-gray-50 cursor-pointer">
                 English
               </SelectItem>
-              <SelectItem
-                value="hi"
-                className="hover:bg-gray-50 cursor-pointer"
-              >
+              <SelectItem value="hi" className="hover:bg-gray-50 cursor-pointer">
                 हिन्दी
               </SelectItem>
             </SelectContent>
@@ -95,12 +121,7 @@ const RegisterProductPage = () => {
       >
         {/* Basic Information */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="space-y-3"
-          >
+          <div className="space-y-3">
             <Label
               htmlFor="product-name"
               className="text-[#374151] text-sm font-medium flex items-center gap-2"
@@ -111,16 +132,13 @@ const RegisterProductPage = () => {
             <Input
               id="product-name"
               placeholder="e.g., Organic Tomatoes"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
               className="bg-white border-[#E5E7EB] text-[#374151] h-12 rounded-xl focus:ring-2 focus:ring-[#22C55E] focus:border-transparent transition-all duration-200 placeholder-gray-400"
             />
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="space-y-3"
-          >
+          <div className="space-y-3">
             <Label
               htmlFor="product-type"
               className="text-[#374151] text-sm font-medium flex items-center gap-2"
@@ -128,48 +146,23 @@ const RegisterProductPage = () => {
               <Sparkles className="h-4 w-4 text-[#52B788]" />
               Product Type
             </Label>
-            <Select>
+            <Select onValueChange={(val) => setProductType(val)}>
               <SelectTrigger className="bg-white border-[#E5E7EB] text-[#374151] h-12 rounded-xl focus:ring-2 focus:ring-[#22C55E] focus:border-transparent transition-all duration-200">
                 <SelectValue placeholder="Select product type" />
               </SelectTrigger>
               <SelectContent className="bg-white text-[#374151] border border-[#E5E7EB] rounded-xl shadow-lg">
-                <SelectItem
-                  value="vegetable"
-                  className="hover:bg-gray-50 cursor-pointer"
-                >
-                  Vegetable
-                </SelectItem>
-                <SelectItem
-                  value="fruit"
-                  className="hover:bg-gray-50 cursor-pointer"
-                >
-                  Fruit
-                </SelectItem>
-                <SelectItem
-                  value="grain"
-                  className="hover:bg-gray-50 cursor-pointer"
-                >
-                  Grain
-                </SelectItem>
-                <SelectItem
-                  value="herb"
-                  className="hover:bg-gray-50 cursor-pointer"
-                >
-                  Herb
-                </SelectItem>
+                <SelectItem value="vegetable">Vegetable</SelectItem>
+                <SelectItem value="fruit">Fruit</SelectItem>
+                <SelectItem value="grain">Grain</SelectItem>
+                <SelectItem value="herb">Herb</SelectItem>
               </SelectContent>
             </Select>
-          </motion.div>
+          </div>
         </div>
 
         {/* Quantity and Date */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="space-y-3"
-          >
+          <div className="space-y-3">
             <Label
               htmlFor="quantity"
               className="text-[#374151] text-sm font-medium flex items-center gap-2"
@@ -181,16 +174,13 @@ const RegisterProductPage = () => {
               id="quantity"
               placeholder="e.g., 500"
               type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
               className="bg-white border-[#E5E7EB] text-[#374151] h-12 rounded-xl focus:ring-2 focus:ring-[#22C55E] focus:border-transparent transition-all duration-200 placeholder-gray-400"
             />
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="space-y-3"
-          >
+          <div className="space-y-3">
             <Label
               htmlFor="harvest-date"
               className="text-[#374151] text-sm font-medium flex items-center gap-2"
@@ -201,18 +191,15 @@ const RegisterProductPage = () => {
             <Input
               id="harvest-date"
               type="date"
+              value={harvestDate}
+              onChange={(e) => setHarvestDate(e.target.value)}
               className="bg-white border-[#E5E7EB] text-[#374151] h-12 rounded-xl focus:ring-2 focus:ring-[#22C55E] focus:border-transparent transition-all duration-200"
             />
-          </motion.div>
+          </div>
         </div>
 
         {/* Location */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          className="space-y-3"
-        >
+        <div className="space-y-3">
           <Label
             htmlFor="farm-location"
             className="text-[#374151] text-sm font-medium flex items-center gap-2"
@@ -223,71 +210,34 @@ const RegisterProductPage = () => {
           <Input
             id="farm-location"
             placeholder="e.g., Greenfield Farm, California, USA"
+            value={farmLocation}
+            onChange={(e) => setFarmLocation(e.target.value)}
             className="bg-white border-[#E5E7EB] text-[#374151] h-12 rounded-xl focus:ring-2 focus:ring-[#22C55E] focus:border-transparent transition-all duration-200 placeholder-gray-400"
           />
-        </motion.div>
+        </div>
 
-        {/* File Upload Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
-          className="space-y-4"
-        >
+        {/* File Upload */}
+        <div className="space-y-4">
           <Label className="text-[#374151] text-sm font-medium flex items-center gap-2">
             <Camera className="h-4 w-4 text-[#52B788]" />
             Upload Quality Photos
           </Label>
-          <p className="text-sm text-[#374151] opacity-70">
-            Upload clear, high-quality photos for AI-powered quality assessment
-            and verification.
-          </p>
-
-          <div className="relative">
-            <div
-              className="border-2 border-dashed border-[#E5E7EB] rounded-xl p-6 text-center hover:border-[#22C55E] transition-colors duration-200 cursor-pointer bg-gray-50/50"
-              onClick={handleFileUpload}
-            >
-              {isUploading ? (
-                <div className="flex flex-col items-center gap-3">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#22C55E]"></div>
-                  <p className="text-[#374151]">Uploading...</p>
-                </div>
-              ) : selectedFile ? (
-                <div className="flex flex-col items-center gap-3">
-                  <div className="p-3 bg-[#10B981] rounded-full">
-                    <Camera className="h-6 w-6 text-white" />
-                  </div>
-                  <p className="text-[#374151] font-medium">{selectedFile}</p>
-                  <p className="text-sm text-[#10B981]">
-                    File uploaded successfully!
-                  </p>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center gap-3">
-                  <div className="p-3 bg-[#52B788] rounded-full">
-                    <Upload className="h-6 w-6 text-white" />
-                  </div>
-                  <p className="text-[#374151]">
-                    Click to upload or drag and drop
-                  </p>
-                  <p className="text-sm text-[#374151] opacity-70">
-                    PNG, JPG up to 10MB
-                  </p>
-                </div>
-              )}
-            </div>
-            <input type="file" className="hidden" accept="image/*" />
+          <div
+            className="relative border-2 border-dashed border-[#E5E7EB] rounded-xl p-6 text-center hover:border-[#22C55E] cursor-pointer bg-gray-50/50"
+            onClick={handleFileUpload}
+          >
+            {isUploading ? (
+              <p>Uploading...</p>
+            ) : selectedFile ? (
+              <p>{selectedFile}</p>
+            ) : (
+              <p>Click to upload or drag and drop</p>
+            )}
           </div>
-        </motion.div>
+        </div>
 
-        {/* AI Assessment */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-          className="space-y-3"
-        >
+        {/* AI Quality Assessment */}
+        <div className="space-y-3">
           <Label className="text-[#374151] text-sm font-medium flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-[#52B788]" />
             AI Quality Assessment
@@ -299,29 +249,28 @@ const RegisterProductPage = () => {
                 : "Upload photos to enable AI quality assessment"
             }
             readOnly
-            className="bg-gray-50 border-[#E5E7EB] text-[#374151] rounded-xl min-h-[100px] resize-none placeholder-gray-400"
             value={
               selectedFile
                 ? "✅ Excellent quality detected\n🌿 Optimal freshness levels\n📊 Grade A classification\n🔍 No defects identified"
                 : ""
             }
+            className="bg-gray-50 border-[#E5E7EB] text-[#374151] rounded-xl min-h-[100px] resize-none placeholder-gray-400"
           />
-        </motion.div>
+        </div>
 
         {/* Submit Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.5 }}
-          className="flex justify-end pt-4"
-        >
-          <Button className="bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#15803D] text-white h-12 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 font-medium">
+        <div className="flex justify-end pt-4">
+          <Button
+            onClick={handleSubmit}
+            className="bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#15803D] text-white h-12 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 font-medium"
+          >
             Register Product & Generate QR
           </Button>
-        </motion.div>
+        </div>
       </motion.div>
     </div>
   );
 };
 
 export default RegisterProductPage;
+
