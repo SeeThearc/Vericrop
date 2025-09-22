@@ -285,7 +285,6 @@ export default function RegisterPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6 px-10 pb-10">
-<<<<<<< HEAD
                     {!isConnected() ? (
                       // Wallet Connection UI
                       <div className="space-y-6">
@@ -299,63 +298,10 @@ export default function RegisterPage() {
                           className="w-full bg-gradient-to-r from-emerald-500 via-green-500 to-lime-500 text-white font-semibold shadow-lg hover:opacity-90 transition"
                           onClick={connectWallet}
                           disabled={isConnecting}
-=======
-                    <div>
-                      <Label className="text-black" htmlFor="name">Name</Label>
-                      <Input
-                        id="name"
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Your full name"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-black" htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="you@example.com"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-black" htmlFor="password">Password</Label>
-                      <Input
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="••••••••"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-black" htmlFor="confirmPassword">Confirm Password</Label>
-                      <Input
-                        id="confirmPassword"
-                        type={showPassword ? "text" : "password"}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="••••••••"
-                      />
-                      <div className="flex items-center mt-3 px-2">
-                        <input
-                          id="showPassword"
-                          type="checkbox"
-                          checked={showPassword}
-                          onChange={(e) => setShowPassword(e.target.checked)}
-                          className="w-4 h-4 accent-emerald-600 cursor-pointer mr-2"
-                        />
-                        <Label
-                          htmlFor="showPassword"
-                          className="text-sm text-slate-600 cursor-pointer"
->>>>>>> ca2640bfc58d956a549392cd355977f8200fb5aa
                         >
                           {isConnecting ? "Connecting..." : "Connect Wallet"}
                         </Button>
                       </div>
-<<<<<<< HEAD
                     ) : (
                       // Registration Form
                       <div className="space-y-6">
@@ -465,28 +411,6 @@ export default function RegisterPage() {
                         )}
                       </div>
                     )}
-=======
-                    </div>
-                    <div>
-                      <Label className="text-black">Role</Label>
-                      <Select value={role} onValueChange={setRole}>
-                        <SelectTrigger className="text-black">
-                          <SelectValue placeholder="Select a role" />
-                        </SelectTrigger>
-                        <SelectContent className="backdrop-blur-md text-black">
-                          <SelectItem value="farmer">Farmer</SelectItem>
-                          <SelectItem value="buyer">Buyer</SelectItem>
-                          <SelectItem value="admin">Admin</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <Button
-                      className="w-full mt-6 bg-gradient-to-r from-emerald-500 via-green-500 to-lime-500 text-white font-semibold shadow-lg hover:opacity-90 transition"
-                      onClick={handleRegister}
-                    >
-                      Sign Up
-                    </Button>
->>>>>>> ca2640bfc58d956a549392cd355977f8200fb5aa
                   </CardContent>
                 </div>
               </Card>
