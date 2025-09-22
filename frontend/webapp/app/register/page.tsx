@@ -166,7 +166,7 @@ export default function RegisterPage() {
                   </CardHeader>
                   <CardContent className="space-y-6 px-10 pb-10">
                     <div>
-                      <Label htmlFor="name">Name</Label>
+                      <Label className="text-black" htmlFor="name">Name</Label>
                       <Input
                         id="name"
                         type="text"
@@ -176,7 +176,7 @@ export default function RegisterPage() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="email">Email</Label>
+                      <Label className="text-black" htmlFor="email">Email</Label>
                       <Input
                         id="email"
                         type="email"
@@ -186,7 +186,7 @@ export default function RegisterPage() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="password">Password</Label>
+                      <Label className="text-black" htmlFor="password">Password</Label>
                       <Input
                         id="password"
                         type={showPassword ? "text" : "password"}
@@ -196,7 +196,7 @@ export default function RegisterPage() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="confirmPassword">Confirm Password</Label>
+                      <Label className="text-black" htmlFor="confirmPassword">Confirm Password</Label>
                       <Input
                         id="confirmPassword"
                         type={showPassword ? "text" : "password"}
@@ -221,12 +221,12 @@ export default function RegisterPage() {
                       </div>
                     </div>
                     <div>
-                      <Label>Role</Label>
+                      <Label className="text-black">Role</Label>
                       <Select value={role} onValueChange={setRole}>
-                        <SelectTrigger>
+                        <SelectTrigger className="text-black">
                           <SelectValue placeholder="Select a role" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="backdrop-blur-md text-black">
                           <SelectItem value="farmer">Farmer</SelectItem>
                           <SelectItem value="buyer">Buyer</SelectItem>
                           <SelectItem value="admin">Admin</SelectItem>
