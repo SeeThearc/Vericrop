@@ -465,7 +465,7 @@ Your product is now registered on the blockchain and ready for the supply chain!
                 <p className="font-medium text-blue-900">₹{(parseFloat(price) / parseFloat(quantity)).toFixed(2)}</p>
               </div>
               <div>
-                <span className="text-blue-600">Blockchain Values:</span>
+                <span className="text-blue-600">Final Values:</span>
                 <p className="font-medium text-blue-900">
                   {Math.floor(parseFloat(quantity))} kg, ₹{Math.floor(parseFloat(price))}
                 </p>
