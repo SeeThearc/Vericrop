@@ -101,7 +101,7 @@ const items = [
   {
     title: "Product Search",
     description:
-      "Search and verify products by scanning QR codes or entering product IDs.",
+      "Search and verify products by entering product IDs.",
     header: <Skeleton />,
     icon: <Search className="h-4 w-4 text-neutral-500" />,
   },
@@ -128,7 +128,7 @@ const items = [
   {
     title: "Quick Scan",
     description:
-      "Instantly scan product QR codes to get real-time quality and authenticity information.",
+      "Instantly verify product details by entering product IDs.",
     header: <Skeleton />,
     icon: <Scan className="h-4 w-4 text-neutral-500" />,
   },

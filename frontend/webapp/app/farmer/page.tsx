@@ -36,7 +36,7 @@ const FarmerPage = () => {
       </div>
 
       {/* Background Beams */}
-      <BackgroundBeams className="opacity-30" />
+      <BackgroundBeams className="fixed inset-0 z-5" />
 
       <div className="relative z-10 max-w-screen-xl mx-auto px-2 sm:px-4 lg:px-6 py-8">
         <FarmerWelcomeBanner />
@@ -46,9 +46,9 @@ const FarmerPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.5 }}
-          className="backdrop-blur-xl bg-white/5 rounded-2xl p-2 shadow-lg border border-white/20"
+          className="backdrop-blur-md bg-white/5 rounded-2xl p-2 shadow-lg border border-white/20"
         >
-          <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-2 shadow-lg border border-white/20">
+          <div className="backdrop-blur-md bg-white/10 rounded-2xl p-2 shadow-lg border border-white/20">
             <Tabs
               value={activeTab}
               onValueChange={setActiveTab}
@@ -85,7 +85,7 @@ const FarmerPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
                   >
-                    <Card className="border-white/20 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden">
+                    <Card className="border-white/20 shadow-lg bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden">
                       <CardContent className="p-0">
                         <RegisterProductPage />
                       </CardContent>
@@ -99,7 +99,7 @@ const FarmerPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
                   >
-                    <Card className="border-white/20 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden">
+                    <Card className="border-white/20 shadow-lg bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden">
                       <CardContent className="p-0">
                         <TrackProductsPage />
                       </CardContent>
@@ -113,7 +113,7 @@ const FarmerPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
                   >
-                    <Card className="border-white/20 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden">
+                    <Card className="border-white/20 shadow-lg bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden">
                       <CardContent className="p-0">
                         <SalesChart />
                       </CardContent>

@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui
 import {
   ClipboardCheck,
   FileText,
-  QrCode,
   ShieldCheck,
   UploadCloud,
 } from "lucide-react";
@@ -146,17 +145,6 @@ const QualityVerificationPage = () => {
                     </div>
                   )}
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Scan QR Code */}
-            <Card>
-              <CardContent className="flex flex-col items-center text-center p-6">
-                <QrCode className="w-12 h-12 text-green-500 mb-4" />
-                <h3 className="text-lg font-semibold">Scan QR Code</h3>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Quickly scan products for verification.
-                </p>
               </CardContent>
             </Card>
 

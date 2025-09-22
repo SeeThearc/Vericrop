@@ -23,11 +23,11 @@ const DistributerPage = () => {
       </div>
 
       {/* Background Beams */}
-      <BackgroundBeams className="opacity-30" />
+      <BackgroundBeams className="fixed inset-0 z-5" />
 
       <div className="relative z-10 max-w-screen-xl mx-auto px-2 sm:px-4 lg:px-6 py-8">
         {/* Welcome Header */}
-        <div className="bg-white/10 backdrop-blur-xl text-center p-8 rounded-2xl border border-white/20 shadow-lg">
+        <div className="bg-white/10 backdrop-blur-md text-center p-8 rounded-2xl border border-white/20 shadow-lg">
           <h1 className="text-3xl font-bold text-white mb-2">
             VeriCrop Distributor Dashboard
           </h1>
@@ -37,10 +37,10 @@ const DistributerPage = () => {
         </div>
 
         {/* Product Verification Section */}
-        <div className="bg-white/10 backdrop-blur-xl p-8 my-8 rounded-2xl border border-white/20 shadow-lg">
+        <div className="bg-white/10 backdrop-blur-md p-8 my-8 rounded-2xl border border-white/20 shadow-lg">
           <div className="mb-4">
             <h2 className="text-2xl font-semibold text-white mb-2">
-              Product Verification & QR Scanning
+              Product Verification
             </h2>
             <p className="text-gray-300">
               Advanced ML-powered authentication and fraud detection
@@ -50,7 +50,7 @@ const DistributerPage = () => {
         </div>
 
         {/* Product Registration Section */}
-        <div className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/20 shadow-lg">
+        <div className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-lg">
           <div className="mb-4">
             <h2 className="text-2xl font-semibold text-white mb-2">
               Product Registration
@@ -63,7 +63,7 @@ const DistributerPage = () => {
         </div>
 
         {/* Batch Management Section */}
-        <div className="bg-white/10 backdrop-blur-xl p-8 my-8 rounded-2xl border border-white/20 shadow-lg">
+        <div className="bg-white/10 backdrop-blur-md p-8 my-8 rounded-2xl border border-white/20 shadow-lg">
           <div className="mb-4">
             <h2 className="text-2xl font-semibold text-white mb-2">
               Batch Management & Purchasing
@@ -76,7 +76,7 @@ const DistributerPage = () => {
         </div>
 
         {/* Transaction History Section */}
-        <div className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/20 shadow-lg">
+        <div className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-lg">
           <div className="mb-4">
             <h2 className="text-2xl font-semibold text-white mb-2">
               Transaction History & Tracking
@@ -89,7 +89,7 @@ const DistributerPage = () => {
         </div>
 
         {/* Analytics & Insights Section */}
-        <div className="bg-white/10 backdrop-blur-xl p-8 my-8 rounded-2xl border border-white/20 shadow-lg">
+        <div className="bg-white/10 backdrop-blur-md p-8 my-8 rounded-2xl border border-white/20 shadow-lg">
           <div className="mb-4">
             <h2 className="text-2xl font-semibold text-white mb-2">
               Analytics & Business Intelligence

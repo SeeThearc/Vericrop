@@ -5,7 +5,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import { Input } from "@/components/shadcn/ui/input";
 import { Label } from "@/components/shadcn/ui/label";
 import { motion } from "motion/react";
-import { Search, QrCode, Package } from "lucide-react";
+import { Search, Package } from "lucide-react";
 import { ProductDetails } from "./product-details";
 
 interface ProductData {
@@ -75,7 +75,7 @@ export const ProductLookup = () => {
 
   const handleLookup = async () => {
     if (!productId.trim()) {
-      setError("Please enter a Product ID or scan a QR code");
+      setError("Please enter a Product ID");
       return;
     }
 
@@ -110,7 +110,7 @@ export const ProductLookup = () => {
               <span>Product Lookup</span>
             </CardTitle>
             <p className="vericrop-text-light">
-              Enter a Product ID or scan a QR code to view complete product
+              Enter a Product ID to view complete product
               traceability information
             </p>
           </CardHeader>
@@ -120,20 +120,18 @@ export const ProductLookup = () => {
                 htmlFor="productId"
                 className="text-sm font-medium vericrop-text-dark"
               >
-                Product ID or QR Code
+                Product ID
               </Label>
               <div className="flex space-x-2">
                 <div className="relative flex-1">
                   <Input
                     id="productId"
                     type="text"
-                    placeholder="Enter Product ID (e.g., VC-2024-001-ABC123) or scan QR code"
+                    placeholder="Enter Product ID (e.g., VC-2024-001-ABC123)"
                     value={productId}
                     onChange={(e) => setProductId(e.target.value)}
-                    className="pr-10"
                     onKeyPress={(e) => e.key === "Enter" && handleLookup()}
                   />
-                  <QrCode className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 </div>
                 <Button
                   onClick={handleLookup}

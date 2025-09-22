@@ -23,7 +23,7 @@ const InspectorPage = () => {
       </div>
 
       {/* Background Beams */}
-      <BackgroundBeams className="opacity-30" />
+      <BackgroundBeams className="fixed inset-0 z-5" />
 
       <div className="relative z-10 max-w-screen-xl mx-auto px-2 sm:px-4 lg:px-6 py-8">
         <div className="space-y-8">
@@ -31,7 +31,7 @@ const InspectorPage = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/10 backdrop-blur-xl text-center p-8 rounded-2xl border border-white/20 shadow-lg"
+            className="bg-white/10 backdrop-blur-md text-center p-8 rounded-2xl border border-white/20 shadow-lg"
           >
             <h1 className="text-3xl font-bold text-white mb-2">
               VeriCrop Inspector Dashboard
@@ -46,7 +46,7 @@ const InspectorPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/20 shadow-lg"
+            className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-lg"
           >
             <FlaggedShipmentsPage />
           </motion.div>
@@ -56,7 +56,7 @@ const InspectorPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/20 shadow-lg"
+            className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-lg"
           >
             <QualityVerificationPage />
           </motion.div>
@@ -66,7 +66,7 @@ const InspectorPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/20 shadow-lg"
+            className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-lg"
           >
             <CompliancePage />
           </motion.div>

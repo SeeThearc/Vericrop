@@ -13,7 +13,6 @@ import {
   Star,
 } from "lucide-react";
 import Image from "next/image";
-import { ScanQrCodeCard } from "@/components/consumer/scan-qr-code-card";
 
 const DynamicMap = dynamic(() => import("@/components/dynamic-map"), {
   ssr: false,
@@ -120,16 +119,8 @@ const MyPurchasesPage = () => {
         </p>
       </motion.div>
 
-      {/* Top Section: QR Scanner and Map */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
-        >
-          <ScanQrCodeCard />
-        </motion.div>
-
+      {/* Top Section: Product Journey Map */}
+      <div className="grid grid-cols-1 gap-8">
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
