@@ -1,0 +1,69 @@
+python cartons.py
+=== Single Package Inspection ===
+Package Type: box
+Good for Usage: True
+Confidence Score: 98%
+
+Final Result: APPROVED
+
+--------------------------------------------------
+
+
+python cartons.py
+=== Single Package Inspection ===
+Package Type: bale of cartons
+Good for Usage: False
+Confidence Score: 100%
+
+Final Result: REJECTED
+
+
+--------------------------------------------------
+
+
+HARDCODED
+# Example: Expected 10 dragon fruits
+    fraud_result = detect_fraud(
+        image_path="dragonfruit.png",
+        expected_product="dragon fruit",
+        expected_quantity=18,
+        invoice_number="INV2024001"
+    )
+
+python -u "/home/abeer/Downloads/git/SIH-Gemini-Agents/fraud_detection.py"
+=== SINGLE SHIPMENT FRAUD DETECTION ===
+
+=== FRAUD DETECTION REPORT ===
+Expected: dragon fruit × 18
+Found: dragon fruit × 18
+Fraud Detected: NO
+Fraud Type: legitimate
+Confidence: 0.99
+✅ Shipment appears legitimate
+
+FRAUD STATUS: NOT DETECTED
+
+============================================================
+=== BATCH FRAUD DETECTION EXAMPLE ===
+
+=== QUICK FRAUD CHECK ===
+
+
+--------------------------------------------------
+
+=== SINGLE SHIPMENT FRAUD DETECTION ===
+
+=== FRAUD DETECTION REPORT ===
+Expected: dragon fruit × 10
+Found: strawberries × 18
+Fraud Detected: YES
+Fraud Type: product_substitution
+Confidence: 1.00
+🚨 ALERT: Potential fraud detected!
+
+FRAUD STATUS: DETECTED
+
+============================================================
+=== BATCH FRAUD DETECTION EXAMPLE ===
+
+=== QUICK FRAUD CHECK ===

@@ -1,0 +1,15 @@
+# FastAPI and server dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Existing ML model dependencies
+google-genai
+python-dotenv
+
+# Additional utilities
+pydantic==2.5.0
+typing-extensions==4.8.0
+
+# File handling
+aiofiles==23.2.1
