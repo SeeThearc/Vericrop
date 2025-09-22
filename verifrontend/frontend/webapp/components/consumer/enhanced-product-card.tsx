@@ -1,19 +1,16 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
+import { Card, CardContent} from "@/components/shadcn/ui/card";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { Button } from "@/components/shadcn/ui/button";
 import { motion } from "motion/react";
 import {
   MapPin,
-  Calendar,
   Thermometer,
   User,
   Truck,
   Store,
   Shield,
   BarChart3,
-  Clock,
-  CheckCircle,
   QrCode,
   ExternalLink,
   Star,
@@ -235,7 +232,7 @@ export const EnhancedProductCard = ({
                     Detailed Journey
                   </h4>
                   <div className="space-y-3">
-                    {blockchainJourney.map((step, index) => (
+                    {blockchainJourney.map((step) => (
                       <div
                         key={step.stage}
                         className="flex items-start space-x-3"

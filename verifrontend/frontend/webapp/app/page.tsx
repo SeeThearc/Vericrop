@@ -11,7 +11,6 @@ import { Cpu, Database, ShieldCheck, Phone, Mail, MapPin } from "lucide-react";
 import { Leaf, Truck, ShoppingCart } from "lucide-react";
 
 // Local background image
-import field from "./field.jpg";
 import drone from "./drone-field.jpg";
 import logo from "./image.png";
 
@@ -87,7 +86,7 @@ export default function Home() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-yellow-900/50 via-green-900/60 to-emerald-900/70"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-green-900/60 to-emerald-900/70"></div>
       </div>
       {/* Animated background particles */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-10">
@@ -399,7 +398,7 @@ export default function Home() {
                 </span>
                 , VeriCrop provides a robust platform that connects farmers,
                 distributors, retailers, inspectors, and consumers. We believe
-                in a future where every product's journey is clear, verifiable,
+                in a future where every product&apos;s journey is clear, verifiable,
                 and contributes to a more honest marketplace.
               </p>
               <p>
@@ -448,7 +447,7 @@ export default function Home() {
             <div className="w-24 h-1 bg-gradient-to-r from-emerald-400 to-blue-400 mx-auto rounded-full"></div>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">
               VeriCrop has transformed the agricultural supply chain for our
-              users. Here's what they have to say:
+              users. Here&apos;s what they have to say:
             </p>
           </div>
 
@@ -499,7 +498,7 @@ export default function Home() {
 
                 {/* Quote */}
                 <blockquote className="text-slate-300 text-lg italic leading-relaxed relative z-10">
-                  "{testimonial.quote}"
+                  &ldquo;{testimonial.quote}&rdquo;
                 </blockquote>
 
                 {/* User info */}
@@ -549,7 +548,7 @@ export default function Home() {
             <div className="w-24 h-1 bg-gradient-to-r from-emerald-400 to-blue-400 mx-auto rounded-full"></div>
             <p className="text-xl text-slate-300 max-w-2xl mx-auto">
               Have questions or want to learn more about VeriCrop? Contact us
-              today and let's revolutionize agriculture together.
+              today and let&apos;s revolutionize agriculture together.
             </p>
           </div>
 

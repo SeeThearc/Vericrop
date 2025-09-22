@@ -14,8 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/shadcn/ui/dropdown-menu";
-import { Bell, User, Settings, LogOut, Home, Package, Scan, BarChart3, Wifi, WifiOff } from "lucide-react";
-import axios from "axios";
+import { Bell, User, Settings, LogOut, Home, Package, Scan, BarChart3 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { logout } from "@/lib/authSlice";
 

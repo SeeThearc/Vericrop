@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -20,17 +21,7 @@ export default function LoginPage() {
   const dispatch = useAppDispatch();
   const [referrerUrl, setReferrerUrl] = useState<string>("");
 
-  useEffect(() => {
-    const referrer =
-      searchParams.get("referrer") ||
-      localStorage.getItem("login_referrer") ||
-      "/dashboard";
-    setReferrerUrl(referrer);
-    localStorage.setItem("login_referrer", referrer);
-    handleDevLogin();
-  }, [searchParams]);
-
-  const handleDevLogin = () => {
+  const handleDevLogin = useCallback(() => {
     const userData = {
       email: "dev@vericrop.com",
       name: "Dev User",
@@ -42,7 +33,17 @@ export default function LoginPage() {
     localStorage.setItem("vericrop_user_role", "farmer");
     dispatch(setUser(userData));
     router.push(referrerUrl);
-  };
+  }, [dispatch, router, referrerUrl]);
+
+  useEffect(() => {
+    const referrer =
+      searchParams.get("referrer") ||
+      localStorage.getItem("login_referrer") ||
+      "/dashboard";
+    setReferrerUrl(referrer);
+    localStorage.setItem("login_referrer", referrer);
+    handleDevLogin();
+  }, [searchParams, handleDevLogin]);
 
   return (
     <div
@@ -73,9 +74,11 @@ export default function LoginPage() {
                 <div className="flex items-center justify-center lg:justify-start space-x-4">
                   <div className="relative">
                     <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 via-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-300 overflow-hidden">
-                      <img
+                      <Image
                         src="/original_logo.png"
                         alt="VeriCrop Logo"
+                        width={64}
+                        height={64}
                         className="w-full h-full object-cover rounded-2xl"
                       />
                     </div>
@@ -146,9 +149,11 @@ export default function LoginPage() {
                   <CardHeader className="space-y-6 text-center pb-8 pt-10">
                     <div className="mx-auto relative">
                       <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 via-green-500 to-emerald-600 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-transform duration-300 overflow-hidden">
-                        <img
+                        <Image
                           src="/original_logo.png"
                           alt="VeriCrop Logo"
+                          width={80}
+                          height={80}
                           className="w-full h-full object-cover rounded-3xl"
                         />
                       </div>

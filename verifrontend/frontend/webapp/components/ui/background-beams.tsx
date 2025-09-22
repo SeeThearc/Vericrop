@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Leaf } from "lucide-react";
@@ -279,7 +279,7 @@ export const BackgroundBeams = React.memo(
           cancelAnimationFrame(animationRef.current);
         }
       };
-    }, [windowWidth, windowHeight, createLeaf]);
+    }, [windowWidth, windowHeight, createLeaf, leaves.length]);
 
     return (
       <div

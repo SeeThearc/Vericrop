@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/shadcn/ui/button";
 import {
   Card,
@@ -51,13 +52,7 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   // Check if user is already registered when wallet connects
-  useEffect(() => {
-    if (isConnected() && state.contracts.contract2) {
-      checkUserRegistration();
-    }
-  }, [isConnected(), state.contracts.contract2]);
-
-  const checkUserRegistration = async () => {
+  const checkUserRegistration = useCallback(async () => {
     try {
       const coreContract = getContract('contract2'); // AgriTraceCore contract
       if (!coreContract) return;
@@ -77,10 +72,19 @@ export default function RegisterPage() {
     } catch (error) {
       console.error('Error checking user registration:', error);
     }
-  };
+  }, [getContract, acc, router]);
+
+  // Extract isConnected value to a stable variable
+  const walletConnected = isConnected();
+
+  useEffect(() => {
+    if (walletConnected && state.contracts.contract2) {
+      checkUserRegistration();
+    }
+  }, [walletConnected, state.contracts.contract2, checkUserRegistration]);
 
   const handleRegister = async () => {
-    if (!isConnected()) {
+    if (!walletConnected) {
       alert("Please connect your wallet first");
       return;
     }
@@ -140,7 +144,7 @@ export default function RegisterPage() {
           await updateTx.wait();
           console.log("IPFS hash updated on blockchain!");
         }
-      } catch (updateError) {
+      } catch {
         console.log("Note: Contract doesn't support IPFS hash updates, continuing...");
         // This is not a critical error - the user is still registered
       }
@@ -205,9 +209,11 @@ export default function RegisterPage() {
                 <div className="flex items-center justify-center lg:justify-start space-x-4">
                   <div className="relative">
                     <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 via-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-300 overflow-hidden">
-                      <img
+                      <Image
                         src="/original_logo.png"
                         alt="VeriCrop Logo"
+                        width={64}
+                        height={64}
                         className="w-full h-full object-cover rounded-2xl"
                       />
                     </div>
@@ -285,7 +291,7 @@ export default function RegisterPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6 px-10 pb-10">
-                    {!isConnected() ? (
+                    {!walletConnected ? (
                       // Wallet Connection UI
                       <div className="space-y-6">
                         <div className="text-center">

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState } from "react"
-import { cn } from "@repo/shadcn-ui/lib/utils"
+import { cn } from "@/lib/utils"
 
 export interface SquaresProps {
   direction?: "right" | "left" | "up" | "down" | "diagonal"

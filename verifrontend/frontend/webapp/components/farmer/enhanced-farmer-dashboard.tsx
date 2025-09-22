@@ -226,7 +226,15 @@ export const EnhancedFarmerDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Welcome Banner with Enhanced Metrics */}
-        <FarmerWelcomeBanner />
+        <FarmerWelcomeBanner
+          name={mockFarmerData.name}
+          address={mockFarmerData.location}
+          farmerReputation={mockFarmerData.reputationScore}
+          distributorReputation={0}
+          retailerReputation={0}
+          role="farmer"
+          registrationTime={mockFarmerData.registeredAt}
+        />
 
         {/* Action Toolbar */}
         <ActionToolbar

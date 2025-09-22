@@ -55,7 +55,7 @@ const shipments = [
   },
 ];
 
-const getStatusVariant = (status: string) => {
+const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "warning" | "success" | "outline" => {
   switch (status) {
     case "Pending Review":
       return "secondary";
@@ -70,7 +70,7 @@ const getStatusVariant = (status: string) => {
   }
 };
 
-const getUrgencyVariant = (urgency: string) => {
+const getUrgencyVariant = (urgency: string): "default" | "secondary" | "destructive" | "warning" | "success" | "outline" => {
   switch (urgency) {
     case "High":
       return "secondary";
@@ -138,12 +138,12 @@ const FlaggedShipmentsPage = () => {
                   <TableCell>{shipment.product}</TableCell>
                   <TableCell>{shipment.issue}</TableCell>
                   <TableCell>
-                    <Badge variant={getStatusVariant(shipment.status) as any}>
+                    <Badge variant={getStatusVariant(shipment.status)}>
                       {shipment.status}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={getUrgencyVariant(shipment.urgency) as any}>
+                    <Badge variant={getUrgencyVariant(shipment.urgency)}>
                       {shipment.urgency}
                     </Badge>
                   </TableCell>

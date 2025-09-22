@@ -22,8 +22,7 @@ interface TopbarProps {
 export const Topbar = ({
   navLinks,
   searchPlaceholder,
-  baseHref,
-  sidebarExpanded = true,
+  baseHref
 }: TopbarProps) => {
   const pathname = usePathname();
 

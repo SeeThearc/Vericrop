@@ -99,7 +99,7 @@ export default function AuthInitializer() {
     initializeAuth();
     // We only want this to run once on mount.
     // The functions it calls (verifySession) have their own dependencies.
-  }, [user, isLoggedIn]);
+  }, [user, isLoggedIn, dispatch, verifySession]);
 
   return null;
 }

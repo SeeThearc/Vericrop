@@ -144,7 +144,7 @@ const RegisterProductPage = () => {
       const receipt = await createTx.wait();
       
       // Find the ProductCreated event to get the product ID
-      const productCreatedEvent = receipt.logs.find((log: any) => {
+      const productCreatedEvent = receipt.logs.find((log: { topics: string[]; data: string }) => {
         try {
           const parsed = batchContract.interface.parseLog(log);
           return parsed?.name === 'ProductCreated';
@@ -588,7 +588,7 @@ Your product is now registered on the blockchain and ready for the supply chain!
               </span>
             </div>
             <p className="text-sm text-blue-600">
-              Please don't close this page during the registration process.
+              Please don&apos;t close this page during the registration process.
             </p>
           </div>
         )}

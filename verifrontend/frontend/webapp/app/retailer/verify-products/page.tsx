@@ -2,13 +2,11 @@
 
 import { Button } from "@/components/shadcn/ui/button";
 import {
-  QrCode,
   Cpu,
   Shield,
   CheckCircle,
   Clock,
   XCircle,
-  Store,
   Package,
 } from "lucide-react";
 import {
