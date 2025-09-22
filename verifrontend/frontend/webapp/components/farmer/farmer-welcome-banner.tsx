@@ -12,6 +12,9 @@ import {
   ExternalLink,
   Copy,
   Clock,
+  Calendar,
+  Mail,
+  Shield,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -22,6 +25,17 @@ interface MetricCardProps {
   gradient: string;
   badge?: string;
   onClick?: () => void;
+}
+
+interface FarmerWelcomeBannerProps {
+  name: string;
+  address: string;
+  farmerReputation: number;
+  distributorReputation: number;
+  retailerReputation: number;
+  role: string;
+  email?: string;
+  registrationTime?: string;
 }
 
 const MetricCard = ({
@@ -59,63 +73,101 @@ const MetricCard = ({
   </motion.div>
 );
 
-export const FarmerWelcomeBanner = () => {
+export const FarmerWelcomeBanner: React.FC<FarmerWelcomeBannerProps> = ({
+  name,
+  address,
+  farmerReputation,
+  distributorReputation,
+  retailerReputation,
+  role,
+  email,
+  registrationTime,
+}) => {
   const [walletCopied, setWalletCopied] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
 
-  const walletAddress =
-    "0x742d35cc8f3f4f8c9b8e4a2f1d3e5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f49a2b";
-  const truncatedWallet = `${walletAddress.slice(0, 6)}...${walletAddress.slice(
-    -4
-  )}`;
+  const truncatedWallet = `${address.slice(0, 6)}...${address.slice(-4)}`;
 
   const handleWalletCopy = () => {
-    navigator.clipboard.writeText(walletAddress);
+    navigator.clipboard.writeText(address);
     setWalletCopied(true);
     setTimeout(() => setWalletCopied(false), 2000);
   };
 
+  const handleEmailCopy = () => {
+    if (email) {
+      navigator.clipboard.writeText(email);
+      setEmailCopied(true);
+      setTimeout(() => setEmailCopied(false), 2000);
+    }
+  };
+
+  // Format registration time
+  const formatRegistrationTime = (timestamp: string) => {
+    if (!timestamp) return "Not available";
+    try {
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch {
+      return "Invalid date";
+    }
+  };
+
+  // Calculate days since registration
+  const getDaysSinceRegistration = (timestamp: string) => {
+    if (!timestamp) return 0;
+    try {
+      const registrationDate = new Date(timestamp);
+      const now = new Date();
+      const diffTime = Math.abs(now.getTime() - registrationDate.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays;
+    } catch {
+      return 0;
+    }
+  };
+
+  // Calculate average reputation
+  const averageReputation = () => {
+    const total = farmerReputation + distributorReputation + retailerReputation;
+    const count = [farmerReputation, distributorReputation, retailerReputation].filter(rep => rep > 0).length;
+    return count > 0 ? (total / count).toFixed(1) : "0.0";
+  };
+
+  // Get reputation badge
+  const getReputationBadge = (avgRep: number) => {
+    if (avgRep >= 4.5) return "⭐ Elite";
+    if (avgRep >= 4.0) return "🏆 Verified";
+    if (avgRep >= 3.5) return "✅ Trusted";
+    if (avgRep >= 3.0) return "📈 Growing";
+    return "🌱 New";
+  };
+
   const farmerMetrics = [
     {
-      title: "Total Products",
-      value: 47,
-      icon: <Package className="h-6 w-6" />,
-      gradient: "from-blue-400/20 to-blue-600/20",
-      badge: "+5 this month",
-    },
-    {
-      title: "Active Products",
-      value: 23,
-      icon: <CheckCircle className="h-6 w-6" />,
+      title: "Farmer Reputation",
+      value: farmerReputation / 100, // Assuming reputation is stored as integer, divide by 100
+      icon: <Star className="h-6 w-6" />,
       gradient: "from-green-400/20 to-green-600/20",
-      badge: "In supply chain",
+      badge: role === 'farmer' ? "Primary Role" : "Secondary",
     },
     {
-      title: "Average Grade",
-      value: "A+",
-      icon: <Star className="h-6 w-6" />,
-      gradient: "from-yellow-400/20 to-orange-500/20",
-      badge: "Quality score",
-    },
-    {
-      title: "Reputation Score",
-      value: "4.8",
-      icon: <Star className="h-6 w-6" />,
-      gradient: "from-purple-400/20 to-purple-600/20",
-      badge: "⭐ Verified Farmer",
-    },
-    {
-      title: "Active Locations",
-      value: 3,
-      icon: <MapPin className="h-6 w-6" />,
+      title: "Account Age",
+      value: `${getDaysSinceRegistration(registrationTime || "")}d`,
+      icon: <Calendar className="h-6 w-6" />,
       gradient: "from-teal-400/20 to-teal-600/20",
-      badge: "Farms registered",
+      badge: "Days active",
     },
     {
-      title: "Handlers Working",
-      value: 12,
-      icon: <Users className="h-6 w-6" />,
+      title: "Role Status",
+      value: role.charAt(0).toUpperCase() + role.slice(1),
+      icon: <CheckCircle className="h-6 w-6" />,
       gradient: "from-rose-400/20 to-rose-600/20",
-      badge: "Active team",
+      badge: "Active",
     },
   ];
 
@@ -130,16 +182,22 @@ export const FarmerWelcomeBanner = () => {
               animate={{ opacity: 1, y: 0 }}
               className="text-3xl lg:text-4xl font-bold text-white"
             >
-              Welcome back, John! 👨‍🌾
+              Welcome back, {name}! 👨‍🌾
             </motion.h1>
             <p className="text-lg text-gray-300">
-              Your farm operations are running smoothly
+              Your {role} operations are running smoothly
             </p>
+            {registrationTime && (
+              <p className="text-sm text-gray-400">
+                Member since {formatRegistrationTime(registrationTime)}
+              </p>
+            )}
           </div>
 
           {/* Wallet & Actions */}
           <div className="mt-4 lg:mt-0 space-y-3">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col gap-3">
+              {/* Wallet Address */}
               <div className="flex items-center gap-2 bg-black/20 rounded-lg px-4 py-2 shadow-sm border border-white/20">
                 <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                 <span className="text-sm font-medium text-gray-200">
@@ -159,25 +217,49 @@ export const FarmerWelcomeBanner = () => {
                 </Button>
               </div>
 
+              {/* Email (if available) */}
+              {email && (
+                <div className="flex items-center gap-2 bg-black/20 rounded-lg px-4 py-2 shadow-sm border border-white/20">
+                  <Mail className="h-3 w-3 text-blue-400" />
+                  <span className="text-sm font-medium text-gray-200">
+                    {email.length > 20 ? `${email.slice(0, 20)}...` : email}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleEmailCopy}
+                    className="h-6 w-6 p-0"
+                  >
+                    {emailCopied ? (
+                      <CheckCircle className="h-4 w-4 text-green-400" />
+                    ) : (
+                      <Copy className="h-4 w-4 text-gray-400" />
+                    )}
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            <div className="flex gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 className="bg-black/20 hover:bg-black/30 border-white/20 text-white"
-                onClick={() => window.open("https://etherscan.io", "_blank")}
+                onClick={() => window.open(`https://etherscan.io/address/${address}`, "_blank")}
               >
                 <ExternalLink className="h-4 w-4 mr-2" />
                 Explorer
               </Button>
             </div>
 
-            {/* Pending Transactions Alert */}
+            {/* Reputation Summary */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="flex items-center gap-2 bg-yellow-400/10 text-yellow-200 px-3 py-2 rounded-lg text-sm border border-yellow-400/20"
+              className="flex items-center gap-2 bg-emerald-400/10 text-emerald-200 px-3 py-2 rounded-lg text-sm border border-emerald-400/20"
             >
-              <Clock className="h-4 w-4" />
-              <span>3 pending transactions</span>
+              <Star className="h-4 w-4" />
+              <span>Overall Rating: {averageReputation()}/100.0</span>
             </motion.div>
           </div>
         </div>
@@ -195,6 +277,32 @@ export const FarmerWelcomeBanner = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Additional Info Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-8 p-4 bg-black/20 rounded-lg border border-white/10"
+        >
+          <h3 className="text-lg font-semibold text-white mb-2">Account Information</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div>
+              <span className="text-gray-400">Wallet Address:</span>
+              <p className="text-white font-mono">{address}</p>
+            </div>
+            {email && (
+              <div>
+                <span className="text-gray-400">Email:</span>
+                <p className="text-white">{email}</p>
+              </div>
+            )}
+            <div>
+              <span className="text-gray-400">Primary Role:</span>
+              <p className="text-white capitalize">{role}</p>
+            </div>
+          </div>
+        </motion.div>
       </CardContent>
     </Card>
   );
